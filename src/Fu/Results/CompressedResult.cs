@@ -7,7 +7,7 @@ namespace Fu.Results
 {
     public class CompressedResult : IResult
     {
-        private Func<byte[], byte[]> _compressor;
+        private FilterStep<byte[]> _compressor;
 
 
         public IResult InnerResult { get; protected set; }
@@ -18,10 +18,10 @@ namespace Fu.Results
             protected set { throw new NotSupportedException(); }
         }
 
-        public CompressedResult(IResult input, Func<string, string> compressFunc)
+        public CompressedResult(IResult input, FilterStep<string> compressFunc)
         {
             InnerResult = input;
-            _compressor = bytes =>
+            _compressor = (c, bytes) =>
             {
                 // TODO: Is UTF8 the right one? Do we need to make this configurable?
                 var str = Encoding.UTF8.GetString(bytes);
@@ -29,13 +29,12 @@ namespace Fu.Results
                 // HACK: Fixes many unicode/ansi wonderbugs
                 str = str.Trim();
 
-                var result = compressFunc(str);
-
+                var result = compressFunc(c, str);
                 return Encoding.UTF8.GetBytes(result);
             };
         }
 
-        public CompressedResult(IResult input, Func<byte[], byte[]> compressFunc)
+        public CompressedResult(IResult input, FilterStep<byte[]> compressFunc)
         {
             InnerResult = input;
             _compressor = compressFunc;
@@ -44,7 +43,7 @@ namespace Fu.Results
 
         public byte[] RenderBytes(IFuContext c)
         {
-            return _compressor(InnerResult.RenderBytes(c));
+            return _compressor(c, InnerResult.RenderBytes(c));
         }
     }
 }
