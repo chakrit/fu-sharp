@@ -17,7 +17,7 @@ namespace FormData
                     var forms = c.Get<IFormData>();
                     var name = forms["name"];
 
-                    return fu.Static.Text(name)(c);
+                    return fu.Static.Text("Hello, " + name + "!")(c);
                 })
             ));
 
