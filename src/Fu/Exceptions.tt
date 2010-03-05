@@ -1,0 +1,36 @@
+<#@ template language="C#" #>
+<#@ import namespace="System.Collections.Generic" #>
+<#
+	IDictionary<string, string> desc = new Dictionary<string, string>();
+	
+	desc["StopWalkException"] =
+		"Signify the walk to stop all further processing.";
+	desc["SkipStepException"] =
+		"Skip currently processing step and move to next step immediately";
+	desc["StepExecutionException"] =
+		"Error occured while executing a step.";
+	
+	desc["BadRequestDataException"] = 
+		"Unable to parse the request data.";
+#>
+
+using System;
+
+namespace Fu.Exceptions
+{
+<# foreach (string ex in desc.Keys) { #>
+	/// <summary>
+	/// <#= desc[ex] #>
+	/// </summary>
+	public partial class <#= ex #> : Exception
+	{
+		public <#= ex #>() :
+			base("<#= desc[ex] #>") { }
+		public <#= ex #>(string msg) :
+			base(msg) { }
+		public <#= ex #>(string msg, Exception innerException) :
+			base(msg, innerException) { }
+	}
+	
+<# } #>
+}

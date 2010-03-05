@@ -1,0 +1,142 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="3.5" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>9.0.30729</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{1583A6C9-45DA-46B4-9DBD-B86461DB893B}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Fu</RootNamespace>
+    <AssemblyName>fu</AssemblyName>
+    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <TargetFrameworkSubset>Client</TargetFrameworkSubset>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>..\..\bin\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>..\..\bin\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <AllowUnsafeBlocks>false</AllowUnsafeBlocks>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Core">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="..\..\FuAssemblyInfo.cs">
+      <Link>Properties\FuAssemblyInfo.cs</Link>
+    </Compile>
+    <Compile Include="App.cs" />
+    <Compile Include="Contexts\IResultContext.cs" />
+    <Compile Include="Contexts\IUrlMappedContext.cs" />
+    <Compile Include="Contexts\ResultContext.cs" />
+    <None Include="fu.stepsextensions.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>fu.stepsextensions.cs</LastGenOutput>
+    </None>
+    <Compile Include="fu.stepsextensions.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>fu.stepsextensions.tt</DependentUpon>
+    </Compile>
+    <Compile Include="fu.steps.cs" />
+    <Compile Include="IFuContext.cs" />
+    <Compile Include="Results\BytesResult.cs" />
+    <Compile Include="Results\CompressedResult.cs" />
+    <Compile Include="Results\FileResult.cs" />
+    <Compile Include="Results\IResult.cs" />
+    <Compile Include="Results\StringResult.cs" />
+    <Compile Include="Contexts\UrlMappedContext.cs" />
+    <Compile Include="Exceptions.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Exceptions.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Exceptions.more.cs" />
+    <Compile Include="fu.cs" />
+    <Compile Include="fu.helpers.cs" />
+    <Compile Include="Mime.cs" />
+    <Compile Include="FuContext.cs" />
+    <Compile Include="FuSettings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+      <DependentUpon>FuSettings.settings</DependentUpon>
+    </Compile>
+    <Compile Include="IApp.cs" />
+    <Compile Include="IServer.cs" />
+    <Compile Include="IWalker.cs" />
+    <Compile Include="IWalkPath.cs" />
+    <Compile Include="Server.cs" />
+    <Compile Include="Services\IService.cs" />
+    <Compile Include="Services\LoggingService.cs" />
+    <Compile Include="StrCmp.cs" />
+    <Compile Include="VirtualPath.cs" />
+    <Compile Include="SimpleApp.cs" />
+    <Compile Include="Stats.cs" />
+    <Compile Include="Step.cs" />
+    <Compile Include="Steps\Compress.cs" />
+    <Compile Include="Steps\Http.cs" />
+    <Compile Include="Steps\Http.errors.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Http.errors.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Steps\Http.methods.cs" />
+    <Compile Include="Steps\Redirect.cs" />
+    <Compile Include="Steps\Render.cs" />
+    <Compile Include="Steps\Static.cs" />
+    <Compile Include="Steps\Map.cs" />
+    <Compile Include="UrlMap.cs" />
+    <Compile Include="FuTrace.cs" />
+    <Compile Include="Steps\Walks.cs" />
+    <Compile Include="Util\Counter.cs" />
+    <Compile Include="Walker.cs" />
+    <Compile Include="WalkPath.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="app.config" />
+    <None Include="Exceptions.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>Exceptions.cs</LastGenOutput>
+    </None>
+    <None Include="FuSettings.settings">
+      <Generator>PublicSettingsSingleFileGenerator</Generator>
+      <LastGenOutput>FuSettings.Designer.cs</LastGenOutput>
+    </None>
+    <None Include="Steps\Http.errors.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>Http.errors.cs</LastGenOutput>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{B4F97281-0DBD-4835-9ED8-7DFB966E87FF}" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

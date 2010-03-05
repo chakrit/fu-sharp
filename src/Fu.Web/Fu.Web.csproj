@@ -1,0 +1,98 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="3.5" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>9.0.30729</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{23EF40C1-1B6C-424F-BBEA-CBDE3434AD8C}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Fu</RootNamespace>
+    <AssemblyName>fu.web</AssemblyName>
+    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>..\..\bin\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>..\..\bin\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Core">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Web" />
+    <Reference Include="System.Web.Extensions">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Xml.Linq">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Data.DataSetExtensions">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="..\..\FuAssemblyInfo.cs">
+      <Link>Properties\FuAssemblyInfo.cs</Link>
+    </Compile>
+    <Compile Include="ControllersBasedApp.cs" />
+    <Compile Include="IFuController.cs" />
+    <Compile Include="FuController.cs" />
+    <Compile Include="Results\JsonResult.cs" />
+    <Compile Include="Services\Sessions\CookieSessionIdProvider.cs" />
+    <Compile Include="Services\Sessions\DictionarySession.cs" />
+    <Compile Include="Services\Sessions\DictionarySessionStore.cs" />
+    <Compile Include="Services\Sessions\InMemorySessionService.generic.cs" />
+    <Compile Include="Services\Sessions\ISession.cs" />
+    <Compile Include="Services\Sessions\ISessionIdProvider.cs" />
+    <Compile Include="Services\Sessions\ISessionStore.cs" />
+    <Compile Include="Services\Sessions\SessionService.cs" />
+    <Compile Include="Services\Sessions\SessionService.generic.cs" />
+    <Compile Include="Services\Sessions\SHA1SessionIdProvider.cs" />
+    <Compile Include="Services\Sessions\InMemorySessionService.cs" />
+    <Compile Include="Services\Sessions\StronglyTypedSessionWrapperGenerator.cs" />
+    <Compile Include="Services\Web\FormDataImpl.cs" />
+    <Compile Include="Services\Web\FormDataParser.cs" />
+    <Compile Include="HttpUtil.cs" />
+    <Compile Include="Services\Web\IFormData.cs" />
+    <Compile Include="Services\Web\IUploadedFilesCollection.cs" />
+    <Compile Include="Services\Web\MultipartFormDataParser.cs" />
+    <Compile Include="Services\Web\MultipartParser.cs" />
+    <Compile Include="Services\Web\UploadedFile.cs" />
+    <Compile Include="Services\Web\UploadedFilesCollection.cs" />
+    <Compile Include="SimpleWebApp.cs" />
+    <Compile Include="Steps\MapEx.cs" />
+    <Compile Include="Util\ForwardRingBuffer.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Fu\Fu.csproj">
+      <Project>{1583A6C9-45DA-46B4-9DBD-B86461DB893B}</Project>
+      <Name>Fu</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

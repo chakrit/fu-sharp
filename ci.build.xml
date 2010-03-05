@@ -1,0 +1,19 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <!-- Continuous Integration build file -->
+  <UsingTask AssemblyFile="C:\Program Files\Gallio\bin\Gallio.MsBuildTasks.dll" TaskName="Gallio"/>
+  <ItemGroup>
+    <TestFile Include="test_bin\Fu.Tests.dll" />
+  </ItemGroup>
+  <Target Name="RunTests">
+    <MSBuild RebaseOutputs="false"
+             Projects="test\Fu.Tests\Fu.Tests.csproj"
+             Targets="Rebuild"
+             Properties="OutputPath=$(MSBuildProjectDirectory)\test_bin;Configuration=Release" />
+    <Gallio IgnoreFailures="true" Files="@(TestFile)" Verbosity="Verbose" ShadowCopy="true"
+            RunnerType="Local">
+      <Output TaskParameter="ExitCode" PropertyName="ExitCode" />
+    </Gallio>
+    <Error Text="Tests execution failed" Condition="'$(ExitCode)' != 0" />
+  </Target>
+</Project>
