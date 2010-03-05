@@ -28,6 +28,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FormData", "samples\FormDat
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UploadFile", "samples\UploadFile\UploadFile.csproj", "{2CC7DB98-01BB-4567-8793-FD19F774660C}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FileServer", "samples\FileServer\FileServer.csproj", "{28D88EB7-54D9-48C2-97FA-1826A7CE76C9}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -62,6 +64,10 @@ Global
 		{2CC7DB98-01BB-4567-8793-FD19F774660C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2CC7DB98-01BB-4567-8793-FD19F774660C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{2CC7DB98-01BB-4567-8793-FD19F774660C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{28D88EB7-54D9-48C2-97FA-1826A7CE76C9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{28D88EB7-54D9-48C2-97FA-1826A7CE76C9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{28D88EB7-54D9-48C2-97FA-1826A7CE76C9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{28D88EB7-54D9-48C2-97FA-1826A7CE76C9}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -74,5 +80,6 @@ Global
 		{D5A8865A-936C-4936-93C5-7A96E083E1CA} = {74C6F6CA-CE38-42F8-9593-1D3CE782D46E}
 		{A4AB2AA0-E814-40CD-918D-192F12024CA5} = {74C6F6CA-CE38-42F8-9593-1D3CE782D46E}
 		{2CC7DB98-01BB-4567-8793-FD19F774660C} = {74C6F6CA-CE38-42F8-9593-1D3CE782D46E}
+		{28D88EB7-54D9-48C2-97FA-1826A7CE76C9} = {74C6F6CA-CE38-42F8-9593-1D3CE782D46E}
 	EndGlobalSection
 EndGlobal
