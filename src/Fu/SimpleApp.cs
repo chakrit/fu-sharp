@@ -17,7 +17,7 @@ namespace Fu
                 new LoggingService()
             }, new[] {
                 fu.Compose(steps),
-                fu.Render.Result()
+                fu.Result.Render(),
             })
         {
             Trace.Listeners.Add(new TextWriterTraceListener(Console.Out));

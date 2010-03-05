@@ -3,22 +3,40 @@ using System.IO;
 using System.IO.Compression;
 
 using Fu.Contexts;
+using Fu.Results;
+using System;
 
 namespace Fu.Steps
 {
-    public static partial class Render
+    public static partial class Resultx
     {
+        public static Step Compress(this IResultSteps _,
+            string extension, Func<string, string> compressor)
+        {
+            return fu.If<IResultContext>(
+                c => c.Request.Url.AbsolutePath.EndsWith(extension),
+                _.Compress(compressor));
+        }
+
+        public static Step Compress(this IResultSteps _,
+            Func<string, string> compressor)
+        {
+            return fu.Results<IResultContext>(c =>
+                new CompressedResult(c.Result, compressor));
+        }
+
+
         // NOTE: GZip is OFF by default... it should be opt-in to avoid
         //       unknowingly slowing down many static resources serving
-        public static Step Result(this IRenderSteps _)
-        { return _.Result(false); }
+        public static Step Render(this IResultSteps _)
+        { return _.Render(false); }
 
-        public static Step Result(this IRenderSteps _, bool autoGZip)
+        public static Step Render(this IResultSteps _, bool autoGZip)
         {
             if (!autoGZip)
-                return _.Result(null);
+                return _.Render(null);
 
-            return _.Result((c, s) =>
+            return _.Render((c, s) =>
             {
                 if (!c.Request.Headers["Accept-Encoding"].Contains("gzip"))
                     return s;
@@ -28,7 +46,7 @@ namespace Fu.Steps
             });
         }
 
-        public static Step Result(this IRenderSteps _, FilterStep<Stream> filter)
+        public static Step Render(this IResultSteps _, FilterStep<Stream> filter)
         {
             // TODO: Concise-sify this
             if (filter == null)

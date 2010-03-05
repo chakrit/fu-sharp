@@ -7,13 +7,13 @@ namespace Fu.Steps
 {
     public static class Walks
     {
-        public static Step Stop(this IWalksSteps _)
+        public static Step Stop(this IWalkSteps _)
         { return c => { throw new StopWalkException(); }; }
 
-        public static Step SkipNext(this IWalksSteps _)
+        public static Step SkipNext(this IWalkSteps _)
         { return fu.Void(c => c.WalkPath.DeleteNext()); }
 
-        public static Step SkipBy(this IWalksSteps _, int steps)
+        public static Step SkipBy(this IWalkSteps _, int steps)
         {
             return fu.Void(c =>
             {

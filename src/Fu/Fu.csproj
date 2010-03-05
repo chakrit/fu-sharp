@@ -103,7 +103,7 @@
     </Compile>
     <Compile Include="Steps\Http.methods.cs" />
     <Compile Include="Steps\Redirect.cs" />
-    <Compile Include="Steps\Render.cs" />
+    <Compile Include="Steps\Result.cs" />
     <Compile Include="Steps\Static.cs" />
     <Compile Include="Steps\Map.cs" />
     <Compile Include="UrlMap.cs" />

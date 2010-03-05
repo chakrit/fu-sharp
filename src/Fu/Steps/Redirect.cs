@@ -19,7 +19,7 @@ namespace Fu.Steps
                 c.Response.Redirect(target);
                 c.Response.Close();
 
-                c.WalkPath.InsertNext(fu.Walks.Stop());
+                c.WalkPath.InsertNext(fu.Walk.Stop());
                 return c;
             };
         }
@@ -38,7 +38,7 @@ namespace Fu.Steps
                 c.Response.Redirect(target);
                 c.Response.Close();
 
-                c.WalkPath.InsertNext(fu.Walks.Stop());
+                c.WalkPath.InsertNext(fu.Walk.Stop());
                 return c;
             };
         }
