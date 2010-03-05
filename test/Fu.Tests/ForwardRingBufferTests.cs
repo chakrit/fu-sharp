@@ -2,9 +2,9 @@
 using System.IO;
 using System.Security.Cryptography;
 
-using Fu.Util;
-
 using MbUnit.Framework;
+
+using Fu.Util;
 
 namespace Fu.Tests
 {

@@ -1,7 +1,7 @@
 ﻿
+using Fu.Services;
 using Fu.Services.Sessions;
 using Fu.Services.Web;
-using Fu.Services;
 
 namespace Fu
 {

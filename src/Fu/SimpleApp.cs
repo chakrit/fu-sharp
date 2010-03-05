@@ -2,8 +2,8 @@
 using System;
 using System.Diagnostics;
 
-using Fu.Steps;
 using Fu.Services;
+using Fu.Steps;
 
 namespace Fu
 {

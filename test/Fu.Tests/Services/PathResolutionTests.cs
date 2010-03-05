@@ -4,8 +4,6 @@ using System.IO;
 
 using MbUnit.Framework;
 
-using Fu.Services;
-
 namespace Fu.Tests
 {
     // TODO: Since this is a sensitive algorithm whose input may came from outside

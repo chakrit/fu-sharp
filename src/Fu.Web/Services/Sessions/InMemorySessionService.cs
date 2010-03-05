@@ -1,6 +1,4 @@
 ﻿
-using System.ComponentModel;
-
 namespace Fu.Services.Sessions
 {
     public class InMemorySessionService : SessionService

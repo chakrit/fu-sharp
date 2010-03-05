@@ -1,6 +1,4 @@
 ﻿
-using System;
-
 namespace Fu.Services.Sessions
 {
     public interface ISessionStore

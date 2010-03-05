@@ -1,6 +1,4 @@
 ﻿
-using System;
-
 namespace Fu.Steps
 {
     public static partial class Http

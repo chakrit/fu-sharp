@@ -94,7 +94,6 @@
     <Compile Include="SimpleApp.cs" />
     <Compile Include="Stats.cs" />
     <Compile Include="Step.cs" />
-    <Compile Include="Steps\Compress.cs" />
     <Compile Include="Steps\Http.cs" />
     <Compile Include="Steps\Http.errors.cs">
       <AutoGen>True</AutoGen>

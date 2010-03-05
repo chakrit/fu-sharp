@@ -1,14 +1,14 @@
 ﻿
+using System;
 using System.IO;
 using System.IO.Compression;
 
 using Fu.Contexts;
 using Fu.Results;
-using System;
 
 namespace Fu.Steps
 {
-    public static partial class Resultx
+    public static partial class Result
     {
         public static Step Compress(this IResultSteps _,
             string extension, Func<string, string> compressor)

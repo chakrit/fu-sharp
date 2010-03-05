@@ -1,16 +1,15 @@
 ﻿using System.Reflection;
-using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
 [assembly: AssemblyTitle("FuSharp")]
-[assembly: AssemblyDescription("Standalone embeddable web server that does not depends on IIS or the ASP.NET runtime.")]
+[assembly: AssemblyDescription("A new take at an embedded web server implementation that gives you full control over the request processing pipeline and doesn't depend on ASP.NET or IIS.")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("2nitedesign!")]
+[assembly: AssemblyCompany("2nitedesign! Co., Ltd.")]
 [assembly: AssemblyProduct("FuSharp")]
-[assembly: AssemblyCopyright("Copyright © 2010 2nitedesign! All rights reserved.")]
+[assembly: AssemblyCopyright("Copyright © 2010 2nitedesign! Co., Ltd. All rights reserved.")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 

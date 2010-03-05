@@ -1,6 +1,4 @@
 ﻿
-using System;
-
 namespace Fu.Services
 {
     public interface IService
