@@ -7,7 +7,6 @@ using System.Text;
 
 using Fu.Exceptions;
 using Fu.Util;
-using System.Net;
 
 namespace Fu.Services.Web
 {
@@ -37,7 +36,6 @@ namespace Fu.Services.Web
 
         private ForwardRingBuffer _ring;
         private MemoryStream _readBuffer;
-        private byte[] _stringBuffer;
 
         private int _lastOffset;
         private int _offset;
@@ -92,7 +90,7 @@ namespace Fu.Services.Web
             ContentDisposition disposition;
             ContentType contentType;
             TransferEncoding encoding;
-            string name, filename;
+            string name;
 
 
             // begin parsing
