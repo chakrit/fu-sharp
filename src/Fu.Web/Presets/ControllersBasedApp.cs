@@ -3,7 +3,7 @@ using System.Reflection;
 
 using Fu.Steps;
 
-namespace Fu
+namespace Fu.Presets
 {
     public class ControllersBasedApp : SimpleWebApp
     {

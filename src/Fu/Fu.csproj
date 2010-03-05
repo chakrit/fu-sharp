@@ -91,7 +91,7 @@
     <Compile Include="Services\LoggingService.cs" />
     <Compile Include="StrCmp.cs" />
     <Compile Include="VirtualPath.cs" />
-    <Compile Include="SimpleApp.cs" />
+    <Compile Include="Presets\SimpleApp.cs" />
     <Compile Include="Stats.cs" />
     <Compile Include="Step.cs" />
     <Compile Include="Steps\Http.cs" />

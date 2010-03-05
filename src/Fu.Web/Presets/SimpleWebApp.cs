@@ -3,7 +3,7 @@ using Fu.Services;
 using Fu.Services.Sessions;
 using Fu.Services.Web;
 
-namespace Fu
+namespace Fu.Presets
 {
     public class SimpleWebApp : SimpleApp
     {

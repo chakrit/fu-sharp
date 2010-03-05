@@ -52,7 +52,7 @@
     <Compile Include="..\..\FuAssemblyInfo.cs">
       <Link>Properties\FuAssemblyInfo.cs</Link>
     </Compile>
-    <Compile Include="ControllersBasedApp.cs" />
+    <Compile Include="Presets\ControllersBasedApp.cs" />
     <Compile Include="IFuController.cs" />
     <Compile Include="FuController.cs" />
     <Compile Include="Results\JsonResult.cs" />
@@ -77,7 +77,7 @@
     <Compile Include="Services\Web\MultipartParser.cs" />
     <Compile Include="Services\Web\UploadedFile.cs" />
     <Compile Include="Services\Web\UploadedFilesCollection.cs" />
-    <Compile Include="SimpleWebApp.cs" />
+    <Compile Include="Presets\SimpleWebApp.cs" />
     <Compile Include="Steps\MapEx.cs" />
     <Compile Include="Util\ForwardRingBuffer.cs" />
   </ItemGroup>

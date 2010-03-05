@@ -5,7 +5,7 @@ using System.Diagnostics;
 using Fu.Services;
 using Fu.Steps;
 
-namespace Fu
+namespace Fu.Presets
 {
     // basic app which adds logging and the result framework support
     public class SimpleApp : App
