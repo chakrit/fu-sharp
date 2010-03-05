@@ -1,11 +1,11 @@
 @ECHO OFF
 
-IF EXIST git_sync_temp rd /s git_sync_temp
+IF EXIST git_sync_temp RD /s git_sync_temp
 
-git svn clone -s https://buildsvnwiki.myidxnet.localdomain/svn/FuSharp git_sync_temp --no-metadata
-cd git_sync_temp
-git remote add origin git@github.com:chakrit/fu-sharp.git
-git push origin master
+CMD /C git svn clone -s https://buildsvnwiki.myidxnet.localdomain/svn/FuSharp git_sync_temp --no-metadata
+CD git_sync_temp
+CMD /C git remote add origin git@github.com:chakrit/fu-sharp.git
+CMD /C git push origin master
 
-cd ..
-rd /s git_sync_tmep
+CD ..
+RD /s git_sync_temp
