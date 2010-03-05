@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 
 using MbUnit.Framework;
+using Fu.Presets;
 
 namespace Fu.Tests
 {
