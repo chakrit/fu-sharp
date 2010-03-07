@@ -107,7 +107,7 @@ namespace Fu.Steps
                 var isDefaultDoc = c.Request.Url.AbsolutePath == "/";
                 isDefaultDoc = isDefaultDoc || defaultDocs
                     .Any(d => c.Request.Url.AbsolutePath
-                        .StartsWith("/" + d, StrCmp.Fast));
+                        .StartsWith("/" + d, StrComp.Fast));
 
                 c.WalkPath.InsertNext(isDefaultDoc ? defaultDocStep : step404);
                 return c;

@@ -23,8 +23,7 @@ namespace Fu.Services.Web
             // this implementation does not support multipart encoding
             var header = input.Request.Headers["Content-Type"];
             if (!string.IsNullOrEmpty(header) &&
-                header.StartsWith("multipart/form-data",
-                StringComparison.InvariantCultureIgnoreCase))
+                header.StartsWith("multipart/form-data", StrComp.Fast))
                 return false;
 
             // everything else should be ok.

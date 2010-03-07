@@ -49,7 +49,7 @@ namespace Fu.Services.Models
                     {
                         value = convertTo(value, p.PropertyType);
                         p.SetValue(m, value, noIndex);
-                    }));
+                    }), StrComp.IgnoreCaseComp);
 
             // then use it to load values from form data when the app starts
             return (c, model) =>
@@ -57,7 +57,7 @@ namespace Fu.Services.Models
                 var data = c.Get<IFormData>();
                 var availableKeys = data
                     .Select(kv => kv.Key)
-                    .Intersect(setters.Keys);
+                    .Intersect(setters.Keys, StrComp.IgnoreCaseComp);
 
                 foreach (var key in availableKeys)
                     setters[key](model, data[key]);

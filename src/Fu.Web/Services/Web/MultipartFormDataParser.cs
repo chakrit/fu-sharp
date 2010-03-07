@@ -27,7 +27,7 @@ namespace Fu.Services.Web
             // is set to multipart/form-data
             var header = input.Request.Headers["Content-Type"];
             if (string.IsNullOrEmpty(header) ||
-                !header.StartsWith("multipart/form-data", StringComparison.OrdinalIgnoreCase))
+                !header.StartsWith("multipart/form-data", StrComp.Fast))
                 return false;
 
             // we should be fine parsing this request at this point in time

@@ -80,9 +80,6 @@ namespace Fu.Services.Web
 
         public void Parse()
         {
-            // setup parsing variables
-            var ignoreCase = StringComparison.OrdinalIgnoreCase;
-
             string header;
             int nameCounter = 0;
             bool isFile = false;
@@ -104,11 +101,11 @@ namespace Fu.Services.Web
 
                 while (!string.IsNullOrEmpty(header = readHeaderLine()))
                 {
-                    if (header.StartsWith("content-type", ignoreCase))
+                    if (header.StartsWith("content-type", StrComp.Fast))
                         contentType = new ContentType(
                             header.Substring("content-type:".Length).Trim());
 
-                    else if (header.StartsWith("content-disposition", ignoreCase))
+                    else if (header.StartsWith("content-disposition", StrComp.Fast))
                     {
                         // HACK: an empty filename field seems to break ContentDisposition
                         //       so we did an empty replace here...
@@ -124,7 +121,7 @@ namespace Fu.Services.Web
                         disposition = new ContentDisposition(header);
                     }
 
-                    else if (header.StartsWith("content-transfer-encoding", ignoreCase))
+                    else if (header.StartsWith("content-transfer-encoding", StrComp.Fast))
                         encoding = (TransferEncoding)Enum.Parse(typeof(TransferEncoding),
                             header.Substring("content-transfer-encoding".Length).Trim());
 
