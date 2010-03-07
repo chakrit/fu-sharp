@@ -9,7 +9,7 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("2nitedesign! Co., Ltd.")]
 [assembly: AssemblyProduct("FuSharp")]
-[assembly: AssemblyCopyright("Copyright © 2010 2nitedesign! Co., Ltd. All rights reserved.")]
+[assembly: AssemblyCopyright("Copyright © 2010 2nitedesign! Co., Ltd. Licensed under the New BSD License.")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
