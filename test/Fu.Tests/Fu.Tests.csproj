@@ -33,6 +33,10 @@
   <ItemGroup>
     <Reference Include="Gallio, Version=3.1.0.0, Culture=neutral, PublicKeyToken=eb9cfa67ee6ab36e, processorArchitecture=MSIL" />
     <Reference Include="MbUnit, Version=3.1.0.0, Culture=neutral, PublicKeyToken=eb9cfa67ee6ab36e, processorArchitecture=MSIL" />
+    <Reference Include="Moq, Version=4.0.812.4, Culture=neutral, PublicKeyToken=69f491c39445e920, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\lib\Moq\Moq.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core">
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
@@ -48,8 +52,10 @@
     <Compile Include="CookieEnabledWebClient.cs">
       <SubType>Component</SubType>
     </Compile>
+    <Compile Include="Dummy\Foo.cs" />
     <Compile Include="FormDataTests.cs" />
     <Compile Include="ForwardRingBufferTests.cs" />
+    <Compile Include="Services\ModelBinderTests.cs" />
     <Compile Include="Services\PathResolutionTests.cs" />
     <Compile Include="Services\SessionsTest.cs" />
     <Compile Include="SimpleApps.cs" />
