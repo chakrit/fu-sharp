@@ -16,4 +16,12 @@ namespace Fu.Services
         public void BeginWalk(IFuContext input) { /* no-op */ }
         public void EndWalk(IFuContext input) { /* no-op */ }
     }
+
+    public static class ObjectProvider
+    {
+        public static ObjectProvider<T> For<T>(T obj)
+        {
+            return new ObjectProvider<T>(obj);
+        }
+    }
 }
