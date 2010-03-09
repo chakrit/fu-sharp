@@ -90,6 +90,7 @@
     <Compile Include="Server.cs" />
     <Compile Include="Services\IService.cs" />
     <Compile Include="Services\LoggingService.cs" />
+    <Compile Include="Services\ObjectProvider.cs" />
     <Compile Include="StrComp.cs" />
     <Compile Include="VirtualPath.cs" />
     <Compile Include="Presets\SimpleApp.cs" />
