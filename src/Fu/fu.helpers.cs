@@ -20,6 +20,15 @@ namespace Fu
                 .Aggregate((step1, step2) => c => step2(step1(c)));
         }
 
+        public static Step Compose(this Step step, Step nextStep)
+        { return c => nextStep(step(c)); }
+
+        public static Step Compose(this Step step, params Step[] steps)
+        { return fu.Compose(step, fu.Compose(steps)); }
+
+        public static Step Compose(this Step step, IEnumerable<Step> steps)
+        { return fu.Compose(step, fu.Compose(steps)); }
+
 
         public static Step If(Func<IFuContext, bool> condition, Step step)
         {
