@@ -53,7 +53,9 @@ namespace Fu.Steps
 
             return _.Render((c, s) =>
             {
-                if (!c.Request.Headers["Accept-Encoding"].Contains("gzip"))
+                var acceptEncoding = c.Request.Headers["Accept-Encoding"];
+                if (string.IsNullOrEmpty(acceptEncoding) ||
+                    !acceptEncoding.Contains("gzip"))
                     return s;
 
                 c.Response.AddHeader("Content-Encoding", "gzip");
