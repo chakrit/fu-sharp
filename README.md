@@ -8,7 +8,7 @@ So I built this thing in a way that all of pieces in the pipeline are easily rep
 
 You can build this with VS2008 and/or MSBuild. For the test, you'll need a test runner that can run MbUnit tests. But, being a hobby project there are only a few basic "it works" tests right now.
 
-**A Quick HOWTO**
+==A Quick HOWTO==
 
 Here's the simplest hello world app built with Fu:
 
@@ -51,7 +51,7 @@ Try hitting /hello and you'll then be greeted yet again. But now, try http://loc
 
 For more info, please look at the source code and the sample applications for now, until I have more time to write a proper tutorial.
 
-Fu# is developed by [Chakrit Wichian] of [2nitedesign! Co.,Ltd.][0] and is licensed under [The New BSD License][1].
+Fu# is developed by [Chakrit Wichian][3] of [2nitedesign! Co.,Ltd.][0] and is licensed under [The New BSD License][1].
 
   [0]: http://2nitedesign.com
   [1]: http://en.wikipedia.org/wiki/BSD_licenses#3-clause_license_.28.22New_BSD_License.22.29
