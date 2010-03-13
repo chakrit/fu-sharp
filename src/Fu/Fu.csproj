@@ -47,6 +47,7 @@
       <Link>Properties\FuAssemblyInfo.cs</Link>
     </Compile>
     <Compile Include="App.cs" />
+    <Compile Include="AppBase.cs" />
     <Compile Include="Contexts\IResultContext.cs" />
     <Compile Include="Contexts\IUrlMappedContext.cs" />
     <Compile Include="Contexts\ResultContext.cs" />
