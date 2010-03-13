@@ -52,7 +52,7 @@ Try hitting /hello and you'll then be greeted yet again. But now, try http://loc
 
 For more info, please look at the source code and the sample applications for now, until I have more time to write a proper tutorial.
 
-Fu# is developed by [Chakrit Wichian][3] of [2nitedesign! Co.,Ltd.][0] and is licensed under [The New BSD License][1].
+Fu# is developed by [Chakrit Wichian][2] of [2nitedesign! Co.,Ltd.][0] and is licensed under [The New BSD License][1].
 
   [0]: http://2nitedesign.com
   [1]: http://en.wikipedia.org/wiki/BSD_licenses#3-clause_license_.28.22New_BSD_License.22.29
