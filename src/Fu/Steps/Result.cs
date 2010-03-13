@@ -46,20 +46,32 @@ namespace Fu.Steps
         public static Step Render(this IResultSteps _)
         { return _.Render(false); }
 
-        public static Step Render(this IResultSteps _, bool autoGZip)
+        public static Step Render(this IResultSteps _, bool allowHttpCompression)
         {
-            if (!autoGZip)
+            if (!allowHttpCompression)
                 return _.Render(null);
 
+            // TODO: Should this logic be as complicated as the true "Accept-Encoding" spec?
+            //       http://www.w3.org/Protocols/rfc2616/rfc2616-sec14.html?
             return _.Render((c, s) =>
             {
                 var acceptEncoding = c.Request.Headers["Accept-Encoding"];
-                if (string.IsNullOrEmpty(acceptEncoding) ||
-                    !acceptEncoding.Contains("gzip"))
-                    return s;
+                if (string.IsNullOrEmpty(acceptEncoding)) return s;
 
-                c.Response.AddHeader("Content-Encoding", "gzip");
-                return new GZipStream(s, CompressionMode.Compress, false);
+                // Prefer deflate over gzip
+                if (acceptEncoding.Contains("deflate"))
+                {
+                    c.Response.AddHeader("Content-Encoding", "deflate");
+                    return new DeflateStream(s, CompressionMode.Compress, false);
+                }
+                else if (acceptEncoding.Contains("gzip"))
+                {
+                    c.Response.AddHeader("Content-Encoding", "gzip");
+                    return new GZipStream(s, CompressionMode.Compress, false);
+                }
+
+                // no supported encoding found, assume "identity" encoding
+                return s;
             });
         }
 
