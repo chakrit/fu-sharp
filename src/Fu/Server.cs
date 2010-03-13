@@ -7,9 +7,9 @@ using Fu.Util;
 
 namespace Fu
 {
-    /// <summary>
-    /// Contains server initialization logic
-    /// </summary>
+    // this should be the only part of Fu where it's multi-threaded
+    // in order to keep various parts of fu free to be synchronous and
+    // easy to use and program against.
     public class Server : IServer
     {
         private Thread _spawnThread;
@@ -18,6 +18,7 @@ namespace Fu
         private Semaphore _listenerCounter;
         private Counter _processorCounter;
         private ManualResetEvent _stopEvent;
+
 
         public FuSettings Settings { get; private set; }
         public Stats Stats { get; private set; }
@@ -36,6 +37,7 @@ namespace Fu
 
             ifStats(s => Stats = new Stats());
         }
+
 
         public void Start()
         {
@@ -107,9 +109,6 @@ namespace Fu
         }
 
 
-        // this should be the only part of Fu where it's multi-threaded
-        // in order to keep various parts of fu free to be synchronous and
-        // easy to use and program against.
         private void spawnLoop()
         {
             try
