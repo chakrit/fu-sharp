@@ -8,7 +8,8 @@ So I built this thing in a way that all of pieces in the pipeline are easily rep
 
 You can build this with VS2008 and/or MSBuild. For the test, you'll need a test runner that can run MbUnit tests. But, being a hobby project there are only a few basic "it works" tests right now.
 
-==A Quick HOWTO==
+A Quick HOWTO
+-------------
 
 Here's the simplest hello world app built with Fu:
 
