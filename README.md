@@ -2,11 +2,25 @@ Fu# is a new take at an embedded web server library implementation that gives yo
 
 You can find it on GitHub: http://github.com/chakrit/fu-sharp
 
-This was my hobby project inspired by various other open source technologies and born from accumulated frustrations of trying to bend the ASP.NET pipeline / configure IIS7 so it behaves exactly as I wanted.
+Post any questions to the Google group: http://groups.google.com/group/fu-sharp
 
-So I built this thing in a way that all of pieces in the pipeline are easily replaceable, transparent, portable, embeddable and depend as little as possible on IIS/ASP.NET
+This was my hobby project inspired by various other open source technologies and born from accumulated frustrations of trying to bend the ASP.NET pipeline / configure IIS7 so it behaves exactly as I wanted. So I built this thing in a way that all of pieces in the pipeline are easily replaceable, transparent, portable, embeddable and depend as little as possible on IIS/ASP.NET
 
 You can build this with VS2008 and/or MSBuild. For the test, you'll need a test runner that can run MbUnit tests. But, being a hobby project there are only a few basic "it works" tests right now.
+
+TODO
+----
+
+There're still much work to be done, right now some of the most important things are:
+
+* HTTP caching and E-Tag support should comes built-in with the library
+* Templating language support like NHaml/Spark (in a contrib project?)
+* Threads fine-tuning/Change to an evented model
+* Lots of null-checks/invariant checks and TODOs in code
+* Lots of tests and optimizations
+
+All feedbacks and contributions welcome!
+Please post them to the google group
 
 A Quick HOWTO
 -------------
