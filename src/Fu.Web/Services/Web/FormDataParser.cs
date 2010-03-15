@@ -10,10 +10,11 @@ namespace Fu.Services.Web
     {
         public bool CanGetServiceObject(IFuContext input)
         {
-            // only support POST and PUT
+            // only support PUT/POST/DELETE
             var method = input.Request.HttpMethod.ToUpper();
             if (method != "POST" &&
-                method != "PUT")
+                method != "PUT" &&
+                method != "DELETE")
                 return false;
 
             // make sure we have something to parse out of
