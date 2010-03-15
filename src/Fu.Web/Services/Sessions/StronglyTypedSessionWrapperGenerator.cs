@@ -7,6 +7,7 @@ using System.Linq;
 using System.Reflection;
 
 using Microsoft.CSharp;
+using System.Linq.Expressions;
 
 namespace Fu.Services.Sessions
 {
@@ -67,7 +68,22 @@ namespace Fu.Services.Sessions
                 .GetTypes()
                 .First(t => interfaceType.IsAssignableFrom(t));
 
-            return session => (T)Activator.CreateInstance(type, session);
+            // compile a lambda for fastest result
+            return BuildLambdaActivator<T>(type);
+        }
+
+        public Func<ISession, T> BuildLambdaActivator<T>(Type wrapperType) where T : class
+        {
+            var sessionType = typeof(ISession);
+            var param = Expression.Parameter(sessionType, "session");
+
+            var ctor = wrapperType.GetConstructor(new[] { sessionType });
+            var activation = Expression.New(ctor, param);
+
+            var lambda = Expression.Lambda(typeof(Func<ISession, T>),
+                activation, param);
+
+            return (Func<ISession, T>)lambda.Compile();
         }
 
         public CodeCompileUnit BuildWrapperType<T>()
