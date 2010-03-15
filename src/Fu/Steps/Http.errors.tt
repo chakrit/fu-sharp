@@ -44,7 +44,7 @@ namespace Fu.Steps
 			return fu.Compose(
 				_.Status(<#= code #>),
 				c => StringResult.From(c, "<#= errors[code] #>"),
-				fu.Result.Result(),
+				fu.Result.Render(),
 				fu.Walk.Stop());
 		}
 		
