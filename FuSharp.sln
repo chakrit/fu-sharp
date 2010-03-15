@@ -32,6 +32,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FileServer", "samples\FileS
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ModelBinder", "samples\ModelBinder\ModelBinder.csproj", "{C554D25F-DA83-4355-A2C0-8EF1DB8CB9C9}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RestStyle", "samples\RestStyle\RestStyle.csproj", "{0544C9D5-D857-46C8-9727-1EB8769A88DD}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -74,6 +76,10 @@ Global
 		{C554D25F-DA83-4355-A2C0-8EF1DB8CB9C9}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C554D25F-DA83-4355-A2C0-8EF1DB8CB9C9}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C554D25F-DA83-4355-A2C0-8EF1DB8CB9C9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0544C9D5-D857-46C8-9727-1EB8769A88DD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0544C9D5-D857-46C8-9727-1EB8769A88DD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0544C9D5-D857-46C8-9727-1EB8769A88DD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0544C9D5-D857-46C8-9727-1EB8769A88DD}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -88,5 +94,6 @@ Global
 		{2CC7DB98-01BB-4567-8793-FD19F774660C} = {74C6F6CA-CE38-42F8-9593-1D3CE782D46E}
 		{28D88EB7-54D9-48C2-97FA-1826A7CE76C9} = {74C6F6CA-CE38-42F8-9593-1D3CE782D46E}
 		{C554D25F-DA83-4355-A2C0-8EF1DB8CB9C9} = {74C6F6CA-CE38-42F8-9593-1D3CE782D46E}
+		{0544C9D5-D857-46C8-9727-1EB8769A88DD} = {74C6F6CA-CE38-42F8-9593-1D3CE782D46E}
 	EndGlobalSection
 EndGlobal
