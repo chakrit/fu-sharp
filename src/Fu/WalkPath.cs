@@ -6,6 +6,12 @@ namespace Fu
 {
     // TODO: Add verification that each steps supply compatible objects
     //       for the next one
+    // TODO: Make WalkPath work sensibly with fu.Compose and/or make
+    //       parts of Fu that do (Compose) properly supports WalkPath
+    //       i.e. FuController
+    // TODO: Provide a way to STOP walk without needing to throw exceptions
+    //       maybe by setting a special IWalkPath flag that would stop
+    //       enumeration immediatly
     public class WalkPath : IWalkPath
     {
         private LinkedListNode<Step> _current;
