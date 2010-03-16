@@ -16,6 +16,10 @@ namespace Fu
             if (steps == null || steps.Count() == 0)
                 return fu.Identity;
 
+            // TODO: Instead of doing Aggregate which prevents modification
+            //       via IWalkPath during walking, we should do a double
+            //       IWalkPath.InsertNext calls instead so the walk path
+            //       remains modifiable and InsertNext works as expected
             return steps
                 .Aggregate((step1, step2) => c => step2(step1(c)));
         }
