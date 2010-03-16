@@ -39,10 +39,9 @@ namespace Fu
                 // TODO: Add step compatibility checking
                 try { context = step(context); }
                 catch (SkipStepException) { /* absorbed */ }
-                catch (StopWalkException) { break; }
             }
 
-            // the first service togets the BeginWalk call should be the last
+            // the first service to gets the BeginWalk call should be the last
             // to gets the EndWalk call so there're less interferance with each other
             foreach (var serv in Services.Reverse())
                 serv.EndWalk(context);

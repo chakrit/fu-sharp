@@ -4,19 +4,6 @@ using System;
 namespace Fu.Exceptions
 {
 	/// <summary>
-	/// Signify the walk to stop all further processing.
-	/// </summary>
-	public partial class StopWalkException : Exception
-	{
-		public StopWalkException() :
-			base("Signify the walk to stop all further processing.") { }
-		public StopWalkException(string msg) :
-			base(msg) { }
-		public StopWalkException(string msg, Exception innerException) :
-			base(msg, innerException) { }
-	}
-	
-	/// <summary>
 	/// Skip currently processing step and move to next step immediately
 	/// </summary>
 	public partial class SkipStepException : Exception

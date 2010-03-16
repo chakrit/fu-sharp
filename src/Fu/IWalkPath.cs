@@ -11,5 +11,7 @@ namespace Fu
         void InsertNextRange(IEnumerable<Step> step);
 
         Step DeleteNext();
+
+        void Stop();
     }
 }

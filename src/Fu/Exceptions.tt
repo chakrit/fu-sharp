@@ -3,8 +3,6 @@
 <#
 	IDictionary<string, string> desc = new Dictionary<string, string>();
 	
-	desc["StopWalkException"] =
-		"Signify the walk to stop all further processing.";
 	desc["SkipStepException"] =
 		"Skip currently processing step and move to next step immediately";
 	desc["StepExecutionException"] =

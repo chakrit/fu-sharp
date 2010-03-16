@@ -58,6 +58,13 @@ namespace Fu
         }
 
 
+        public void Stop()
+        {
+            // jump to last step
+            _current = _appendPoint = _steps.Last;
+        }
+
+
         public IEnumerator<Step> GetEnumerator()
         {
             _current = _steps.First;

@@ -6,7 +6,7 @@ namespace Fu.Steps
     public static class Walks
     {
         public static Step Stop(this IWalkSteps _)
-        { return c => { throw new StopWalkException(); }; }
+        { return fu.Void(c => c.WalkPath.Stop()); }
 
         public static Step SkipNext(this IWalkSteps _)
         { return fu.Void(c => c.WalkPath.DeleteNext()); }
