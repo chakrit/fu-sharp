@@ -8,7 +8,8 @@ namespace Fu
         IEnumerable<Step> Steps { get; }
 
         void InsertNext(Step step);
-        void InsertNextRange(IEnumerable<Step> step);
+        void InsertNextRange(params Step[] steps);
+        void InsertNextRange(IEnumerable<Step> steps);
 
         Step DeleteNext();
 
