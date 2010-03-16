@@ -16,12 +16,10 @@ namespace Fu
             if (steps == null || steps.Count() == 0)
                 return fu.Identity;
 
-            // TODO: Instead of doing Aggregate which prevents modification
-            //       via IWalkPath during walking, we should do a double
-            //       IWalkPath.InsertNext calls instead so the walk path
-            //       remains modifiable and InsertNext works as expected
-            return steps
-                .Aggregate((step1, step2) => c => step2(step1(c)));
+            // TOOD: Benchmark this and see if Aggregate would be better?
+            //       Making .Aggregate(step2(step1)) work with IWalkPath would be hard
+            //       but then it might pays off as faster
+            return fu.Void(c => c.WalkPath.InsertNextRange(steps));
         }
 
         public static Step Compose(this Step step, Step nextStep)

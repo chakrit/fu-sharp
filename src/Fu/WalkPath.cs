@@ -6,9 +6,6 @@ namespace Fu
 {
     // TODO: Add verification that each steps supply compatible objects
     //       for the next one
-    // TODO: Make WalkPath work sensibly with fu.Compose and/or make
-    //       parts of Fu that do (Compose) properly supports WalkPath
-    //       i.e. FuController
     public class WalkPath : IWalkPath
     {
         private LinkedListNode<Step> _current;
