@@ -25,13 +25,13 @@ namespace Fu.Steps
                 // if a valid date has been given as a validator
                 if (!string.IsNullOrEmpty(ifModifiedHeader) &&
                     DateTime.TryParseExact(ifModifiedHeader, "R", CultureInfo.CurrentCulture,
-                    DateTimeStyles.AssumeUniversal, out d))
+                    DateTimeStyles.RoundtripKind, out d))
                 {
                     // run the filter and check the modified date,
                     lastModified = lastModifiedFilter(c, d);
 
                     // automatically returning 304 Not Modified if date indicates not modified
-                    if (lastModified < d)
+                    if (lastModified.ToUniversalTime() <= d.ToUniversalTime())
                     {
                         c.WalkPath.InsertNext(
                             fu.Http.Header("Last-Modified", lastModified.ToString("R")),
