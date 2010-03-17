@@ -37,7 +37,7 @@ namespace Fu.Steps
                     lastModified = lastModifiedFilter(c, d);
 
                     // automatically returning 304 Not Modified if date indicates not modified
-                    if (lastModified.ToUniversalTime() <= d.ToUniversalTime())
+                    if (roughCompare(lastModified.ToUniversalTime(), d.ToUniversalTime()) <= 0)
                     {
                         c.WalkPath.InsertNext(
                             fu.Http.Header("Last-Modified", lastModified.ToString("R")),
@@ -103,6 +103,18 @@ namespace Fu.Steps
                 // if not, proceeds with the normal rendering
                 c.WalkPath.InsertNext(step);
             });
+        }
+
+
+        private static long roughCompare(DateTime d1, DateTime d2)
+        {
+            const long oneSecond = 10000 * 1000 /* 10,000 ticks = 1 ms */;
+
+            // eliminate differences smaller than 1 second interval
+            var result = (d1 - d2).Ticks;
+            result -= result % oneSecond;
+
+            return result;
         }
     }
 }
