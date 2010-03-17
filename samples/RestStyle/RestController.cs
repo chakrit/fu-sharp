@@ -2,7 +2,6 @@
 using System;
 
 using Fu;
-using Fu.Contexts;
 using Fu.Steps;
 
 namespace RestStyle

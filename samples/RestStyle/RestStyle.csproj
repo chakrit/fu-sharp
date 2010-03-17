@@ -40,7 +40,7 @@
     <Compile Include="..\..\FuAssemblyInfo.cs">
       <Link>Properties\FuAssemblyInfo.cs</Link>
     </Compile>
-    <Compile Include="AppController.cs" />
+    <Compile Include="NotesController.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="RestController.cs" />
   </ItemGroup>

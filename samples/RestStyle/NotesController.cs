@@ -1,20 +1,21 @@
 ﻿
-using Fu;
-using Fu.Steps;
-using Fu.Services.Web;
-using Fu.Results;
-using Fu.Contexts;
 using System.Collections.Generic;
+
+using Fu;
+using Fu.Contexts;
+using Fu.Results;
+using Fu.Services.Web;
+using Fu.Steps;
 
 namespace RestStyle
 {
-    public class AppController : RestController
+    public class NotesController : RestController
     {
         private IList<string> _notes;
         private object _lock;
 
 
-        public AppController()
+        public NotesController()
         {
             _notes = new List<string>();
             _lock = new object();

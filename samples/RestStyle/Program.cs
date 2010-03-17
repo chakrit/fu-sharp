@@ -2,7 +2,6 @@
 using Fu;
 using Fu.Presets;
 using Fu.Steps;
-using Fu.Services.Sessions;
 
 namespace RestStyle
 {
@@ -10,7 +9,7 @@ namespace RestStyle
     {
         static void Main(string[] args)
         {
-            var step = fu.Map.Controller(new AppController());
+            var step = fu.Map.Controller(new NotesController());
 
             var app = new SimpleWebApp(step);
             app.Start();
