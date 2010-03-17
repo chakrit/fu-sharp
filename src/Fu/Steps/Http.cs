@@ -22,5 +22,22 @@ namespace Fu.Steps
                 c.Response.StatusDescription = statusDesc;
             });
         }
+
+
+        public static Step Header(this IHttpSteps _, string header, string value)
+        {
+            return fu.Void(c => c.Response.Headers[header] = value);
+        }
+
+        public static Step Header(this IHttpSteps _, string header, FilterStep<string> valueFilter)
+        {
+            return fu.Void(c =>
+            {
+                var value = c.Request.Headers[header];
+                value = valueFilter(c, value);
+
+                c.Response.Headers[header] = value;
+            });
+        }
     }
 }
