@@ -1,0 +1,5 @@
+﻿# Format of this file is:
+# (relative_source_path) (absolute_target_url)
+/google http://google.com/
+/yahoo http://yahoo.com/
+/bing http://bing.com/
