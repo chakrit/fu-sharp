@@ -9,13 +9,13 @@ namespace Fu
         public static string ResolvePath(this IFuContext c, string appPath)
         { return ResolvePath(c.Settings.BasePath, appPath); }
 
-        public static string ResolvePath(this IFuContext c, string appPath, bool disablePathProtection)
-        { return ResolvePath(c.Settings.BasePath, appPath, disablePathProtection); }
+        public static string ResolvePath(this IFuContext c, string appPath, bool allowUnsafePath)
+        { return ResolvePath(c.Settings.BasePath, appPath, allowUnsafePath); }
 
         public static string ResolvePath(string basePath, string appPath)
         { return ResolvePath(basePath, appPath, false); }
 
-        public static string ResolvePath(string basePath, string appPath, bool disablePathProtection)
+        public static string ResolvePath(string basePath, string appPath, bool allowUnsafePath)
         {
             // always resolve the basePath itself first
             // we can assume that basepath is safe since it'll be set by the developers
@@ -44,7 +44,7 @@ namespace Fu
 
             // Ensure nobody can escape outside basePath after all resolution
             // if path protection is not disabled
-            if (!disablePathProtection)
+            if (!allowUnsafePath)
                 if (!result.StartsWith(basePath))
                     return basePath;
 
