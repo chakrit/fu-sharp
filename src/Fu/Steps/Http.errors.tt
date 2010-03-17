@@ -1,3 +1,4 @@
+<#@ template language="C#v3.5" #>
 <#@ Import Namespace="System.Collections.Generic" #>
 <#
 
@@ -42,7 +43,7 @@ namespace Fu.Steps
 		public static Step <#= errors[code] #>(this IHttpSteps _)
 		{
 			return fu.Compose(
-				_.Status(<#= code #>),
+				_.Status(<#= code #>, "<#= errors[code] #>"),
 				c => StringResult.From(c, "<#= errors[code] #>"),
 				fu.Result.Render(),
 				fu.Walk.Stop());

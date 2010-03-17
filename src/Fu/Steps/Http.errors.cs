@@ -28,7 +28,7 @@ namespace Fu.Steps
 		public static Step BadRequest(this IHttpSteps _)
 		{
 			return fu.Compose(
-				_.Status(400),
+				_.Status(400, "BadRequest"),
 				c => StringResult.From(c, "BadRequest"),
 				fu.Result.Render(),
 				fu.Walk.Stop());
@@ -37,7 +37,7 @@ namespace Fu.Steps
 		public static Step Unauthorized(this IHttpSteps _)
 		{
 			return fu.Compose(
-				_.Status(401),
+				_.Status(401, "Unauthorized"),
 				c => StringResult.From(c, "Unauthorized"),
 				fu.Result.Render(),
 				fu.Walk.Stop());
@@ -46,7 +46,7 @@ namespace Fu.Steps
 		public static Step Forbidden(this IHttpSteps _)
 		{
 			return fu.Compose(
-				_.Status(403),
+				_.Status(403, "Forbidden"),
 				c => StringResult.From(c, "Forbidden"),
 				fu.Result.Render(),
 				fu.Walk.Stop());
@@ -55,7 +55,7 @@ namespace Fu.Steps
 		public static Step NotFound(this IHttpSteps _)
 		{
 			return fu.Compose(
-				_.Status(404),
+				_.Status(404, "NotFound"),
 				c => StringResult.From(c, "NotFound"),
 				fu.Result.Render(),
 				fu.Walk.Stop());
@@ -64,7 +64,7 @@ namespace Fu.Steps
 		public static Step MethodNotAllowed(this IHttpSteps _)
 		{
 			return fu.Compose(
-				_.Status(405),
+				_.Status(405, "MethodNotAllowed"),
 				c => StringResult.From(c, "MethodNotAllowed"),
 				fu.Result.Render(),
 				fu.Walk.Stop());
@@ -73,7 +73,7 @@ namespace Fu.Steps
 		public static Step ServerError(this IHttpSteps _)
 		{
 			return fu.Compose(
-				_.Status(500),
+				_.Status(500, "ServerError"),
 				c => StringResult.From(c, "ServerError"),
 				fu.Result.Render(),
 				fu.Walk.Stop());
@@ -82,7 +82,7 @@ namespace Fu.Steps
 		public static Step ServiceUnavailable(this IHttpSteps _)
 		{
 			return fu.Compose(
-				_.Status(503),
+				_.Status(503, "ServiceUnavailable"),
 				c => StringResult.From(c, "ServiceUnavailable"),
 				fu.Result.Render(),
 				fu.Walk.Stop());
