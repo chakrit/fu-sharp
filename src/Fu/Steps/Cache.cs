@@ -10,6 +10,12 @@ namespace Fu.Steps
     // TODO: Still needs tests in the wild to make sure these work properly
     public static class Cache
     {
+        public static Step LastModified(this ICacheSteps _, DateTime lastModified)
+        { return _.LastModified((c, d) => lastModified, fu.Identity); }
+
+        public static Step LastModified(this ICacheSteps _, Filter<DateTime> lastModifiedFilter)
+        { return _.LastModified(lastModifiedFilter, fu.Identity); }
+
         public static Step LastModified(this ICacheSteps _, DateTime lastModified, Step step)
         { return _.LastModified((c, d) => lastModified, step); }
 
@@ -49,6 +55,16 @@ namespace Fu.Steps
                     step);
             });
         }
+
+
+        public static Step ETag(this ICacheSteps _, string etag)
+        { return _.ETag(c => etag, fu.Identity); }
+
+        public static Step ETag(this ICacheSteps _, string etag, Step step)
+        { return _.ETag(c => etag, step); }
+
+        public static Step ETag(this ICacheSteps _, Reduce<string> etagReducer)
+        { return _.ETag(etagReducer, fu.Identity); }
 
         public static Step ETag(this ICacheSteps _, Reduce<string> etagReducer, Step step)
         {
