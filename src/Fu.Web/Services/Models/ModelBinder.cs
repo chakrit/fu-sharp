@@ -11,15 +11,15 @@ namespace Fu.Services.Models
     public class ModelBinder<T> : IService<T>
         where T : class
     {
-        public FilterStep<T> Binder { get; private set; }
+        public Filter<T> Binder { get; private set; }
         public Func<T> Factory { get; private set; }
 
 
         public ModelBinder() : this(null, null) { }
         public ModelBinder(Func<T> factory) : this(factory, null) { }
-        public ModelBinder(FilterStep<T> binder) : this(null, binder) { }
+        public ModelBinder(Filter<T> binder) : this(null, binder) { }
 
-        public ModelBinder(Func<T> factory, FilterStep<T> binder)
+        public ModelBinder(Func<T> factory, Filter<T> binder)
         {
             Factory = factory ?? defaultFactory;
             Binder = binder ?? createDefaultBinder();
@@ -34,7 +34,7 @@ namespace Fu.Services.Models
 
         private T defaultFactory() { return Activator.CreateInstance<T>(); }
 
-        private FilterStep<T> createDefaultBinder()
+        private Filter<T> createDefaultBinder()
         {
             // build and cache property setter methods for the type
             var type = typeof(T);

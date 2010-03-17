@@ -92,6 +92,12 @@
     <Compile Include="Services\IService.cs" />
     <Compile Include="Services\LoggingService.cs" />
     <Compile Include="Services\ObjectProvider.cs" />
+    <Compile Include="Steps\Cache.cs" />
+    <Compile Include="Steps\Http.statuses.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Http.statuses.tt</DependentUpon>
+    </Compile>
     <Compile Include="StrComp.cs" />
     <Compile Include="VirtualPath.cs" />
     <Compile Include="Presets\SimpleApp.cs" />
@@ -128,6 +134,10 @@
     <None Include="Steps\Http.errors.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>Http.errors.cs</LastGenOutput>
+    </None>
+    <None Include="Steps\Http.statuses.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>Http.statuses.cs</LastGenOutput>
     </None>
   </ItemGroup>
   <ItemGroup>

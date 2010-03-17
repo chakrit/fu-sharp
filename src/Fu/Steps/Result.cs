@@ -11,7 +11,7 @@ namespace Fu.Steps
     public static partial class Result
     {
         public static Step Compress(this IResultSteps _,
-            string extension, FilterStep<string> compressor)
+            string extension, Filter<string> compressor)
         {
             return fu.If<IResultContext>(
                 c => c.Request.Url.AbsolutePath.EndsWith(extension),
@@ -19,7 +19,7 @@ namespace Fu.Steps
         }
 
         public static Step Compress(this IResultSteps _,
-            string extension, FilterStep<byte[]> compressor)
+            string extension, Filter<byte[]> compressor)
         {
             return fu.If<IResultContext>(
                 c => c.Request.Url.AbsolutePath.EndsWith(extension),
@@ -27,14 +27,14 @@ namespace Fu.Steps
         }
 
         public static Step Compress(this IResultSteps _,
-            FilterStep<string> compressor)
+            Filter<string> compressor)
         {
             return fu.Results<IResultContext>(c =>
                 new CompressedResult(c.Result, compressor));
         }
 
         public static Step Compress(this IResultSteps _,
-            FilterStep<byte[]> compressor)
+            Filter<byte[]> compressor)
         {
             return fu.Results<IResultContext>(c =>
                 new CompressedResult(c.Result, compressor));
@@ -75,7 +75,7 @@ namespace Fu.Steps
             });
         }
 
-        public static Step Render(this IResultSteps _, FilterStep<Stream> filter)
+        public static Step Render(this IResultSteps _, Filter<Stream> filter)
         {
             // TODO: Concise-sify this
             if (filter == null)

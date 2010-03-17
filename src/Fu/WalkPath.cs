@@ -28,10 +28,10 @@ namespace Fu
             _appendPoint = _steps.AddAfter(_appendPoint, step);
         }
 
-        public void InsertNextRange(params Step[] steps)
-        { InsertNextRange((IEnumerable<Step>)steps); }
+        public void InsertNext(params Step[] steps)
+        { InsertNext((IEnumerable<Step>)steps); }
 
-        public void InsertNextRange(IEnumerable<Step> steps)
+        public void InsertNext(IEnumerable<Step> steps)
         {
             foreach (var step in steps)
                 _appendPoint = _steps.AddAfter(_appendPoint, step);

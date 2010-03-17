@@ -3,6 +3,7 @@
 	string[] extensionPoints = new string[]
 	{
 		"Http",
+		"Cache",
 		"Map",
 		"Result",
 		"Redirect",

@@ -11,47 +11,36 @@ namespace Fu
         public static Step Step<TIn, TOut>(Step<TIn, TOut> step)
             where TIn : IFuContext
             where TOut : IFuContext
-        {
-            return ctx => step(fu.ConvertTo<TIn>(ctx));
-        }
+        { return ctx => step(fu.Cast<TIn>(ctx)); }
 
         public static Step Step<TIn>(Step<TIn> step)
             where TIn : IFuContext
-        {
-            return ctx => step(fu.ConvertTo<TIn>(ctx));
-        }
+        { return ctx => step(fu.Cast<TIn>(ctx)); }
 
 
-        public static Step Returns<TIn, TOut>(Returns<TIn, TOut> resultStep)
+        public static Step Returns<TIn, TOut>(Returns<TIn, TOut> returnStep)
             where TIn : IFuContext
             where TOut : IFuContext
-        {
-            return ctx => resultStep(fu.ConvertTo<TIn>(ctx));
-        }
+        { return ctx => returnStep(fu.Cast<TIn>(ctx)); }
 
-        public static Step Returns<TOut>(Returns<TOut> resultStep)
+        public static Step Returns<TOut>(Returns<TOut> returnStep)
             where TOut : IFuContext
-        {
-            return ctx => resultStep(ctx);
-        }
+        { return ctx => returnStep(ctx); }
 
 
         public static Step Void(Void voidStep)
-        {
-            return ctx => { voidStep(ctx); return ctx; };
-        }
+        { return ctx => { voidStep(ctx); return ctx; }; }
 
         public static Step Void<TIn>(Void<TIn> voidStep)
             where TIn : IFuContext
-        {
-            return ctx => { voidStep(fu.ConvertTo<TIn>(ctx)); return ctx; };
-        }
+        { return ctx => { voidStep(fu.Cast<TIn>(ctx)); return ctx; }; }
 
 
         public static Step Results(ResultStep resultStep)
         {
             return ctx =>
             {
+                // TODO: Should this return IResultContext consistently instead of null?
                 var result = resultStep(ctx);
                 return result == null ? ctx :
                     new ResultContext(ctx, result);
@@ -63,14 +52,14 @@ namespace Fu
         {
             return ctx =>
             {
-                var result = resultStep(fu.ConvertTo<TIn>(ctx));
+                var result = resultStep(fu.Cast<TIn>(ctx));
                 return result == null ? ctx :
                     new ResultContext(ctx, result);
             };
         }
 
 
-        public static T ConvertTo<T>(IFuContext c)
+        public static T Cast<T>(IFuContext c)
             where T : IFuContext
         {
             if (c is T) return (T)c;

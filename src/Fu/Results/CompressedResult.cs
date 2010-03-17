@@ -7,7 +7,7 @@ namespace Fu.Results
 {
     public class CompressedResult : IResult
     {
-        private FilterStep<byte[]> _compressor;
+        private Filter<byte[]> _compressor;
 
 
         public IResult InnerResult { get; protected set; }
@@ -18,7 +18,7 @@ namespace Fu.Results
             protected set { throw new NotSupportedException(); }
         }
 
-        public CompressedResult(IResult input, FilterStep<string> compressFunc)
+        public CompressedResult(IResult input, Filter<string> compressFunc)
         {
             InnerResult = input;
             _compressor = (c, bytes) =>
@@ -34,7 +34,7 @@ namespace Fu.Results
             };
         }
 
-        public CompressedResult(IResult input, FilterStep<byte[]> compressFunc)
+        public CompressedResult(IResult input, Filter<byte[]> compressFunc)
         {
             InnerResult = input;
             _compressor = compressFunc;

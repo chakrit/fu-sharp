@@ -8,38 +8,30 @@ namespace Fu.Steps
         public static Step To(this IRedirectSteps _, string target)
         { return _.To((c, s) => target); }
 
-        public static Step To(this IRedirectSteps _, FilterStep<string> urlStep)
-        {
-            return c =>
-            {
-                var target = urlStep(c, c.Request.Url.AbsolutePath);
-
-                c.Response.StatusCode = (int)HttpStatusCode.Moved;
-                c.Response.Redirect(target);
-                c.Response.Close();
-
-                c.WalkPath.InsertNext(fu.Walk.Stop());
-                return c;
-            };
-        }
+        public static Step To(this IRedirectSteps _, Filter<string> urlFilter)
+        { return redirectStep(fu.Http.Found(), urlFilter); }
 
 
         public static Step PermanentlyTo(this IRedirectSteps _, string target)
         { return _.PermanentlyTo((c, s) => target); }
 
-        public static Step PermanentlyTo(this IRedirectSteps _, FilterStep<string> urlStep)
+        public static Step PermanentlyTo(this IRedirectSteps _, Filter<string> urlFilter)
+        { return redirectStep(fu.Http.MovedPermanently(), urlFilter); }
+
+
+        private static Step redirectStep(Step headerStep, Filter<string> urlFilter)
         {
-            return c =>
+            var stopWalk = fu.Walk.Stop();
+
+            return fu.Void(c =>
             {
-                var target = urlStep(c, c.Request.Url.AbsolutePath);
+                var targetUrl = urlFilter(c, c.Request.Url.AbsolutePath);
 
-                c.Response.StatusCode = (int)HttpStatusCode.MovedPermanently;
-                c.Response.Redirect(target);
-                c.Response.Close();
-
-                c.WalkPath.InsertNext(fu.Walk.Stop());
-                return c;
-            };
+                c.Response.Redirect(targetUrl);
+                c.WalkPath.InsertNext(
+                    headerStep,
+                    stopWalk);
+            });
         }
     }
 }

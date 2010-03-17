@@ -29,7 +29,7 @@ namespace Fu.Steps
             return fu.Void(c => c.Response.Headers[header] = value);
         }
 
-        public static Step Header(this IHttpSteps _, string header, FilterStep<string> valueFilter)
+        public static Step Header(this IHttpSteps _, string header, Filter<string> valueFilter)
         {
             return fu.Void(c =>
             {

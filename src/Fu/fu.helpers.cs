@@ -19,7 +19,7 @@ namespace Fu
             // TOOD: Benchmark this and see if Aggregate would be better?
             //       Making .Aggregate(step2(step1)) work with IWalkPath would be hard
             //       but then it might pays off as faster
-            return fu.Void(c => c.WalkPath.InsertNextRange(steps));
+            return fu.Void(c => c.WalkPath.InsertNext(steps));
         }
 
         public static Step Compose(this Step step, Step nextStep)

@@ -39,9 +39,13 @@ namespace Fu
         where TIn : IFuContext;
 
 
-    // Filter support
-    public delegate TFilter FilterStep<TFilter>(IFuContext context, TFilter input);
-    public delegate TFilter FilterStep<TIn, TFilter>(TIn context, TFilter input)
+    // Utility delegates
+    public delegate TFilter Filter<TFilter>(IFuContext context, TFilter input);
+    public delegate TFilter Filter<TIn, TFilter>(TIn context, TFilter input)
+        where TIn : IFuContext;
+
+    public delegate TResult Reduce<TResult>(IFuContext context);
+    public delegate TResult Reduce<TIn, TResult>(TIn context)
         where TIn : IFuContext;
 
 }

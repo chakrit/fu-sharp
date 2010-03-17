@@ -1,0 +1,31 @@
+﻿<#@ template language="C#v3.5" #>
+<#@ Import Namespace="System.Collections.Generic" #>
+<#
+
+    IDictionary<int, string> status = new Dictionary<int, string>();
+    
+	// only the most commonly used or those that are required to implement Fu are included
+	status[200] = "OK";
+	
+	status[301] = "MovedPermanently";
+	status[302] = "Found";
+	status[304] = "NotModified";
+
+#>
+
+using System.Collections.Generic;
+
+using Fu.Contexts;
+using Fu.Results;
+
+namespace Fu.Steps
+{
+	public static partial class Http
+	{
+<# foreach (int code in status.Keys) { #>
+		public static Step <#= status[code] #>(this IHttpSteps _)
+		{ return _.Status(<#= code #>, "<#= status[code] #>"); }
+		
+<# } #>
+	}
+}
