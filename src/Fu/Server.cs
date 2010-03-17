@@ -175,14 +175,16 @@ namespace Fu
             {
                 /* TODO: Properly handle this absorbtion */
                 FuTrace.Exception(ex);
+            }
+            finally
+            {
+                _processorCounter.Decrement();
 
                 // attempts to close any dangling connection
                 // so we never hangs the browser
                 try { context.Response.Close(); }
                 catch { }
-
             }
-            finally { _processorCounter.Decrement(); }
         }
 
 
