@@ -5,11 +5,22 @@ using System.Linq;
 
 namespace Fu.Steps
 {
-    // TODO: Implement proper Cache-Control/Expires support
-    //       which is a bit trickier to be done right
+    // TODO: Implement Cache-Control support
     // TODO: Still needs tests in the wild to make sure these work properly
     public static class Cache
     {
+        public static Step Expires(this ICacheSteps _, TimeSpan time)
+        { return _.Expires(c => DateTime.Now.Add(time)); }
+
+        public static Step Expires(this ICacheSteps _, DateTime date)
+        { return _.Expires(c => date); }
+
+        public static Step Expires(this ICacheSteps _, Reduce<DateTime> dateReducer)
+        {
+            return fu.Void(c => c.Request.Headers["Expires"] = dateReducer(c).ToString("R"));
+        }
+
+
         public static Step LastModified(this ICacheSteps _, DateTime lastModified)
         { return _.LastModified((c, d) => lastModified, fu.Identity); }
 
