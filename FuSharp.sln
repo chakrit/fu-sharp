@@ -36,6 +36,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RestStyle", "samples\RestSt
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UrlForwarder", "samples\UrlForwarder\UrlForwarder.csproj", "{63BE75EA-C85F-4338-965A-14FDF6A5085E}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WildcardSubdomains", "samples\WildcardSubdomains\WildcardSubdomains.csproj", "{8D26D44C-ABA0-4D9E-9672-74E54DD52564}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -86,6 +88,10 @@ Global
 		{63BE75EA-C85F-4338-965A-14FDF6A5085E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{63BE75EA-C85F-4338-965A-14FDF6A5085E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{63BE75EA-C85F-4338-965A-14FDF6A5085E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8D26D44C-ABA0-4D9E-9672-74E54DD52564}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8D26D44C-ABA0-4D9E-9672-74E54DD52564}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8D26D44C-ABA0-4D9E-9672-74E54DD52564}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8D26D44C-ABA0-4D9E-9672-74E54DD52564}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -102,5 +108,6 @@ Global
 		{C554D25F-DA83-4355-A2C0-8EF1DB8CB9C9} = {74C6F6CA-CE38-42F8-9593-1D3CE782D46E}
 		{0544C9D5-D857-46C8-9727-1EB8769A88DD} = {74C6F6CA-CE38-42F8-9593-1D3CE782D46E}
 		{63BE75EA-C85F-4338-965A-14FDF6A5085E} = {74C6F6CA-CE38-42F8-9593-1D3CE782D46E}
+		{8D26D44C-ABA0-4D9E-9672-74E54DD52564} = {74C6F6CA-CE38-42F8-9593-1D3CE782D46E}
 	EndGlobalSection
 EndGlobal
