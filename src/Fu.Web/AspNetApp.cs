@@ -31,7 +31,7 @@ namespace Fu
         {
             var writer = (TextWriter)File.CreateText(output);
             //var request = new SimpleWorkerRequest(page, query, output);
-            HttpRuntime.ProcessRequest(request);
+            //HttpRuntime.ProcessRequest(request);
         }
     }
 }
