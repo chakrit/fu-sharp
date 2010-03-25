@@ -90,7 +90,6 @@
     <Compile Include="IWalkPath.cs" />
     <Compile Include="Server.cs" />
     <Compile Include="Services\IService.cs" />
-    <Compile Include="Services\LoggingService.cs" />
     <Compile Include="Services\ObjectProvider.cs" />
     <Compile Include="Steps\Cache.cs" />
     <Compile Include="Steps\Http.statuses.cs">

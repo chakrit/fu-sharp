@@ -29,22 +29,21 @@ namespace Fu
             IWalkPath path = new WalkPath(Steps);
             IFuContext context = new FuContext(Settings, Services, httpContext, path);
 
-            foreach (var serv in Services)
-                serv.BeginWalk(context);
+            FuTrace.Request(context);
 
             foreach (var step in path)
             {
-                // TODO: Break this one so each is non-blocking and stoppable
-                //       then proceeds to make a proper evented I/O
+                // TODO: Evented I/O non-block style?
                 // TODO: Add step compatibility checking
-                try { context = step(context); }
+                try
+                {
+                    FuTrace.Step(step);
+                    context = step(context);
+                }
                 catch (SkipStepException) { /* absorbed */ }
             }
 
-            // the first service to gets the BeginWalk call should be the last
-            // to gets the EndWalk call so there're less interferance with each other
-            foreach (var serv in Services.Reverse())
-                serv.EndWalk(context);
+            FuTrace.Response(context);
         }
     }
 }

@@ -94,8 +94,5 @@ namespace Fu.Services.Models
         }
 
         T IService<T>.GetServiceObject(IFuContext input) { return GetModel(input); }
-
-        void IService.BeginWalk(IFuContext input) { /* no-op */ }
-        void IService.EndWalk(IFuContext input) { /* no-op */ }
     }
 }

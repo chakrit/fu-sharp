@@ -16,10 +16,10 @@ namespace Fu
         }
 
         [Conditional("TRACE")]
-        public static void Step(string step, string msg)
+        public static void Step(Step step)
         {
             output(TraceLevel.Verbose, @"  - {0}: {1}",
-                step, msg);
+                step.Method.Module, step.Method.Name);
         }
 
         [Conditional("TRACE")]
@@ -62,21 +62,14 @@ namespace Fu
         private static void output(TraceLevel level, string format, params object[] args)
         {
             var threadId = Thread.CurrentThread.ManagedThreadId;
+            var levelName = Enum.GetName(typeof(TraceLevel), level).PadRight(7);
+            var timestamp = DateTime.Now.ToString("hh:MM:ss");
+            var msg = string.Format(format, args);
 
-            var line = string.Format("Fu: T#{0:000} {1,8} {2}",
-                threadId, DateTime.Now.ToString("hh:MM:ss"), string.Format(format, args));
+            var line = string.Format("T#{0:000} {1,7} {2,8} {3}",
+                threadId, levelName, timestamp, msg);
 
-            switch (level)
-            {
-                case TraceLevel.Error: Trace.TraceError(line); break;
-                case TraceLevel.Warning: Trace.TraceWarning(line); break;
-                case TraceLevel.Info: Trace.TraceInformation(line); break;
-                case TraceLevel.Verbose: Trace.WriteLine(line); break;
-
-                case TraceLevel.Off:
-                default: /* absorbed */
-                    break;
-            }
+            Trace.WriteLine(line, "Fu#");
         }
     }
 }

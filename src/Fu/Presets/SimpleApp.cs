@@ -13,9 +13,7 @@ namespace Fu.Presets
         public SimpleApp(params Step[] steps) : this(null, steps) { }
 
         public SimpleApp(FuSettings settings, params Step[] steps) :
-            base(settings, new[] {
-                new LoggingService()
-            }, new[] {
+            base(settings, null, new[] {
                 fu.Compose(steps),
                 fu.Result.Render(),
             })
