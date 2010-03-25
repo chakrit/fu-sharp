@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>NHaml.Xps</name>
+    </assembly>
+    <members>
+        <member name="T:NHaml.Xps.DocumentDialog">
+            <summary>
+            Interaction logic for Window1.xaml
+            </summary>
+            <summary>
+            DocumentDialog
+            </summary>
+        </member>
+        <member name="M:NHaml.Xps.DocumentDialog.InitializeComponent">
+            <summary>
+            InitializeComponent
+            </summary>
+        </member>
+    </members>
+</doc>
