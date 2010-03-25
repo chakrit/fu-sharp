@@ -5,7 +5,7 @@ using Fu.Steps;
 
 namespace Fu.Presets
 {
-    public class ControllersBasedApp : SimpleWebApp
+    public class ControllersBasedApp : WebApp
     {
         public ControllersBasedApp() :
             base(fu.Map.Controllers()) { }

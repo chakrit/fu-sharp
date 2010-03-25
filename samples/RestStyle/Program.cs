@@ -11,7 +11,7 @@ namespace RestStyle
         {
             var step = fu.Map.Controller(new NotesController());
 
-            var app = new SimpleWebApp(step);
+            var app = new WebApp(step);
             app.Start();
         }
     }

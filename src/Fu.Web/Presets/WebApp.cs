@@ -5,14 +5,14 @@ using Fu.Services.Web;
 
 namespace Fu.Presets
 {
-    public class SimpleWebApp : SimpleApp
+    public class WebApp : SimpleApp
     {
         private IService _sessionService;
 
 
-        public SimpleWebApp(params Step[] steps) : this(null, steps) { }
+        public WebApp(params Step[] steps) : this(null, steps) { }
 
-        public SimpleWebApp(FuSettings settings, params Step[] steps) :
+        public WebApp(FuSettings settings, params Step[] steps) :
             base(settings, steps)
         {
             this.Services.Add(_sessionService = new InMemorySessionService());

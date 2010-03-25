@@ -78,7 +78,7 @@
     <Compile Include="Services\Web\MultipartParser.cs" />
     <Compile Include="Services\Web\UploadedFile.cs" />
     <Compile Include="Services\Web\UploadedFilesCollection.cs" />
-    <Compile Include="Presets\SimpleWebApp.cs" />
+    <Compile Include="Presets\WebApp.cs" />
     <Compile Include="Steps\MapEx.cs" />
     <Compile Include="Util\ForwardRingBuffer.cs" />
   </ItemGroup>
