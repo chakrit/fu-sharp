@@ -52,6 +52,7 @@
     <Compile Include="..\..\FuAssemblyInfo.cs">
       <Link>Properties\FuAssemblyInfo.cs</Link>
     </Compile>
+    <Compile Include="AspNetApp.cs" />
     <Compile Include="Presets\ControllersBasedApp.cs" />
     <Compile Include="IFuController.cs" />
     <Compile Include="FuController.cs" />
