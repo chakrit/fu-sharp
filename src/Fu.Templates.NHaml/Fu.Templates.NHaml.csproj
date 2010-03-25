@@ -52,6 +52,9 @@
     <Compile Include="..\FuAssemblyInfo.cs">
       <Link>Properties\FuAssemblyInfo.cs</Link>
     </Compile>
+    <Compile Include="Results\HamlResult.cs" />
+    <Compile Include="Services\Templating\HamlTemplateBase.cs" />
+    <Compile Include="Services\Templating\HamlTemplateService.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Fu.Web\Fu.Web.csproj">
