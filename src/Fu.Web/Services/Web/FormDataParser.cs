@@ -46,8 +46,5 @@ namespace Fu.Services.Web
             var nv = HttpUtility.ParseQueryString(data);
             return new FormDataImpl(nv, null);
         }
-
-        public void BeginWalk(IFuContext input) { /* no-op */ }
-        public void EndWalk(IFuContext input) { /* no-op */ }
     }
 }

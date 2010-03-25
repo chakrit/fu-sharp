@@ -12,9 +12,6 @@ namespace Fu.Services
 
         public bool CanGetServiceObject(IFuContext input) { return _obj != null; }
         public T GetServiceObject(IFuContext input) { return _obj; }
-
-        public void BeginWalk(IFuContext input) { /* no-op */ }
-        public void EndWalk(IFuContext input) { /* no-op */ }
     }
 
     public static class ObjectProvider

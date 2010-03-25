@@ -24,10 +24,6 @@ namespace Fu.Services.Sessions
         { return getSession(input); }
 
 
-        public void BeginWalk(IFuContext input) { /* no-op */ }
-        public void EndWalk(IFuContext input) { /* no-op */ }
-
-
         // gets existing session or create new ones
         private ISession getSession(IFuContext c)
         {

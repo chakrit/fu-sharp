@@ -64,10 +64,6 @@ namespace Fu.Services.Web
         }
 
 
-        public void BeginWalk(IFuContext input) { /* no-op */ }
-        public void EndWalk(IFuContext input) { /* no-op */ }
-
-
         private void BadRequest(IFuContext input)
         {
             input.WalkPath.InsertNext(fu.Http.BadRequest());
