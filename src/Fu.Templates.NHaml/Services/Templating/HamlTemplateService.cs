@@ -2,6 +2,7 @@
 using System;
 
 using NHaml;
+using NHaml.TemplateResolution;
 
 namespace Fu.Services.Templating
 {
@@ -11,6 +12,26 @@ namespace Fu.Services.Templating
 
 
         public HamlTemplateService() : this(new TemplateEngine()) { }
+
+        public HamlTemplateService(string templateBasePath)
+            : this(new TemplateEngine())
+        {
+            var provider = new FileTemplateContentProvider();
+
+            provider.PathSources.Clear();
+            provider.AddPathSource(templateBasePath);
+        }
+
+        public HamlTemplateService(string[] templatePaths)
+        {
+            var provider = new FileTemplateContentProvider();
+
+            provider.PathSources.Clear();
+            Array.ForEach(templatePaths, provider.AddPathSource);
+        }
+
+        public HamlTemplateService(TemplateOptions options)
+            : this(new TemplateEngine(options)) { }
 
         public HamlTemplateService(TemplateEngine engine)
         {

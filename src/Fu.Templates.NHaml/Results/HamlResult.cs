@@ -12,6 +12,7 @@ using Fu.Services.Templating;
 
 namespace Fu.Results
 {
+    // TODO: Make this usable without subclassing
     public abstract class HamlResult : IResult
     {
         private ContentType _contentType;
@@ -22,8 +23,10 @@ namespace Fu.Results
             _contentType = new ContentType { MediaType = Mime.TextHtml };
         }
 
-
+        // should return filenames relative to template base paths specified in HamlTemplateService
         protected abstract IEnumerable<string> GetTemplateNames(IFuContext context);
+
+        // should return types derived from HamlTemplateBase
         protected abstract Type GetTemplateType(IFuContext context);
 
 
