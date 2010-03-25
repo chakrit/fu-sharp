@@ -2,6 +2,8 @@
 using System;
 using System.Globalization;
 using System.Linq;
+using Fu.Contexts;
+using Fu.Results;
 
 namespace Fu.Steps
 {
@@ -15,14 +17,18 @@ namespace Fu.Steps
         public static Step Expires(this ICacheSteps _, DateTime date)
         { return _.Expires(c => date); }
 
+        public static Step Expires(this ICacheSteps _, Filter<DateTime> dateFilter)
+        { return _.Expires(c => dateFilter(c, DateTime.Now)); }
+
         public static Step Expires(this ICacheSteps _, Reduce<DateTime> dateReducer)
-        {
-            return fu.Void(c => c.Request.Headers["Expires"] = dateReducer(c).ToString("R"));
-        }
+        { return fu.Void(c => c.Request.Headers["Expires"] = dateReducer(c).ToString("R")); }
 
 
         public static Step LastModified(this ICacheSteps _, DateTime lastModified)
         { return _.LastModified((c, d) => lastModified, fu.Identity); }
+
+        public static Step LastModified(this ICacheSteps _, Reduce<DateTime> lastModifiedReducer)
+        { return _.LastModified((c, d) => lastModifiedReducer(c), fu.Identity); }
 
         public static Step LastModified(this ICacheSteps _, Filter<DateTime> lastModifiedFilter)
         { return _.LastModified(lastModifiedFilter, fu.Identity); }
