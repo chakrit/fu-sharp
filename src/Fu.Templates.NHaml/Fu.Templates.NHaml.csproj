@@ -49,6 +49,16 @@
       <Link>Properties\FuAssemblyInfo.cs</Link>
     </Compile>
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Fu.Web\Fu.Web.csproj">
+      <Project>{23EF40C1-1B6C-424F-BBEA-CBDE3434AD8C}</Project>
+      <Name>Fu.Web</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Fu\Fu.csproj">
+      <Project>{1583A6C9-45DA-46B4-9DBD-B86461DB893B}</Project>
+      <Name>Fu</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
