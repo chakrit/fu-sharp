@@ -22,7 +22,7 @@ namespace Fu.Results
         { return new ResultContext(input, new JsonResult(o)); }
 
         public static ResultContext From(IFuContext input,
-            Func<IFuContext, object> jsonStep)
+            Reduce<object> jsonStep)
         { return new ResultContext(input, new JsonResult(jsonStep(input))); }
     }
 }

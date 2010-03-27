@@ -32,15 +32,15 @@ namespace Fu
         { return fu.Compose(step, fu.Compose(steps)); }
 
 
-        public static Step If(Func<IFuContext, bool> predicate, Step step)
+        public static Step If(Reduce<bool> predicate, Step step)
         { return If(predicate, step, fu.Identity); }
 
         public static Step If<TContext>
-            (Func<TContext, bool> predicate, Step step)
+            (Reduce<bool> predicate, Step step)
             where TContext : IFuContext
         { return If(predicate, step, fu.Identity); }
 
-        public static Step If(Func<IFuContext, bool> predicate, Step trueStep, Step falseStep)
+        public static Step If(Reduce<bool> predicate, Step trueStep, Step falseStep)
         {
             if (predicate == null) throw new ArgumentNullException("predicate");
             if (trueStep == null) throw new ArgumentNullException("trueStep");
@@ -49,7 +49,7 @@ namespace Fu
             return c => predicate(c) ? trueStep(c) : falseStep(c);
         }
 
-        public static Step If<TContext>(Func<TContext, bool> predicate, Step trueStep, Step falseStep)
+        public static Step If<TContext>(Reduce<bool> predicate, Step trueStep, Step falseStep)
             where TContext : IFuContext
         {
             if (predicate == null) throw new ArgumentNullException("predicate");
