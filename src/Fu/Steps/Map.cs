@@ -30,13 +30,8 @@ namespace Fu.Steps
         {
             step404 = step404 ?? fu.Http.NotFound();
 
-            return fu.Void(c =>
-            {
-                if (mapping.Pattern.IsMatch(c.Request.Url.AbsolutePath))
-                    c.WalkPath.InsertNext(mapping.Step);
-                else
-                    c.WalkPath.InsertNext(step404);
-            });
+            return fu.Branch(c => mapping.Pattern.IsMatch(c.Request.Url.AbsolutePath) ?
+                mapping.Step : step404);
         }
 
 
@@ -53,7 +48,7 @@ namespace Fu.Steps
         {
             step404 = step404 ?? fu.Http.NotFound();
 
-            return c =>
+            return fu.Branch(c =>
             {
                 var path = c.Request.Url.AbsolutePath;
                 var urlMatch = mappings
@@ -61,15 +56,13 @@ namespace Fu.Steps
                     .FirstOrDefault(m => m.Result.Success);
 
                 if (urlMatch != null)
-                {
-                    c.WalkPath.InsertNext(urlMatch.Mapping.Step);
-                    return new UrlMappedContext(c, urlMatch.Mapping, urlMatch.Result);
-                }
+                    return fu.Compose(
+                        cx => new UrlMappedContext(cx, urlMatch.Mapping, urlMatch.Result),
+                        urlMatch.Mapping.Step);
 
                 // no mappings found
-                c.WalkPath.InsertNext(step404);
-                return c;
-            };
+                return step404;
+            });
         }
 
 
@@ -101,7 +94,7 @@ namespace Fu.Steps
         {
             step404 = step404 ?? fu.Http.NotFound();
 
-            return c =>
+            return fu.Branch(c =>
             {
                 // Default doc = request a simple "/" or one of the default documents
                 var isDefaultDoc = c.Request.Url.AbsolutePath == "/";
@@ -109,9 +102,8 @@ namespace Fu.Steps
                     .Any(d => c.Request.Url.AbsolutePath
                         .StartsWith("/" + d, StrComp.Fast));
 
-                c.WalkPath.InsertNext(isDefaultDoc ? defaultDocStep : step404);
-                return c;
-            };
+                return isDefaultDoc ? defaultDocStep : step404;
+            });
         }
     }
 }

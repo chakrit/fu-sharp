@@ -39,7 +39,7 @@ namespace Fu.Steps
         public static Step LastModified(this ICacheSteps _,
             Filter<DateTime> lastModifiedFilter, Step step)
         {
-            return fu.Void(c =>
+            return fu.Branch(c =>
             {
                 DateTime lastModified, d;
 
@@ -55,19 +55,16 @@ namespace Fu.Steps
 
                     // automatically returning 304 Not Modified if date indicates not modified
                     if (roughCompare(lastModified.ToUniversalTime(), d.ToUniversalTime()) <= 0)
-                    {
-                        c.WalkPath.InsertNext(
+                        return fu.Compose(
                             fu.Http.Header("Last-Modified", lastModified.ToString("R")),
                             fu.Http.NotModified(),
                             fu.Walk.Stop());
-                        return;
-                    }
                 }
 
                 // else just proceeds with the content step normally
                 lastModified = lastModifiedFilter(c, DateTime.MinValue);
 
-                c.WalkPath.InsertNext(
+                return fu.Compose(
                     fu.Http.Header("Last-Modified", lastModified.ToString("R")),
                     step);
             });
@@ -85,11 +82,11 @@ namespace Fu.Steps
 
         public static Step ETag(this ICacheSteps _, Reduce<string> etagReducer, Step step)
         {
-            return fu.Void(c =>
+            return fu.Branch(c =>
             {
-                // always sends the etag regardless wether the validator works or not
                 var etag = etagReducer(c);
 
+                // always sends the etag regardless wether the validator works or not
                 if (!string.IsNullOrEmpty(etag))
                     c.WalkPath.InsertNext(fu.Http.Header("ETag", "\"" + etag + "\""));
 
@@ -110,15 +107,14 @@ namespace Fu.Steps
                     if ((ifNoneMatchHeader == "*" && !string.IsNullOrEmpty(etag)) ||
                         existingETags.Contains(etag))
                     {
-                        c.WalkPath.InsertNext(
+                        return fu.Compose(
                             fu.Http.NotModified(),
                             fu.Walk.Stop());
-                        return;
                     }
                 }
 
                 // if not, proceeds with the normal rendering
-                c.WalkPath.InsertNext(step);
+                return step;
             });
         }
 
