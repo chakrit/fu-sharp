@@ -32,22 +32,31 @@ namespace Fu
         { return fu.Compose(step, fu.Compose(steps)); }
 
 
-        public static Step If(Func<IFuContext, bool> condition, Step step)
-        {
-            if (condition == null) throw new ArgumentNullException("condition");
-            if (step == null) throw new ArgumentNullException("step");
-
-            return c => condition(c) ? step(c) : c;
-        }
+        public static Step If(Func<IFuContext, bool> predicate, Step step)
+        { return If(predicate, step, fu.Identity); }
 
         public static Step If<TContext>
             (Func<TContext, bool> predicate, Step step)
             where TContext : IFuContext
-        {
-            if (predicate == null) throw new ArgumentNullException("condition");
-            if (step == null) throw new ArgumentNullException("step");
+        { return If(predicate, step, fu.Identity); }
 
-            return fu.Step<TContext>(c => predicate(c) ? step(c) : c);
+        public static Step If(Func<IFuContext, bool> predicate, Step trueStep, Step falseStep)
+        {
+            if (predicate == null) throw new ArgumentNullException("predicate");
+            if (trueStep == null) throw new ArgumentNullException("trueStep");
+            if (falseStep == null) throw new ArgumentNullException("falseStep");
+
+            return c => predicate(c) ? trueStep(c) : falseStep(c);
+        }
+
+        public static Step If<TContext>(Func<TContext, bool> predicate, Step trueStep, Step falseStep)
+            where TContext : IFuContext
+        {
+            if (predicate == null) throw new ArgumentNullException("predicate");
+            if (trueStep == null) throw new ArgumentNullException("trueStep");
+            if (falseStep == null) throw new ArgumentNullException("falseStep");
+
+            return fu.Step<TContext>(c => predicate(c) ? trueStep(c) : falseStep(c));
         }
 
 
