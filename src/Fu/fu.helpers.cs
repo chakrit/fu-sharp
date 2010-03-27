@@ -32,6 +32,10 @@ namespace Fu
         { return fu.Compose(step, fu.Compose(steps)); }
 
 
+        public static Step Branch(Reduce<Step> branchStep)
+        { return fu.Void(c => c.WalkPath.InsertNext(branchStep(c))); }
+
+
         public static Step If(Reduce<bool> predicate, Step step)
         { return If(predicate, step, fu.Identity); }
 
