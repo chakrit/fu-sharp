@@ -13,12 +13,12 @@ using Fu.Services.Templating;
 namespace Fu.Results
 {
     // TODO: Make this usable without subclassing
-    public abstract class HamlResult : IResult
+    public abstract class HamlResultBase : IResult
     {
         private ContentType _contentType;
 
 
-        public HamlResult()
+        public HamlResultBase()
         {
             _contentType = new ContentType { MediaType = Mime.TextHtml };
         }
