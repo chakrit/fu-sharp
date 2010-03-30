@@ -15,7 +15,7 @@ namespace RestStyle
         private object _lock;
 
 
-        public NotesController()
+        public override void Initialize()
         {
             _notes = new List<string>();
             _lock = new object();

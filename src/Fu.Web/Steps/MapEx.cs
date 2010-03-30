@@ -10,8 +10,7 @@ namespace Fu.Steps
         public static Step Controller<TController>(this IMapSteps _)
             where TController : IFuController
         {
-            var controller = Activator.CreateInstance<TController>();
-            return buildStep(controller);
+            return buildStep(buildController(typeof(TController)));
         }
 
         public static Step Controller(this IMapSteps _, Type controllerType)
@@ -20,13 +19,15 @@ namespace Fu.Steps
                 throw new ArgumentException(
                     "controllerType must inherits from Fu.Steps.Use.Controller", "controllerType");
 
-            var controller = (IFuController)Activator.CreateInstance(controllerType);
-            return buildStep(controller);
+            return buildStep(buildController(controllerType));
         }
 
         public static Step Controller<TController>(this IMapSteps _, TController controller)
             where TController : IFuController
-        { return buildStep(controller); }
+        {
+            controller.Initialize();
+            return buildStep(controller);
+        }
 
 
         // TODO: What's the right assembly to use if not GetEntryAssembly?
@@ -41,7 +42,7 @@ namespace Fu.Steps
             var controllers = controllersAsm.GetTypes()
                 .Where(t => !(t.IsAbstract || t.IsInterface))
                 .Where(t => controllerType.IsAssignableFrom(t))
-                .Select(t => Activator.CreateInstance(t))
+                .Select(t => buildController(t))
                 .Cast<IFuController>()
                 .ToArray();
 
@@ -51,6 +52,14 @@ namespace Fu.Steps
         public static Step Controllers(this IMapSteps _, params IFuController[] controllers)
         { return buildStep(controllers); }
 
+
+        private static IFuController buildController(Type controllerType)
+        {
+            var controller = (IFuController)Activator.CreateInstance(controllerType);
+            controller.Initialize();
+
+            return controller;
+        }
 
         private static Step buildStep(params IFuController[] controllers)
         {

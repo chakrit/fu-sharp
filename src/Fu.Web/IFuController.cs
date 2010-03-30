@@ -9,5 +9,7 @@ namespace Fu
         IList<Step> PostSteps { get; }
 
         IDictionary<string, Step> Mappings { get; }
+
+        void Initialize();
     }
 }

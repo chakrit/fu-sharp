@@ -4,7 +4,7 @@ using System.Linq;
 
 namespace Fu
 {
-    public class FuController : IFuController
+    public abstract class FuController : IFuController
     {
         public IList<Step> PreSteps { get; protected set; }
         public IList<Step> PostSteps { get; protected set; }
@@ -20,36 +20,15 @@ namespace Fu
         }
 
 
-        // fluent mapping entry point
-        protected HandlerSyntax Handle(params string[] urls)
+        protected void Handle(string urlRegex, params Step[] steps)
+        { Handle(urlRegex, fu.Compose(steps)); }
+
+        protected void Handle(string urlRegex, Step step)
         {
-            return new HandlerSyntax
-            {
-                Parent = this,
-                Urls = urls.ToList()
-            };
+            Mappings.Add(urlRegex, step);
         }
 
 
-        protected class HandlerSyntax
-        {
-            public FuController Parent { get; set; }
-            public IList<string> Urls { get; set; }
-
-
-            // fluent mapping end point
-            public void With(Step step)
-            {
-                foreach (var url in Urls)
-                    Parent.Mappings.Add(url, step);
-            }
-
-            public void With(params Step[] steps)
-            {
-                var step = fu.Compose(steps);
-                foreach (var url in Urls)
-                    Parent.Mappings.Add(url, step);
-            }
-        }
+        public abstract void Initialize();
     }
 }
