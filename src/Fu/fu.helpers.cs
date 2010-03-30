@@ -22,12 +22,6 @@ namespace Fu
             return fu.Void(c => c.WalkPath.InsertNext(steps));
         }
 
-        public static Step Compose(this Step step, params Step[] steps)
-        { return fu.Compose(step, fu.Compose(steps)); }
-
-        public static Step Compose(this Step step, IEnumerable<Step> steps)
-        { return fu.Compose(step, fu.Compose(steps)); }
-
 
         public static Step Branch(Reduce<Step> branchStep)
         {
