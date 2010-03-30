@@ -33,28 +33,6 @@ namespace Fu
         }
 
 
-        public static Step Returns<TIn, TOut>(Returns<TIn, TOut> returnStep)
-            where TIn : IFuContext
-            where TOut : IFuContext
-        {
-            return ctx =>
-            {
-                FuTrace.Step(returnStep);
-                return returnStep(fu.Cast<TIn>(ctx));
-            };
-        }
-
-        public static Step Returns<TOut>(Returns<TOut> returnStep)
-            where TOut : IFuContext
-        {
-            return ctx =>
-            {
-                FuTrace.Step(returnStep);
-                return returnStep(ctx);
-            };
-        }
-
-
         public static Step Void(Void voidStep)
         {
             return ctx =>
