@@ -23,7 +23,7 @@ namespace Fu
         protected void Handle(string urlRegex, params Step[] steps)
         { Handle(urlRegex, fu.Compose(steps)); }
 
-        protected void Handle(string urlRegex, Step step)
+        protected virtual void Handle(string urlRegex, Step step)
         {
             Mappings.Add(urlRegex, step);
         }
