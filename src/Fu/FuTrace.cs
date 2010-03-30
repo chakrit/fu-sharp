@@ -16,7 +16,7 @@ namespace Fu
         }
 
         [Conditional("TRACE")]
-        public static void Step(Step step)
+        public static void Step(Delegate step)
         {
             output(TraceLevel.Verbose, @"  - {0}: {1}",
                 step.Method.Module, step.Method.Name);

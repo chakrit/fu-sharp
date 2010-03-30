@@ -11,29 +11,66 @@ namespace Fu
         public static Step Step<TIn, TOut>(Step<TIn, TOut> step)
             where TIn : IFuContext
             where TOut : IFuContext
-        { return ctx => step(fu.Cast<TIn>(ctx)); }
+        {
+            return ctx =>
+            {
+                FuTrace.Step(step);
+                return step(fu.Cast<TIn>(ctx));
+            };
+        }
 
         public static Step Step<TIn>(Step<TIn> step)
             where TIn : IFuContext
-        { return ctx => step(fu.Cast<TIn>(ctx)); }
+        {
+            return ctx =>
+            {
+                FuTrace.Step(step);
+                return step(fu.Cast<TIn>(ctx));
+            };
+        }
 
 
         public static Step Returns<TIn, TOut>(Returns<TIn, TOut> returnStep)
             where TIn : IFuContext
             where TOut : IFuContext
-        { return ctx => returnStep(fu.Cast<TIn>(ctx)); }
+        {
+            return ctx =>
+            {
+                FuTrace.Step(returnStep);
+                return returnStep(fu.Cast<TIn>(ctx));
+            };
+        }
 
         public static Step Returns<TOut>(Returns<TOut> returnStep)
             where TOut : IFuContext
-        { return ctx => returnStep(ctx); }
+        {
+            return ctx =>
+            {
+                FuTrace.Step(returnStep);
+                return returnStep(ctx);
+            };
+        }
 
 
         public static Step Void(Void voidStep)
-        { return ctx => { voidStep(ctx); return ctx; }; }
+        {
+            return ctx =>
+            {
+                FuTrace.Step(voidStep);
+                voidStep(ctx); return ctx;
+            };
+        }
 
         public static Step Void<TIn>(Void<TIn> voidStep)
             where TIn : IFuContext
-        { return ctx => { voidStep(fu.Cast<TIn>(ctx)); return ctx; }; }
+        {
+            return ctx =>
+            {
+                FuTrace.Step(voidStep);
+                voidStep(fu.Cast<TIn>(ctx));
+                return ctx;
+            };
+        }
 
 
         public static Step Results(ResultStep resultStep)
@@ -41,6 +78,7 @@ namespace Fu
             return ctx =>
             {
                 // TODO: Should this return IResultContext consistently instead of null?
+                FuTrace.Step(resultStep);
                 var result = resultStep(ctx);
                 return result == null ? ctx :
                     new ResultContext(ctx, result);
@@ -52,6 +90,7 @@ namespace Fu
         {
             return ctx =>
             {
+                FuTrace.Step(resultStep);
                 var result = resultStep(fu.Cast<TIn>(ctx));
                 return result == null ? ctx :
                     new ResultContext(ctx, result);
