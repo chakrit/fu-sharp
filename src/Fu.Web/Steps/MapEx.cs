@@ -50,7 +50,10 @@ namespace Fu.Steps
         }
 
         public static Step Controllers(this IMapSteps _, params IFuController[] controllers)
-        { return buildStep(controllers); }
+        {
+            Array.ForEach(controllers, c => c.Initialize());
+            return buildStep(controllers);
+        }
 
 
         private static IFuController buildController(Type controllerType)
