@@ -61,7 +61,6 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>fu.stepsextensions.tt</DependentUpon>
     </Compile>
-    <Compile Include="fu.steps.cs" />
     <Compile Include="IFuContext.cs" />
     <Compile Include="Results\BytesResult.cs" />
     <Compile Include="Results\CompressedResult.cs" />

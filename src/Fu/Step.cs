@@ -20,14 +20,6 @@ namespace Fu
         where TIn : IFuContext;
 
 
-    public delegate TOut Returns<TIn, TOut>(TIn input)
-        where TIn : IFuContext
-        where TOut : IFuContext;
-
-    public delegate TOut Returns<TOut>(IFuContext input)
-        where TOut : IFuContext;
-
-
     public delegate void Void(IFuContext input);
     public delegate void Void<TIn>(TIn input)
         where TIn : IFuContext;

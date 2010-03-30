@@ -22,9 +22,6 @@ namespace Fu
             return fu.Void(c => c.WalkPath.InsertNext(steps));
         }
 
-        public static Step Compose(this Step step, Step nextStep)
-        { return c => nextStep(step(c)); }
-
         public static Step Compose(this Step step, params Step[] steps)
         { return fu.Compose(step, fu.Compose(steps)); }
 
@@ -33,7 +30,16 @@ namespace Fu
 
 
         public static Step Branch(Reduce<Step> branchStep)
-        { return fu.Void(c => c.WalkPath.InsertNext(branchStep(c))); }
+        {
+            return fu.Void(c =>
+            {
+                FuTrace.Step(branchStep);
+                var nextStep = branchStep(c);
+
+                FuTrace.Step(nextStep);
+                c.WalkPath.InsertNext(nextStep);
+            });
+        }
 
 
         public static Step If(Reduce<bool> predicate, Step step)
