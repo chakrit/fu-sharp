@@ -25,12 +25,6 @@ namespace Fu
     where TIn : IFuContext;
 
 
-  // Results framework support
-  public delegate IResult ResultStep(IFuContext input);
-  public delegate IResult ResultStep<TIn>(TIn input)
-    where TIn : IFuContext;
-
-
   // Utility delegates
   public delegate TFilter Filter<TFilter>(IFuContext context, TFilter input);
   public delegate TFilter Filter<TIn, TFilter>(TIn context, TFilter input)

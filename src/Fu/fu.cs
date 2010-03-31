@@ -1,6 +1,7 @@
 ﻿
 using Fu.Contexts;
 using Fu.Exceptions;
+using Fu.Results;
 
 namespace Fu
 {
@@ -55,7 +56,7 @@ namespace Fu
     }
 
 
-    public static Step Results(ResultStep resultStep)
+    public static Step Results(Reduce<IResult> resultStep)
     {
       return ctx =>
       {
@@ -63,11 +64,11 @@ namespace Fu
         FuTrace.Step(resultStep);
         var result = resultStep(ctx);
         return result == null ? ctx :
-            new ResultContext(ctx, result);
+          new ResultContext(ctx, result);
       };
     }
 
-    public static Step Results<TIn>(ResultStep<TIn> resultStep)
+    public static Step Results<TIn>(Reduce<TIn, IResult> resultStep)
       where TIn : IFuContext
     {
       return ctx =>
@@ -75,7 +76,7 @@ namespace Fu
         FuTrace.Step(resultStep);
         var result = resultStep(fu.Cast<TIn>(ctx));
         return result == null ? ctx :
-            new ResultContext(ctx, result);
+          new ResultContext(ctx, result);
       };
     }
 
