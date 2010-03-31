@@ -7,6 +7,7 @@ CD git_sync_temp
 CMD /C git remote add origin git@github.com:chakrit/fu-sharp.git
 
 PAUSE
+CMD /C git pull origin master
 CMD /C git push origin master
 
 CD ..
