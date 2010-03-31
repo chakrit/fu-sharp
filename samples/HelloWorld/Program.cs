@@ -5,12 +5,12 @@ using Fu.Steps;
 
 namespace HelloWorld
 {
-    class Program
+  class Program
+  {
+    static void Main(string[] args)
     {
-        static void Main(string[] args)
-        {
-            var app = new SimpleApp(fu.Static.Text("Hello World!!"));
-            app.Start();
-        }
+      var app = new SimpleApp(fu.Static.Text("Hello World!!"));
+      app.Start();
     }
+  }
 }

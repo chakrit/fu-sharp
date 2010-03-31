@@ -3,10 +3,10 @@ using System.Net.Mime;
 
 namespace Fu.Results
 {
-    public interface IResult
-    {
-        ContentType ContentType { get; }
+  public interface IResult
+  {
+    ContentType ContentType { get; }
 
-        byte[] RenderBytes(IFuContext c);
-    }
+    byte[] RenderBytes(IFuContext c);
+  }
 }

@@ -6,23 +6,23 @@ using Fu.Steps;
 
 namespace FormData
 {
-    class Program
+  class Program
+  {
+    static void Main(string[] args)
     {
-        static void Main(string[] args)
+      var app = new SimpleApp(fu.Map.Urls(
+        new UrlMap("^/$", fu.Static.File("index.html")),
+        new UrlMap("^/save$", c =>
         {
-            var app = new SimpleApp(fu.Map.Urls(
-                new UrlMap("^/$", fu.Static.File("index.html")),
-                new UrlMap("^/save$", c =>
-                {
-                    var forms = c.Get<IFormData>();
-                    var name = forms["name"];
+          var forms = c.Get<IFormData>();
+          var name = forms["name"];
 
-                    return fu.Static.Text("Hello, " + name + "!")(c);
-                })
-            ));
+          return fu.Static.Text("Hello, " + name + "!")(c);
+        })
+      ));
 
-            app.Services.Add(new FormDataParser());
-            app.Start();
-        }
+      app.Services.Add(new FormDataParser());
+      app.Start();
     }
+  }
 }

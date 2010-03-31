@@ -9,39 +9,40 @@ using Fu.Steps;
 
 namespace RestStyle
 {
-    public class NotesController : RestController
+  public class NotesController : RestController
+  {
+    private IList<string> _notes;
+    private object _lock;
+
+
+    public override void Initialize()
     {
-        private IList<string> _notes;
-        private object _lock;
+      _notes = new List<string>();
+      _lock = new object();
 
 
-        public override void Initialize()
-        {
-            _notes = new List<string>();
-            _lock = new object();
+      // homepage
+      Get("^/$", fu.Static.File("index.html"));
+      Get("^/site.js$", fu.Static.File("site.js"));
 
+      // notes API
+      Get("^/notes$", c => JsonResult.From(c, _notes));
 
-            // homepage
-            Get("^/$", fu.Static.File("index.html"));
+      Put("^/notes$", c =>
+      {
+        var note = c.Get<IFormData>()["note"];
 
-            // notes API
-            Get("^/notes$", c => JsonResult.From(c, _notes));
+        _notes.Add(note);
+        return JsonResult.From(c, note);
+      });
 
-            Put("^/notes$", c =>
-            {
-                var note = c.Get<IFormData>()["note"];
+      Delete("^/notes/(.+)$", fu.Step<IUrlMappedContext>(c =>
+      {
+        var note = c.Match.Groups[1].Value;
+        _notes.Remove(note);
 
-                _notes.Add(note);
-                return JsonResult.From(c, note);
-            });
-
-            Delete("^/notes/(.+)$", fu.Step<IUrlMappedContext>(c =>
-            {
-                var note = c.Match.Groups[1].Value;
-                _notes.Remove(note);
-
-                return JsonResult.From(c, new { ok = true });
-            }));
-        }
+        return JsonResult.From(c, new { ok = true });
+      }));
     }
+  }
 }

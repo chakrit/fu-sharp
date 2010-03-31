@@ -6,17 +6,17 @@ using Fu.Services;
 
 namespace Fu
 {
-    public interface IApp : IDisposable
-    {
-        FuSettings Settings { get; }
-        Stats Stats { get; }
+  public interface IApp : IDisposable
+  {
+    FuSettings Settings { get; }
+    Stats Stats { get; }
 
-        IList<Step> Steps { get; }
-        IList<IService> Services { get; }
+    IList<Step> Steps { get; }
+    IList<IService> Services { get; }
 
-        IServer Server { get; }
+    IServer Server { get; }
 
-        void Start();
-        void Stop();
-    }
+    void Start();
+    void Stop();
+  }
 }

@@ -6,13 +6,13 @@ using Fu.Services;
 
 namespace Fu
 {
-    public interface IWalker
-    {
-        FuSettings Settings { get; }
+  public interface IWalker
+  {
+    FuSettings Settings { get; }
 
-        IEnumerable<Step> Steps { get; }
-        IEnumerable<IService> Services { get; }
+    IEnumerable<Step> Steps { get; }
+    IEnumerable<IService> Services { get; }
 
-        void Walk(HttpListenerContext httpContext);
-    }
+    void Walk(HttpListenerContext httpContext);
+  }
 }

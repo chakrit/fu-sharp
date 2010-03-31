@@ -120,7 +120,6 @@
     <Compile Include="WalkPath.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="app.config" />
     <None Include="Exceptions.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>Exceptions.cs</LastGenOutput>

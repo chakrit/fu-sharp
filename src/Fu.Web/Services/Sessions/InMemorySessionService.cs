@@ -1,10 +1,10 @@
 ﻿
 namespace Fu.Services.Sessions
 {
-    public class InMemorySessionService : SessionService
-    {
-        public InMemorySessionService() :
-            base(new SHA1SessionIdProvider(), new DictionarySessionStore())
-        { }
-    }
+  public class InMemorySessionService : SessionService
+  {
+    public InMemorySessionService() :
+      base(new SHA1SessionIdProvider(), new DictionarySessionStore())
+    { }
+  }
 }

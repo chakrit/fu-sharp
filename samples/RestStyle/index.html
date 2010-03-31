@@ -1,74 +1,29 @@
 ﻿<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
 <html>
 <head>
-    <title>Fu - RestStyle sample</title>
+  <title>Fu - RestStyle sample</title>
 
-    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js"></script>
+  <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js"></script>
 
-    <script type="text/javascript">
-        $(function() {
-
-            function createNoteItem(note) {
-                var item = $(document.createElement("li"));
-                var delLink = $(document.createElement("button"));
-
-                delLink.click(function() {
-                    $.ajax({
-                        type: "DELETE",
-                        url: "/notes/" + note,
-                        success: function() { item.remove() }
-                    });
-                });
-
-                delLink.text("del");
-                item.text(note + " - ")
-                    .append(delLink)
-                    .appendTo($("#notes"));
-            }
-
-            // forms only support GET and POST so we'll need to use Ajax calls
-            $("#newNoteForm").submit(function() {
-                $.ajax({
-                    type: "PUT",
-                    url: "/notes",
-                    dataType: "json",
-                    data: { note: $("textarea", this).val() },
-                    success: createNoteItem
-                });
-
-                return false;
-            });
-
-            // load existing list of notes
-            $.ajax({
-                type: "GET",
-                url: "/notes",
-                dataType: "json",
-                success: function(data) {
-                    for (var idx in data) createNoteItem(data[idx]);
-                }
-            });
-
-        });
-    </script>
+  <script src="/site.js"></script>
 
 </head>
 <body>
-    <h1>
-        Fu# - RestStyle sample</h1>
-    <p>
-        Make sure your browser support these methods properly or use a proper REST client.</p>
-    <hr />
-    <h2>
-        Notes</h2>
-    <ul id="notes">
-    </ul>
-    <hr />
-    <h2>
-        New note</h2>
-    <form action="/notes" method="post" id="newNoteForm">
-    <textarea name="note" rows="3"></textarea>
-    <input type="submit" name="submit" value="Save" />
-    </form>
+  <h1>
+    Fu# - RestStyle sample</h1>
+  <p>
+    Make sure your browser support these methods properly or use a proper REST client.</p>
+  <hr />
+  <h2>
+    Notes</h2>
+  <ul id="notes">
+  </ul>
+  <hr />
+  <h2>
+    New note</h2>
+  <form action="/notes" method="post" id="newNoteForm">
+  <textarea name="note" rows="3"></textarea>
+  <input type="submit" name="submit" value="Save" />
+  </form>
 </body>
 </html>
