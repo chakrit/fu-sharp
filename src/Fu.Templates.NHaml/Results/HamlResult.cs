@@ -29,5 +29,8 @@ namespace Fu.Results
     protected override System.Type GetTemplateType(IFuContext context)
     { return typeof(HamlTemplateBase); }
 
+    protected override void OnBeforeRender(NHaml.Template t)
+    { /* no-op */ }
+
   }
 }

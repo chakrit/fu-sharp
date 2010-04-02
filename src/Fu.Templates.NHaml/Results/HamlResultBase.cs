@@ -29,6 +29,9 @@ namespace Fu.Results
     // should return types derived from HamlTemplateBase
     protected abstract Type GetTemplateType(IFuContext context);
 
+    // ran just before rending the template, configure any properties here
+    protected abstract void OnBeforeRender(Template t);
+
 
     // implement IResult interface explicitly so they're not
     // directly accessible from Haml page
@@ -41,6 +44,8 @@ namespace Fu.Results
       var templateNames = GetTemplateNames(c).Reverse();
       var templateType = GetTemplateType(c);
       var template = GetTemplate(c, templateNames, templateType);
+
+      OnBeforeRender(template);
 
       // render the template
       var encoding = Encoding.GetEncoding(c.Settings.Encoding);
