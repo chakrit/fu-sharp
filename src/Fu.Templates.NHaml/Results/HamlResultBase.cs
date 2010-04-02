@@ -30,7 +30,7 @@ namespace Fu.Results
     protected abstract Type GetTemplateType(IFuContext context);
 
     // ran just before rending the template, configure any properties here
-    protected abstract void OnBeforeRender(Template t);
+    protected abstract void OnBeforeRender(IFuContext context, Template template);
 
 
     // implement IResult interface explicitly so they're not
@@ -45,7 +45,7 @@ namespace Fu.Results
       var templateType = GetTemplateType(c);
       var template = GetTemplate(c, templateNames, templateType);
 
-      OnBeforeRender(template);
+      OnBeforeRender(c, template);
 
       // render the template
       var encoding = Encoding.GetEncoding(c.Settings.Encoding);

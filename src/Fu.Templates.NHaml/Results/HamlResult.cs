@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 
+using NHaml;
+
 using Fu.Services.Templating;
 
 namespace Fu.Results
@@ -29,7 +31,7 @@ namespace Fu.Results
     protected override System.Type GetTemplateType(IFuContext context)
     { return typeof(HamlTemplateBase); }
 
-    protected override void OnBeforeRender(NHaml.Template t)
+    protected override void OnBeforeRender(IFuContext context, Template t)
     { /* no-op */ }
 
   }
