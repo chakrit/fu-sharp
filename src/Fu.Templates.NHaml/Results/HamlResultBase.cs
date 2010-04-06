@@ -30,7 +30,8 @@ namespace Fu.Results
     protected abstract Type GetTemplateType(IFuContext context);
 
     // ran just before rending the template, configure any properties here
-    protected abstract void OnBeforeRender(IFuContext context, Template template);
+    protected virtual void OnBeforeRender(IFuContext context, Template template)
+    { /* no-op */ }
 
 
     // implement IResult interface explicitly so they're not
