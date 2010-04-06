@@ -1,4 +1,5 @@
 sync_github.bat
 bin
+obj
 test_bin
 TestResults
