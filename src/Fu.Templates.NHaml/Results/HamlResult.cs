@@ -31,7 +31,7 @@ namespace Fu.Results
     protected override System.Type GetTemplateType(IFuContext context)
     { return typeof(HamlTemplateBase); }
 
-    protected override void OnBeforeRender(IFuContext context, Template t)
+    protected virtual void OnBeforeRender(IFuContext context, Template t)
     { /* no-op */ }
 
   }
