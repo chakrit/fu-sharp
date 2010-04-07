@@ -3,8 +3,6 @@
 <#
 	IDictionary<string, string> desc = new Dictionary<string, string>();
 	
-	desc["SkipStepException"] =
-		"Skip currently processing step and move to next step immediately";
 	desc["StepExecutionException"] =
 		"Error occured while executing a step.";
 	

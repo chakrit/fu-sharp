@@ -11,8 +11,8 @@ namespace Fu
   {
     public App(FuSettings settings,
       IEnumerable<IService> services,
-      FuAction pipeline) :
-      base(settings, services, pipeline) { }
+      params Continuation[] pipeline) :
+      base(settings, services, fu.Compose(pipeline)(fu.EndAct)) { }
 
 
     protected override RequestHandler CreateHandlerCore()

@@ -10,9 +10,9 @@ namespace Fu.Presets
     private IService _sessionService;
 
 
-    public WebApp(params Step[] steps) : this(null, steps) { }
+    public WebApp(params Continuation[] steps) : this(null, steps) { }
 
-    public WebApp(FuSettings settings, params Step[] steps) :
+    public WebApp(FuSettings settings, params Continuation[] steps) :
       base(settings, steps)
     {
       this.Services.Add(_sessionService = new InMemorySessionService());

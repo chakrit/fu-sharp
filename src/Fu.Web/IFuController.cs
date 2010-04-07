@@ -5,10 +5,7 @@ namespace Fu
 {
   public interface IFuController
   {
-    IList<Step> PreSteps { get; }
-    IList<Step> PostSteps { get; }
-
-    IDictionary<string, Step> Mappings { get; }
+    IDictionary<string, Continuation> Mappings { get; }
 
     void Initialize();
   }

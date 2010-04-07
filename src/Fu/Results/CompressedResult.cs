@@ -44,7 +44,7 @@ namespace Fu.Results
 
     public static ResultContext From(IFuContext c, Filter<string> compressFilter)
     {
-      var prev = fu.Cast<IResultContext>(c);
+      var prev = c.As<IResultContext>();
       var result = new CompressedResult(prev.Result, compressFilter);
 
       return new ResultContext(c, result);
@@ -52,7 +52,7 @@ namespace Fu.Results
 
     public static ResultContext From(IFuContext c, Filter<byte[]> compressFilter)
     {
-      var prev = fu.Cast<IResultContext>(c);
+      var prev = c.As<IResultContext>();
       var result = new CompressedResult(prev.Result, compressFilter);
 
       return new ResultContext(c, result);

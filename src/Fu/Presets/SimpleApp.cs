@@ -13,10 +13,10 @@ namespace Fu.Presets
     private TraceListener _listener;
 
 
-    public SimpleApp(params Step[] steps) : this(null, steps) { }
+    public SimpleApp(params Continuation[] pipeline) : this(null, pipeline) { }
 
-    public SimpleApp(FuSettings settings, params Step[] steps) :
-      base(settings, null, steps.Concat(new[] { fu.Result.Render() }).ToArray())
+    public SimpleApp(FuSettings settings, params Continuation[] pipeline) :
+      base(settings, null, fu.Compose(pipeline, fu.Result.Render()))
     {
       _listener = new TextWriterTraceListener(Console.Out);
       EnableConsoleOutput();

@@ -8,6 +8,9 @@ namespace Fu
   // functional-style utilities
   public static partial class fu
   {
+    public static Continuation Compose(Continuation[] src, params Continuation[] conts)
+    { return fu.Compose(fu.Compose(src), fu.Compose(conts)); }
+
     public static Continuation Compose(params Continuation[] conts)
     {
       var reverse = conts.Reverse().ToArray();

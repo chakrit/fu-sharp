@@ -44,7 +44,7 @@ namespace Fu
       var result = this as T;
       if (result == null)
         throw new MismatchedContextTypeException(
-          typeof(this), typeof(T));
+          this.GetType(), typeof(T));
 
       return result;
     }

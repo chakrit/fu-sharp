@@ -177,12 +177,6 @@ namespace Fu
     }
 
 
-    private IFuContext wrapContext(HttpListenerContext c)
-    {
-      return new FuContext(Settings, 
-    }
-
-
     private void ifStats(Action<Stats> statsAction)
     { if (Settings.EnableStats) statsAction(Stats); }
 

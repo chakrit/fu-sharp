@@ -26,7 +26,7 @@ namespace Fu
       services = services ?? new IService[] { };
       settings = settings ?? FuSettings.Default;
 
-      pipeline = pipeline ?? fu.End;
+      pipeline = pipeline ?? fu.EndAct;
 
       this.Services = services.ToList();
       this.Settings = settings;

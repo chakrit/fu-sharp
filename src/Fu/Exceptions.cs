@@ -4,19 +4,6 @@ using System;
 namespace Fu.Exceptions
 {
 	/// <summary>
-	/// Skip currently processing step and move to next step immediately
-	/// </summary>
-	public partial class SkipStepException : Exception
-	{
-		public SkipStepException() :
-			base("Skip currently processing step and move to next step immediately") { }
-		public SkipStepException(string msg) :
-			base(msg) { }
-		public SkipStepException(string msg, Exception innerException) :
-			base(msg, innerException) { }
-	}
-	
-	/// <summary>
 	/// Error occured while executing a step.
 	/// </summary>
 	public partial class StepExecutionException : Exception

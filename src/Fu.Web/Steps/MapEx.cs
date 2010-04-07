@@ -7,13 +7,13 @@ namespace Fu.Steps
 {
   public static partial class MapEx
   {
-    public static Step Controller<TController>(this IMapSteps _)
+    public static Continuation Controller<TController>(this IMapSteps _)
       where TController : IFuController
     {
       return buildStep(buildController(typeof(TController)));
     }
 
-    public static Step Controller(this IMapSteps _, Type controllerType)
+    public static Continuation Controller(this IMapSteps _, Type controllerType)
     {
       if (!typeof(IFuController).IsAssignableFrom(controllerType))
         throw new ArgumentException(
@@ -22,7 +22,7 @@ namespace Fu.Steps
       return buildStep(buildController(controllerType));
     }
 
-    public static Step Controller<TController>(this IMapSteps _, TController controller)
+    public static Continuation Controller<TController>(this IMapSteps _, TController controller)
       where TController : IFuController
     {
       controller.Initialize();
@@ -31,10 +31,10 @@ namespace Fu.Steps
 
 
     // TODO: What's the right assembly to use if not GetEntryAssembly?
-    public static Step Controllers(this IMapSteps _)
+    public static Continuation Controllers(this IMapSteps _)
     { return _.Controllers(Assembly.GetEntryAssembly()); }
 
-    public static Step Controllers(this IMapSteps _, Assembly controllersAsm)
+    public static Continuation Controllers(this IMapSteps _, Assembly controllersAsm)
     {
       var controllerType = typeof(IFuController);
 
@@ -50,7 +50,7 @@ namespace Fu.Steps
       return _.Controllers(controllers);
     }
 
-    public static Step Controllers(this IMapSteps _, params IFuController[] controllers)
+    public static Continuation Controllers(this IMapSteps _, params IFuController[] controllers)
     {
       Array.ForEach(controllers, c => c.Initialize());
       return buildStep(controllers);
@@ -65,27 +65,13 @@ namespace Fu.Steps
       return controller;
     }
 
-    private static Step buildStep(params IFuController[] controllers)
+    private static Continuation buildStep(params IFuController[] controllers)
     {
-      var allMappings = controllers
-        .Select(c => new {
-          // pre-process presteps and poststeps for each controller
-          PreStep = fu.Compose(c.PreSteps),
-          PostStep = fu.Compose(c.PostSteps),
+      var mappings = controllers
+        .SelectMany(c => c.Mappings)
+        .ToDictionary(kv => kv.Key, kv => kv.Value);
 
-          Mappings = c.Mappings
-        })
-        .SelectMany(c => c.Mappings, (c, m) => new {
-          // then append them to each mapped step
-          PreStep = c.PreStep,
-          PostStep = c.PostStep,
-
-          Key = m.Key,
-          Step = fu.Compose(c.PreStep, m.Value, c.PostStep),
-        })
-        .ToDictionary(x => x.Key, x => x.Step);
-
-      return fu.Map.Urls(allMappings);
+      return fu.Map.Urls(mappings);
     }
   }
 }

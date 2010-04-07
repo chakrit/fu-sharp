@@ -15,11 +15,9 @@ namespace Fu.Steps
     public static Continuation Expires(this ICacheSteps _, DateTime date)
     { return _.Expires(c => date); }
 
-    public static Continuation Expires(this ICacheSteps _, Reduce<DateTime> dateFilter)
+    public static Continuation Expires(this ICacheSteps _, Reduce<DateTime> dateReducer)
     {
-      return step =>
-        fu.Http.Header("Expires", ctx => dateReducer(ctx).ToString("R"))
-        (step);
+      return fu.Http.Header("Expires", ctx => dateReducer(ctx).ToString("R"));
     }
 
 

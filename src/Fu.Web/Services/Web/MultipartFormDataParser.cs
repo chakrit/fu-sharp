@@ -11,6 +11,8 @@ namespace Fu.Services.Web
 {
   public class MultipartFormDataParser : IService<IFormData>
   {
+    private readonly FuAction _badRequest = fu.Http.BadRequest()(fu.EndAct);
+
     public bool CanGetServiceObject(IFuContext input)
     {
       // only support PUT/POST/DELETE
@@ -43,7 +45,7 @@ namespace Fu.Services.Web
 
       if (string.IsNullOrEmpty(boundary) ||
         boundary.Length > 70)
-        BadRequest(input);
+        _badRequest;
 
       // parse the data
       var parser = new MultipartParser(
@@ -53,7 +55,7 @@ namespace Fu.Services.Web
 
       // build up a formdata representation
       try { parser.Parse(); }
-      catch (Exception) { /* TODO: Properly absorbs this*/ BadRequest(input); }
+      catch (Exception ex) { /* TODO: Properly absorbs this*/ BadRequest(input, ex); }
 
       // build an IFormData implementation
       var nv = new NameValueCollection();
@@ -64,10 +66,12 @@ namespace Fu.Services.Web
     }
 
 
-    private void BadRequest(IFuContext input)
+    private void BadRequest(IFuContext input, Exception ex)
     {
-      input.WalkPath.InsertNext(fu.Http.BadRequest());
-      throw new SkipStepException();
+      FuTrace.Exception(ex);
+      _badRequest(input);
+
+      throw new BadRequestDataException("Bad request", ex);
     }
   }
 }
