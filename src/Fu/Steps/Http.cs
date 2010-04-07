@@ -5,39 +5,52 @@ namespace Fu.Steps
 {
   public static partial class Http
   {
-    public static Step Status(this IHttpSteps _, HttpStatusCode statusCode)
+    public static Continuation Status(this IHttpSteps _,
+      HttpStatusCode statusCode)
     { return _.Status((int)statusCode); }
 
-    public static Step Status(this IHttpSteps _, HttpStatusCode statusCode, string statusDesc)
+    public static Continuation Status(this IHttpSteps _,
+      HttpStatusCode statusCode, string statusDesc)
     { return _.Status((int)statusCode, statusDesc); }
 
-    public static Step Status(this IHttpSteps _, int statusCode)
+    public static Continuation Status(this IHttpSteps _, int statusCode)
     { return _.Status(statusCode, Statuses[statusCode]); }
 
-    public static Step Status(this IHttpSteps _, int statusCode, string statusDesc)
+    public static Continuation Status(this IHttpSteps _, int statusCode, string statusDesc)
     {
-      return fu.Void(c =>
+      return step => ctx =>
       {
-        c.Response.StatusCode = statusCode;
-        c.Response.StatusDescription = statusDesc;
-      });
+        ctx.Response.StatusCode = statusCode;
+        ctx.Response.StatusDescription = statusDesc;
+
+        step(ctx);
+      };
     }
 
 
-    public static Step Header(this IHttpSteps _, string header, string value)
+    public static Continuation Header(this IHttpSteps _, string header, string value)
     {
-      return fu.Void(c => c.Response.Headers[header] = value);
+      return _.Header(header, (c, s) => value);
     }
 
-    public static Step Header(this IHttpSteps _, string header, Filter<string> valueFilter)
+    public static Continuation Header(this IHttpSteps _,
+      string header, Reduce<string> valueReducer)
     {
-      return fu.Void(c =>
-      {
-        var value = c.Request.Headers[header];
-        value = valueFilter(c, value);
+      return _.Header(header, (ctx, s) => valueReducer(ctx));
+    }
 
-        c.Response.Headers[header] = value;
-      });
+    public static Continuation Header(this IHttpSteps _,
+      string header, Filter<string> valueFilter)
+    {
+      return step => ctx =>
+      {
+        var value = ctx.Request.Headers[header];
+        value = valueFilter(ctx, value);
+
+        ctx.Response.Headers[header] = value;
+
+        step(ctx);
+      };
     }
   }
 }

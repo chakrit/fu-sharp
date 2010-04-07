@@ -9,39 +9,34 @@ namespace Fu.Steps
   // TODO: Still needs tests in the wild to make sure these work properly
   public static class Cache
   {
-    public static Step Expires(this ICacheSteps _, TimeSpan time)
+    public static Continuation Expires(this ICacheSteps _, TimeSpan time)
     { return _.Expires(c => DateTime.Now.Add(time)); }
 
-    public static Step Expires(this ICacheSteps _, DateTime date)
+    public static Continuation Expires(this ICacheSteps _, DateTime date)
     { return _.Expires(c => date); }
 
-    public static Step Expires(this ICacheSteps _, Filter<DateTime> dateFilter)
-    { return _.Expires(c => dateFilter(c, DateTime.Now)); }
-
-    public static Step Expires(this ICacheSteps _, Reduce<DateTime> dateReducer)
-    { return fu.Void(c => c.Request.Headers["Expires"] = dateReducer(c).ToString("R")); }
-
-
-    public static Step LastModified(this ICacheSteps _, DateTime lastModified)
-    { return _.LastModified((c, d) => lastModified, fu.Identity); }
-
-    public static Step LastModified(this ICacheSteps _, Reduce<DateTime> lastModifiedReducer)
-    { return _.LastModified((c, d) => lastModifiedReducer(c), fu.Identity); }
-
-    public static Step LastModified(this ICacheSteps _, Filter<DateTime> lastModifiedFilter)
-    { return _.LastModified(lastModifiedFilter, fu.Identity); }
-
-    public static Step LastModified(this ICacheSteps _, DateTime lastModified, Step step)
-    { return _.LastModified((c, d) => lastModified, step); }
-
-    public static Step LastModified(this ICacheSteps _,
-        Filter<DateTime> lastModifiedFilter, Step step)
+    public static Continuation Expires(this ICacheSteps _, Reduce<DateTime> dateFilter)
     {
-      return fu.Branch(c =>
+      return step =>
+        fu.Http.Header("Expires", ctx => dateReducer(ctx).ToString("R"))
+        (step);
+    }
+
+
+    public static Continuation LastModified(this ICacheSteps _, Reduce<DateTime> lastModifiedReducer)
+    { return _.LastModified((c, d) => lastModifiedReducer(c)); }
+
+    public static Continuation LastModified(this ICacheSteps _, DateTime lastModified)
+    { return _.LastModified((c, d) => lastModified); }
+
+    public static Continuation LastModified(this ICacheSteps _,
+        Filter<DateTime> lastModifiedFilter)
+    {
+      return step => ctx =>
       {
         DateTime lastModified, d;
 
-        var ifModifiedHeader = c.Request.Headers["If-Modified-Since"];
+        var ifModifiedHeader = ctx.Request.Headers["If-Modified-Since"];
 
         // if a valid date has been given as a validator
         if (!string.IsNullOrEmpty(ifModifiedHeader) &&
@@ -49,47 +44,41 @@ namespace Fu.Steps
           DateTimeStyles.RoundtripKind, out d)) {
 
           // run the filter and check the modified date,
-          lastModified = lastModifiedFilter(c, d);
+          lastModified = lastModifiedFilter(ctx, d);
 
           // automatically returning 304 Not Modified if date indicates not modified
           if (roughCompare(lastModified.ToUniversalTime(), d.ToUniversalTime()) <= 0)
-            return fu.Compose(
+            step = fu.Compose(
               fu.Http.Header("Last-Modified", lastModified.ToString("R")),
-              fu.Http.NotModified(),
-              fu.Walk.Stop());
+              fu.Http.NotModified())
+              (fu.EndAct);
+        }
+        else {
+          lastModified = lastModifiedFilter(ctx, DateTime.MinValue);
         }
 
-        // else just proceeds with the content step normally
-        lastModified = lastModifiedFilter(c, DateTime.MinValue);
-
-        return fu.Compose(
-          fu.Http.Header("Last-Modified", lastModified.ToString("R")),
-          step);
-      });
+        fu.Http.Header("Last-Modified", lastModified.ToString("R"))
+          (step)(ctx);
+      };
     }
 
 
-    public static Step ETag(this ICacheSteps _, string etag)
-    { return _.ETag(c => etag, fu.Identity); }
+    public static Continuation ETag(this ICacheSteps _, string etag)
+    { return _.ETag(c => etag); }
 
-    public static Step ETag(this ICacheSteps _, string etag, Step step)
-    { return _.ETag(c => etag, step); }
-
-    public static Step ETag(this ICacheSteps _, Reduce<string> etagReducer)
-    { return _.ETag(etagReducer, fu.Identity); }
-
-    public static Step ETag(this ICacheSteps _, Reduce<string> etagReducer, Step step)
+    public static Continuation ETag(this ICacheSteps _,
+      Reduce<string> etagReducer)
     {
-      return fu.Branch(c =>
+      return step => ctx =>
       {
-        var etag = etagReducer(c);
+        var etag = etagReducer(ctx);
 
         // always sends the etag regardless wether the validator works or not
         if (!string.IsNullOrEmpty(etag))
-          c.WalkPath.InsertNext(fu.Http.Header("ETag", "\"" + etag + "\""));
+          step = fu.Http.Header("ETag", "\"" + etag + "\"")(step);
 
         // if the validator validates, send back a 304 Not Modified
-        var ifNoneMatchHeader = c.Request.Headers["If-None-Match"];
+        var ifNoneMatchHeader = ctx.Request.Headers["If-None-Match"];
 
         if (!string.IsNullOrEmpty(ifNoneMatchHeader)) {
           // note that the Select part is lazy-evaluated
@@ -104,15 +93,12 @@ namespace Fu.Steps
           if ((ifNoneMatchHeader == "*" && !string.IsNullOrEmpty(etag)) ||
             existingETags.Contains(etag)) {
 
-            return fu.Compose(
-                fu.Http.NotModified(),
-                fu.Walk.Stop());
+            step = fu.Http.NotModified()(fu.EndAct);
           }
         }
 
-        // if not, proceeds with the normal rendering
-        return step;
-      });
+        step(ctx);
+      };
     }
 
 

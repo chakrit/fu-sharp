@@ -97,6 +97,7 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Http.statuses.tt</DependentUpon>
     </Compile>
+    <Compile Include="Steps\Map.verbs.cs" />
     <Compile Include="StrComp.cs" />
     <Compile Include="VirtualPath.cs" />
     <Compile Include="Presets\SimpleApp.cs" />
@@ -107,7 +108,6 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Http.errors.tt</DependentUpon>
     </Compile>
-    <Compile Include="Steps\Http.methods.cs" />
     <Compile Include="Steps\Redirect.cs" />
     <Compile Include="Steps\Result.cs" />
     <Compile Include="Steps\Static.cs" />

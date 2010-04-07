@@ -10,7 +10,9 @@ namespace Fu
   public static partial class fu
   {
     public static readonly Continuation Identity = step => ctx => step(ctx);
-    public static readonly FuAction End = c => { };
+
+    public static readonly Continuation End = step => EndAct;
+    public static readonly FuAction EndAct = ctx => { /* no-op */ };
 
 
     public static Step Step<TIn, TOut>(Step<TIn, TOut> step)

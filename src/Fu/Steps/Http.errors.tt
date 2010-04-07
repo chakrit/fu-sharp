@@ -2,51 +2,48 @@
 <#@ Import Namespace="System.Collections.Generic" #>
 <#
 
-    IDictionary<int, string> errors = new Dictionary<int, string>();
+  IDictionary<int, string> errors = new Dictionary<int, string>();
     
 	// taken from http://en.wikipedia.org/wiki/List_of_HTTP_status_codes#4xx_Client_Error
 	// only the most commonly used or those that are required to implement Fu are included
 	errors[400] = "BadRequest";
-    errors[401] = "Unauthorized";
-    errors[403] = "Forbidden";
-    errors[404] = "NotFound";
+  errors[401] = "Unauthorized";
+  errors[403] = "Forbidden";
+  errors[404] = "NotFound";
 	errors[405] = "MethodNotAllowed";
     
-    errors[500] = "ServerError";
-    errors[503] = "ServiceUnavailable";
+  errors[500] = "ServerError";
+  errors[503] = "ServiceUnavailable";
 
 #>
 
 using System.Collections.Generic;
-
-using Fu.Contexts;
-using Fu.Results;
 
 namespace Fu.Steps
 {
 	public static partial class Http
 	{
 		public static IDictionary<int, string> Statuses
+    {
+      get
+      {
+        return new Dictionary<int, string>()
         {
-            get
-            {
-                return new Dictionary<int, string>()
-                {
 <# foreach (int code in errors.Keys) { #>
 					{ <#= code #>, "<#= errors[code] #>" },
 <# } #>
-                };
-            }
-        }
+        };
+      }
+    }
 		
 <# foreach (int code in errors.Keys) { #>
-		public static Step <#= errors[code] #>(this IHttpSteps _)
+		public static Continuation <#= errors[code] #>(this IHttpSteps _)
 		{
 			return fu.Compose(
 				_.Status(<#= code #>, "<#= errors[code] #>"),
-				c => StringResult.From(c, "<#= errors[code] #>"),
+				fu.Static.Text("<#= errors[code] #>"),
 				fu.Result.Render(),
-				fu.Walk.Stop());
+				fu.End);
 		}
 		
 <# } #>

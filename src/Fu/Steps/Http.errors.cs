@@ -1,19 +1,16 @@
 
 using System.Collections.Generic;
 
-using Fu.Contexts;
-using Fu.Results;
-
 namespace Fu.Steps
 {
 	public static partial class Http
 	{
 		public static IDictionary<int, string> Statuses
+    {
+      get
+      {
+        return new Dictionary<int, string>()
         {
-            get
-            {
-                return new Dictionary<int, string>()
-                {
 					{ 400, "BadRequest" },
 					{ 401, "Unauthorized" },
 					{ 403, "Forbidden" },
@@ -21,71 +18,71 @@ namespace Fu.Steps
 					{ 405, "MethodNotAllowed" },
 					{ 500, "ServerError" },
 					{ 503, "ServiceUnavailable" },
-                };
-            }
-        }
+        };
+      }
+    }
 		
-		public static Step BadRequest(this IHttpSteps _)
+		public static Continuation BadRequest(this IHttpSteps _)
 		{
 			return fu.Compose(
 				_.Status(400, "BadRequest"),
-				c => StringResult.From(c, "BadRequest"),
+				fu.Static.Text("BadRequest"),
 				fu.Result.Render(),
-				fu.Walk.Stop());
+				fu.End);
 		}
 		
-		public static Step Unauthorized(this IHttpSteps _)
+		public static Continuation Unauthorized(this IHttpSteps _)
 		{
 			return fu.Compose(
 				_.Status(401, "Unauthorized"),
-				c => StringResult.From(c, "Unauthorized"),
+				fu.Static.Text("Unauthorized"),
 				fu.Result.Render(),
-				fu.Walk.Stop());
+				fu.End);
 		}
 		
-		public static Step Forbidden(this IHttpSteps _)
+		public static Continuation Forbidden(this IHttpSteps _)
 		{
 			return fu.Compose(
 				_.Status(403, "Forbidden"),
-				c => StringResult.From(c, "Forbidden"),
+				fu.Static.Text("Forbidden"),
 				fu.Result.Render(),
-				fu.Walk.Stop());
+				fu.End);
 		}
 		
-		public static Step NotFound(this IHttpSteps _)
+		public static Continuation NotFound(this IHttpSteps _)
 		{
 			return fu.Compose(
 				_.Status(404, "NotFound"),
-				c => StringResult.From(c, "NotFound"),
+				fu.Static.Text("NotFound"),
 				fu.Result.Render(),
-				fu.Walk.Stop());
+				fu.End);
 		}
 		
-		public static Step MethodNotAllowed(this IHttpSteps _)
+		public static Continuation MethodNotAllowed(this IHttpSteps _)
 		{
 			return fu.Compose(
 				_.Status(405, "MethodNotAllowed"),
-				c => StringResult.From(c, "MethodNotAllowed"),
+				fu.Static.Text("MethodNotAllowed"),
 				fu.Result.Render(),
-				fu.Walk.Stop());
+				fu.End);
 		}
 		
-		public static Step ServerError(this IHttpSteps _)
+		public static Continuation ServerError(this IHttpSteps _)
 		{
 			return fu.Compose(
 				_.Status(500, "ServerError"),
-				c => StringResult.From(c, "ServerError"),
+				fu.Static.Text("ServerError"),
 				fu.Result.Render(),
-				fu.Walk.Stop());
+				fu.End);
 		}
 		
-		public static Step ServiceUnavailable(this IHttpSteps _)
+		public static Continuation ServiceUnavailable(this IHttpSteps _)
 		{
 			return fu.Compose(
 				_.Status(503, "ServiceUnavailable"),
-				c => StringResult.From(c, "ServiceUnavailable"),
+				fu.Static.Text("ServiceUnavailable"),
 				fu.Result.Render(),
-				fu.Walk.Stop());
+				fu.End);
 		}
 		
 	}

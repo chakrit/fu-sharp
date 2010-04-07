@@ -13,17 +13,12 @@
 
 #>
 
-using System.Collections.Generic;
-
-using Fu.Contexts;
-using Fu.Results;
-
 namespace Fu.Steps
 {
 	public static partial class Http
 	{
 <# foreach (int code in status.Keys) { #>
-		public static Step <#= status[code] #>(this IHttpSteps _)
+		public static Continuation <#= status[code] #>(this IHttpSteps _)
 		{ return _.Status(<#= code #>, "<#= status[code] #>"); }
 		
 <# } #>
