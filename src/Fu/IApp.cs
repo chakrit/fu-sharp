@@ -11,8 +11,8 @@ namespace Fu
     FuSettings Settings { get; }
     Stats Stats { get; }
 
-    IList<Step> Steps { get; }
     IList<IService> Services { get; }
+    FuAction Pipeline { get; }
 
     IServer Server { get; }
 

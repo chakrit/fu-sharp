@@ -9,7 +9,7 @@ namespace Fu
   // TODO: Add error handling for potential cast failure
   public static partial class fu
   {
-    public static readonly Step Identity = c => c;
+    public static readonly FuAction End = c => { };
 
 
     public static Step Step<TIn, TOut>(Step<TIn, TOut> step)

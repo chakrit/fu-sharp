@@ -19,5 +19,13 @@ namespace Fu.Steps
           c.WalkPath.DeleteNext();
       });
     }
+
+    public static Continuation Stop(this IWalkSteps _)
+    {
+      return action => c =>
+      {
+
+      };
+    }
   }
 }

@@ -11,20 +11,24 @@ namespace Fu
   {
     public App(FuSettings settings,
       IEnumerable<IService> services,
-      IEnumerable<Step> steps) :
-      base(settings ?? FuSettings.Default,
-        services ?? new IService[] { },
-        steps ?? new Step[] { }) { }
+      FuAction pipeline) :
+      base(settings, services, pipeline) { }
 
 
-    protected override IWalker CreateWalkerCore()
+    protected override RequestHandler CreateHandlerCore()
     {
-      return new Walker(Settings, Services, Steps);
+      var broker = new ServiceBroker(Services);
+
+      return c =>
+      {
+        var context = new FuContext(Settings, broker, c);
+        Pipeline(context);
+      };
     }
 
-    protected override IServer CreateServerCore(IWalker walker)
+    protected override IServer CreateServerCore(RequestHandler handler)
     {
-      return new Server(Settings, walker);
+      return new Server(Settings, handler);
     }
   }
 }

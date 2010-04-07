@@ -10,4 +10,8 @@ namespace Fu
   public delegate void FuAction(IFuContext c);
 
   public delegate FuAction Continuation(FuAction action);
+
+  // meta-func stuffs
+  public delegate T Reduce<T>(IFuContext c);
+  public delegate T Filter<T>(IFuContext c, T input);
 }

@@ -15,22 +15,21 @@ namespace Fu
     public FuSettings Settings { get; private set; }
     public Stats Stats { get { return _server.Stats; } }
 
-    public IList<Step> Steps { get; private set; }
     public IList<IService> Services { get; private set; }
+    public FuAction Pipeline { get; private set; }
 
     public IServer Server { get { return _server; } }
 
 
-    public AppBase(FuSettings settings, IEnumerable<IService> services, IEnumerable<Step> steps)
+    public AppBase(FuSettings settings, IEnumerable<IService> services, FuAction pipeline)
     {
-      settings = settings ?? FuSettings.Default;
-      steps = steps ?? new Step[] { };
       services = services ?? new IService[] { };
+      settings = settings ?? FuSettings.Default;
 
-      this.Settings = settings;
+      pipeline = pipeline ?? fu.End;
 
-      this.Steps = steps.ToList();
       this.Services = services.ToList();
+      this.Settings = settings;
     }
 
 
@@ -40,14 +39,14 @@ namespace Fu
       if (string.IsNullOrEmpty(Settings.BasePath))
         Settings.BasePath = Environment.CurrentDirectory;
 
-      var walker = CreateWalkerCore();
-      _server = CreateServerCore(walker);
+      var handler = CreateHandlerCore();
+      _server = CreateServerCore(handler);
 
       _server.Start();
     }
 
-    protected abstract IWalker CreateWalkerCore();
-    protected abstract IServer CreateServerCore(IWalker walker);
+    protected abstract RequestHandler CreateHandlerCore();
+    protected abstract IServer CreateServerCore(RequestHandler handler);
 
 
     public void Stop()

@@ -40,6 +40,14 @@ namespace Fu.Steps
         new CompressedResult(c.Result, compressor));
     }
 
+    public static Continuation Compress(this IResultSteps _,
+      Filter<byte[]> compressor)
+    {
+      return step => ctx =>
+      {
+      };
+    }
+
 
     // NOTE: GZip is OFF by default... it should be opt-in to avoid
     //       unknowingly slowing down many static resources serving
