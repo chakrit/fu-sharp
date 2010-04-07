@@ -112,7 +112,6 @@
     <Compile Include="Steps\Result.cs" />
     <Compile Include="Steps\Static.cs" />
     <Compile Include="Steps\Map.cs" />
-    <Compile Include="UrlMap.cs" />
     <Compile Include="FuTrace.cs" />
     <Compile Include="Util\Counter.cs" />
   </ItemGroup>
