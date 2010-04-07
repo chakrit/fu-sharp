@@ -11,7 +11,12 @@ namespace Fu
     HttpListenerRequest Request { get; }
     HttpListenerResponse Response { get; }
 
+    IServiceBroker Services { get; }
     FuSettings Settings { get; }
+
+
+    // conversion helper
+    T As<T>() where T : class, IFuContext;
 
 
     // gets service object of type T

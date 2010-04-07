@@ -26,14 +26,6 @@ namespace Fu.Results
       Filename = filename;
     }
 
-
-    public override byte[] RenderBytes(IFuContext c)
-    {
-      var filePath = c.ResolvePath(Filename, true);
-      return File.ReadAllBytes(filePath);
-    }
-
-
     public static ResultContext From(IFuContext c, string filename)
     {
       return new ResultContext(c, new FileResult(filename));
@@ -43,5 +35,14 @@ namespace Fu.Results
     {
       return new ResultContext(c, new FileResult(filename, contentType));
     }
+
+
+    public override byte[] RenderBytes(IFuContext c)
+    {
+      var filePath = c.ResolvePath(Filename, true);
+      return File.ReadAllBytes(filePath);
+    }
+
+
   }
 }

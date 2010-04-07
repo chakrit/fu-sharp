@@ -3,6 +3,8 @@ using System;
 using System.Net.Mime;
 using System.Text;
 
+using Fu.Contexts;
+
 namespace Fu.Results
 {
   public class CompressedResult : IResult
@@ -18,7 +20,7 @@ namespace Fu.Results
       protected set { throw new NotSupportedException(); }
     }
 
-    public CompressedResult(IResult input, Filter<string> compressFunc)
+    public CompressedResult(IResult input, Filter<string> compressFilter)
     {
       InnerResult = input;
       _compressor = (c, bytes) =>
@@ -29,15 +31,31 @@ namespace Fu.Results
         // HACK: Fixes many unicode/ansi wonderbugs
         str = str.Trim();
 
-        var result = compressFunc(c, str);
+        var result = compressFilter(c, str);
         return Encoding.UTF8.GetBytes(result);
       };
     }
 
-    public CompressedResult(IResult input, Filter<byte[]> compressFunc)
+    public CompressedResult(IResult input, Filter<byte[]> compressFilter)
     {
       InnerResult = input;
-      _compressor = compressFunc;
+      _compressor = compressFilter;
+    }
+
+    public static ResultContext From(IFuContext c, Filter<string> compressFilter)
+    {
+      var prev = fu.Cast<IResultContext>(c);
+      var result = new CompressedResult(prev.Result, compressFilter);
+
+      return new ResultContext(c, result);
+    }
+
+    public static ResultContext From(IFuContext c, Filter<byte[]> compressFilter)
+    {
+      var prev = fu.Cast<IResultContext>(c);
+      var result = new CompressedResult(prev.Result, compressFilter);
+
+      return new ResultContext(c, result);
     }
 
 

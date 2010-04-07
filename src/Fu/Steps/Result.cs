@@ -1,5 +1,4 @@
 ﻿
-using System;
 using System.IO;
 using System.IO.Compression;
 
@@ -10,53 +9,27 @@ namespace Fu.Steps
 {
   public static partial class Result
   {
-    public static Step Compress(this IResultSteps _,
-        string extension, Filter<string> compressor)
+    public static Continuation Compress(this IResultSteps _,
+      Filter<string> compressFilter)
     {
-      return fu.If<IResultContext>(
-        c => c.Request.Url.AbsolutePath.EndsWith(extension),
-        _.Compress(compressor));
-    }
-
-    public static Step Compress(this IResultSteps _,
-        string extension, Filter<byte[]> compressor)
-    {
-      return fu.If<IResultContext>(
-        c => c.Request.Url.AbsolutePath.EndsWith(extension),
-        _.Compress(compressor));
-    }
-
-    public static Step Compress(this IResultSteps _,
-        Filter<string> compressor)
-    {
-      return fu.Results<IResultContext>(c =>
-        new CompressedResult(c.Result, compressor));
-    }
-
-    public static Step Compress(this IResultSteps _,
-        Filter<byte[]> compressor)
-    {
-      return fu.Results<IResultContext>(c =>
-        new CompressedResult(c.Result, compressor));
+      return step => ctx => step(CompressedResult.From(ctx, compressFilter));
     }
 
     public static Continuation Compress(this IResultSteps _,
-      Filter<byte[]> compressor)
+      Filter<byte[]> compressFilter)
     {
-      return step => ctx =>
-      {
-      };
+      return step => ctx => step(CompressedResult.From(ctx, compressFilter));
     }
 
 
     // NOTE: GZip is OFF by default... it should be opt-in to avoid
     //       unknowingly slowing down many static resources serving
-    public static Step Render(this IResultSteps _)
+    public static Continuation Render(this IResultSteps _)
     { return _.Render(false); }
 
-    public static Step Render(this IResultSteps _, bool allowHttpCompression)
+    public static Continuation Render(this IResultSteps _, bool enableHttpCompression)
     {
-      if (!allowHttpCompression)
+      if (!enableHttpCompression)
         return _.Render(null);
 
       // TODO: Should this logic be as complicated as the true "Accept-Encoding" spec?
@@ -82,45 +55,32 @@ namespace Fu.Steps
       });
     }
 
-    public static Step Render(this IResultSteps _, Filter<Stream> filter)
+    public static Continuation Render(this IResultSteps _, Filter<Stream> filter)
     {
-      // TODO: Concise-sify this
-      if (filter == null)
-        return fu.Void<IResultContext>(c =>
-        {
-          var resp = c.Response;
-          var result = c.Result;
-          var bytes = result.RenderBytes(c);
+      return step => ctx =>
+      {
+        var resp = ctx.Response;
+        var result = ctx.As<IResultContext>().Result;
+        var outStream = ctx.Response.OutputStream;
 
-          resp.ContentType = result.ContentType.ToString();
+        var bytes = result.RenderBytes(ctx);
+
+        if (filter == null)
           resp.ContentLength64 = bytes.LongLength;
+        else
+          outStream = filter(ctx, outStream);
 
-          var bw = new BinaryWriter(resp.OutputStream);
-          bw.Write(bytes);
-          bw.Close();
+        var bw = new BinaryWriter(outStream);
+        bw.Write(bytes);
+        bw.Close();
 
-          resp.OutputStream.Close();
-        });
-      else
-        return fu.Void<IResultContext>(c =>
-        {
-          var resp = c.Response;
-          var result = c.Result;
-          var bytes = result.RenderBytes(c);
+        if (filter != null)
+          outStream.Close();
 
-          resp.ContentType = result.ContentType.ToString();
-          // omits ContentLength64 because a filter could modify the length
+        ctx.Response.OutputStream.Close();
 
-          var outStream = filter(c, resp.OutputStream);
-          var bw = new BinaryWriter(outStream);
-          bw.Write(bytes);
-          bw.Close();
-
-          if (outStream != resp.OutputStream)
-            outStream.Close();
-
-          resp.OutputStream.Close();
-        });
+        step(ctx);
+      };
     }
   }
 }
