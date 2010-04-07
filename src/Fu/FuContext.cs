@@ -11,57 +11,44 @@ namespace Fu
 {
   public class FuContext : IFuContext, IDisposable
   {
+    private IServiceBroker _services;
+
     // TODO: Abstract out HttpListenerRequest
     public HttpListenerRequest Request { get; private set; }
     public HttpListenerResponse Response { get; private set; }
 
     public FuSettings Settings { get; private set; }
 
-    public IEnumerable<IService> Services { get; private set; }
-    public IWalkPath WalkPath { get; private set; }
-
     public FuContext(IFuContext c) :
       this(c.Settings, c.Services, c.Request, c.Response, c.WalkPath) { }
 
     public FuContext(FuSettings settings,
-      IEnumerable<IService> services,
-      HttpListenerContext httpContext,
-      IWalkPath walkPath) :
-      this(settings, services, httpContext.Request, httpContext.Response, walkPath) { }
+      IServiceBroker services,
+      HttpListenerContext httpContext) :
+      this(settings, services, httpContext.Request, httpContext.Response) { }
 
     public FuContext(FuSettings settings,
-      IEnumerable<IService> services,
+      IServiceBroker services,
       HttpListenerRequest request,
-      HttpListenerResponse response,
-      IWalkPath walkPath)
+      HttpListenerResponse response)
     {
       this.Request = request;
       this.Response = response;
 
       this.Settings = settings;
 
-      this.Services = services;
-      this.WalkPath = walkPath;
+      _services = services;
     }
 
 
     public T Get<T>()
     {
-      var service = Services
-        .OfType<IService<T>>()
-        .FirstOrDefault(t => t.CanGetServiceObject(this));
-
-      if (service == null)
-        throw new InvalidServiceTypeException(typeof(T));
-
-      return service.GetServiceObject(this);
+      return _services.Get<T>(this);
     }
 
     public bool CanGet<T>()
     {
-      return Services
-        .OfType<IService<T>>()
-        .Any(t => t.CanGetServiceObject(this));
+      return _services.CanGet<T>(this);
     }
 
 
