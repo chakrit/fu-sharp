@@ -5,39 +5,41 @@ namespace Fu.Steps
 {
   public static class Redirect
   {
-    public static Step To(this IRedirectSteps _, string target)
+    public static Continuation To(this IRedirectSteps _, string target)
     { return _.To((c, s) => target); }
 
-    public static Step To(this IRedirectSteps _, Reduce<string> urlReducer)
+    public static Continuation To(this IRedirectSteps _, Reduce<string> urlReducer)
     { return _.To((c, s) => urlReducer(c)); }
 
-    public static Step To(this IRedirectSteps _, Filter<string> urlFilter)
+    public static Continuation To(this IRedirectSteps _, Filter<string> urlFilter)
     { return redirectStep(fu.Http.Found(), urlFilter); }
 
 
-    public static Step PermanentlyTo(this IRedirectSteps _, string target)
+    public static Continuation PermanentlyTo(this IRedirectSteps _, string target)
     { return _.PermanentlyTo((c, s) => target); }
 
-    public static Step PermanentlyTo(this IRedirectSteps _, Reduce<string> urlReducer)
+    public static Continuation PermanentlyTo(this IRedirectSteps _, Reduce<string> urlReducer)
     { return _.PermanentlyTo((c, s) => urlReducer(c)); }
 
-    public static Step PermanentlyTo(this IRedirectSteps _, Filter<string> urlFilter)
-    { return redirectStep(fu.Http.MovedPermanently(), urlFilter); }
-
-
-    private static Step redirectStep(Step headerStep, Filter<string> urlFilter)
+    public static Continuation PermanentlyTo(this IRedirectSteps _, Filter<string> urlFilter)
     {
-      var stopWalk = fu.Walk.Stop();
+      return redirectStep(fu.Http.MovedPermanently(), urlFilter);
+    }
 
-      return fu.Void(c =>
+
+    private static Continuation redirectStep(Continuation header, Filter<string> urlFilter)
+    {
+      return step => outerCtx =>
       {
-        var targetUrl = urlFilter(c, c.Request.Url.AbsolutePath);
+        header(ctx =>
+        {
+          var targetUrl = urlFilter(ctx, ctx.Request.Url.AbsolutePath);
 
-        c.Response.Redirect(targetUrl);
-        c.WalkPath.InsertNext(
-          headerStep,
-          stopWalk);
-      });
+          ctx.Response.Redirect(targetUrl);
+        });
+
+        // no more steps
+      };
     }
   }
 }

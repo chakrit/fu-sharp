@@ -8,83 +8,28 @@ namespace Fu
   // functional-style utilities
   public static partial class fu
   {
-    public static Step Compose(params Step[] steps)
-    { return fu.Compose((IEnumerable<Step>)steps); }
-
-    public static Step Compose(IEnumerable<Step> steps)
+    public static Continuation Compose(params Continuation[] conts)
     {
-      if (steps == null || steps.Count() == 0)
-        return fu.Identity;
-
-      // TOOD: Benchmark this and see if Aggregate would be better?
-      //       Making .Aggregate(step2(step1)) work with IWalkPath would be hard
-      //       but then it might pays off as faster
-      return fu.Void(c => c.WalkPath.InsertNext(steps));
+      var reverse = conts.Reverse().ToArray();
+      return step => reverse.Aggregate(step, (s, cont) => cont(s));
     }
 
 
-    public static Step Branch(Reduce<Step> branchStep)
+    public static Continuation If(Reduce<bool> predicate, Continuation trueStep)
     {
-      return fu.Void(c =>
+      return fu.If(predicate, trueStep, fu.Identity);
+    }
+
+    public static Continuation If(Reduce<bool> predicate,
+      Continuation trueCont, Continuation falseCont)
+    {
+      return step => ctx =>
       {
-        FuTrace.Step(branchStep);
-        var nextStep = branchStep(c);
-
-        FuTrace.Step(nextStep);
-        c.WalkPath.InsertNext(nextStep);
-      });
+        if (predicate(ctx))
+          trueCont(step)(ctx);
+        else
+          falseCont(step)(ctx);
+      };
     }
-
-
-    public static Step If(Reduce<bool> predicate, Step step)
-    { return fu.If(predicate, step, fu.Identity); }
-
-    public static Step If<TContext>(Reduce<bool> predicate, Step step)
-      where TContext : IFuContext
-    { return fu.If(predicate, step, fu.Identity); }
-
-    public static Step If(Reduce<bool> predicate, Step trueStep, Step falseStep)
-    {
-      if (predicate == null)
-        throw new ArgumentNullException("predicate");
-      if (trueStep == null)
-        throw new ArgumentNullException("trueStep");
-      if (falseStep == null)
-        throw new ArgumentNullException("falseStep");
-
-      return fu.Branch(c => predicate(c) ? trueStep : falseStep);
-    }
-
-    public static Step If<TContext>(Reduce<bool> predicate, Step trueStep, Step falseStep)
-      where TContext : IFuContext
-    {
-      if (predicate == null)
-        throw new ArgumentNullException("predicate");
-      if (trueStep == null)
-        throw new ArgumentNullException("trueStep");
-      if (falseStep == null)
-        throw new ArgumentNullException("falseStep");
-
-      return fu.Branch(c => predicate(c) ? trueStep : falseStep);
-    }
-
-
-    // TODO: is this called "Bind"? I think it's something different
-    //       but I can't find what its' called... maybe "partial eval" ?
-    public static Func<TArg2, Step> BindL<TArg1, TArg2>
-      (TArg1 value, Func<TArg1, TArg2, Step> stepFunc)
-    {
-      return arg2 => stepFunc(value, arg2);
-    }
-
-    public static Func<TArg1, Step> BindR<TArg1, TArg2>
-      (TArg2 value, Func<TArg1, TArg2, Step> stepFunc)
-    {
-      return arg1 => stepFunc(arg1, value);
-    }
-
-
-    // would curry-l curry-r be useful?
-
   }
 }

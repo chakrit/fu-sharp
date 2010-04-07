@@ -9,6 +9,7 @@ namespace Fu
   // TODO: Add error handling for potential cast failure
   public static partial class fu
   {
+    public static readonly Continuation Identity = step => ctx => step(ctx);
     public static readonly FuAction End = c => { };
 
 

@@ -6,10 +6,10 @@ namespace Fu
   public class UrlMap
   {
     public Regex Pattern { get; private set; }
-    public Step Step { get; private set; }
+    public Continuation Continuation { get; private set; }
 
-    public UrlMap(string pattern, Step step) :
-      this(new Regex(pattern, StrComp.FastRx), step) { }
+    public UrlMap(string pattern, Continuation cont) :
+      this(new Regex(pattern, StrComp.FastRx), cont) { }
 
     public UrlMap(string pattern, params Step[] steps) :
       this(new Regex(pattern, StrComp.FastRx), fu.Compose(steps)) { }
