@@ -7,53 +7,84 @@ namespace Fu.Steps
 {
   public static partial class Static
   {
-    public static Step Text(this IStaticSteps _, string text)
-    { return ctx => StringResult.From(ctx, text); }
+    public static Continuation Text(this IStaticSteps _, string text)
+    {
+      return _.Text(c => text);
+    }
+
+    public static Continuation Text(this IStaticSteps _, Reduce<string> textReducer)
+    {
+      return step => ctx => step(StringResult.From(ctx, textReducer(ctx)));
+    }
 
     // TODO: Convert this to *not* use overloads to allow better
     //       composition
     // TODO: Add automatic caching, pre-execute the result
     //       or maybe wraps it in a memorizing step
-    public static Step File(this IStaticSteps _, string filename)
-    { return _.File(Mime.FromFilename(filename), filename); }
-
-    public static Step File(this IStaticSteps _, string contentType, string filename)
-    { return fu.Results(c => new FileResult(filename) { MediaType = contentType }); }
-
-
-    // TODO: Remove the automatic wrapping of "/" to urlPrefixes
-    //       Maybe implements a proper appPath/virtualpath mapping system?
-    public static Step Folder(this IStaticSteps _, string folder)
-    { return _.Folder(string.IsNullOrEmpty(folder) ? "/" : "/" + folder + "/", folder, null); }
-
-    public static Step Folder(this IStaticSteps _, string folder, Step step404)
-    { return _.Folder(string.IsNullOrEmpty(folder) ? "/" : "/" + folder + "/", folder, step404); }
-
-    public static Step Folder(this IStaticSteps _, string urlPrefix, string folder)
-    { return _.Folder(urlPrefix, folder, null); }
-
-    public static Step Folder(this IStaticSteps _,
-        string urlPrefix, string folder, Step step404)
+    public static Continuation File(this IStaticSteps _, string filename)
     {
-      step404 = step404 ?? fu.Http.NotFound();
+      var mime = Mime.FromFilename(filename);
 
-      // TODO: Detect Urls-mapped context and if it is,
-      //       use that as the basis for appPath instead.
-      return c =>
+      return _.File(c => filename, (c, s) => mime);
+    }
+
+    public static Continuation File(this IStaticSteps _,
+      Reduce<string> filenameReducer)
+    {
+      return _.File(filenameReducer, (c, filename) => Mime.FromFilename(filename));
+    }
+
+    public static Continuation File(this IStaticSteps _,
+      Reduce<string> filenameReducer, string contentType)
+    {
+      return _.File(filenameReducer, (c, filename) => Mime.FromFilename(filename));
+    }
+
+    public static Continuation File(this IStaticSteps _,
+      Reduce<string> filenameReducer, Filter<string> contentTypeFilter)
+    {
+      return step => ctx =>
       {
-        var rawUrl = c.Request.Url.AbsolutePath;
-        var folderPath = c.ResolvePath(folder);
+        var filename = filenameReducer(ctx);
+        var contentType = contentTypeFilter(ctx, filename);
 
-        if (!rawUrl.StartsWith(urlPrefix))
-          return step404(c);
+        step(FileResult.From(ctx, filename, contentType));
+      };
+    }
+
+
+    public static Continuation Folder(this IStaticSteps _,
+      string urlPrefix, string folder)
+    {
+      return _.Folder(folder, urlPrefix, null);
+    }
+
+    public static Continuation Folder(this IStaticSteps _,
+      string urlPrefix, string folder, Continuation on404)
+    {
+      on404 = on404 ?? fu.Http.NotFound();
+
+      string folderPath = null;
+
+      return step => ctx =>
+      {
+        var rawUrl = ctx.Request.Url.AbsolutePath;
+        folderPath = folderPath ?? ctx.ResolvePath(folder);
+
+        if (!rawUrl.StartsWith(urlPrefix)) {
+          on404(step)(ctx);
+          return;
+        }
 
         var url = rawUrl.Substring(urlPrefix.Length);
         var filePath = Path.Combine(folderPath, url);
 
-        if (!System.IO.File.Exists(filePath))
-          return step404(c);
+        if (!System.IO.File.Exists(filePath)) {
+          on404(step)(ctx);
+          return;
+        }
 
-        return FileResult.From(c, filePath);
+        step(FileResult.From(ctx, filePath));
       };
     }
   }
