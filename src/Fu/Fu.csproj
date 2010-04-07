@@ -85,8 +85,6 @@
     </Compile>
     <Compile Include="IApp.cs" />
     <Compile Include="IServer.cs" />
-    <Compile Include="IWalker.cs" />
-    <Compile Include="IWalkPath.cs" />
     <Compile Include="Server.cs" />
     <Compile Include="Services\IService.cs" />
     <Compile Include="Services\ObjectProvider.cs" />
@@ -100,7 +98,6 @@
     <Compile Include="VirtualPath.cs" />
     <Compile Include="Presets\SimpleApp.cs" />
     <Compile Include="Stats.cs" />
-    <Compile Include="Step.cs" />
     <Compile Include="Steps\Http.cs" />
     <Compile Include="Steps\Http.errors.cs">
       <AutoGen>True</AutoGen>
@@ -116,8 +113,6 @@
     <Compile Include="FuTrace.cs" />
     <Compile Include="Steps\Walks.cs" />
     <Compile Include="Util\Counter.cs" />
-    <Compile Include="Walker.cs" />
-    <Compile Include="WalkPath.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Exceptions.tt">
