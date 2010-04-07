@@ -55,6 +55,7 @@
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>fu.stepsextensions.cs</LastGenOutput>
     </None>
+    <Compile Include="Delegates.cs" />
     <Compile Include="Properties\ExtraAsmInfo.cs" />
     <Compile Include="fu.stepsextensions.cs">
       <AutoGen>True</AutoGen>
@@ -87,7 +88,9 @@
     <Compile Include="IServer.cs" />
     <Compile Include="Server.cs" />
     <Compile Include="Services\IService.cs" />
+    <Compile Include="Services\IServiceBroker.cs" />
     <Compile Include="Services\ObjectProvider.cs" />
+    <Compile Include="Services\ServiceBroker.cs" />
     <Compile Include="Steps\Cache.cs" />
     <Compile Include="Steps\Http.statuses.cs">
       <AutoGen>True</AutoGen>
