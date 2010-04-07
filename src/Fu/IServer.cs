@@ -1,6 +1,8 @@
 ﻿
 using System;
 
+using Fu.Services;
+
 namespace Fu
 {
   public interface IServer : IDisposable
@@ -9,7 +11,7 @@ namespace Fu
     Stats Stats { get; }
     string Url { get; }
 
-    IWalker Walker { get; }
+    RequestHandler Handler { get; }
     bool IsServing { get; }
 
     void Start();

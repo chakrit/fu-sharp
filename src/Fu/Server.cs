@@ -24,13 +24,13 @@ namespace Fu
     public Stats Stats { get; private set; }
     public string Url { get; private set; }
 
-    public IWalker Walker { get; private set; }
+    public RequestHandler Handler { get; private set; }
     public bool IsServing { get; private set; }
 
-    public Server(FuSettings settings, IWalker walker)
+    public Server(FuSettings settings, RequestHandler handler)
     {
       this.Settings = settings;
-      this.Walker = walker;
+      this.Handler = handler;
 
       Url = "http://" + Settings.Host +
         ":" + Settings.Port.ToString() + "/";
@@ -159,7 +159,7 @@ namespace Fu
       _processorCounter.Increment();
 
       try {
-        Walker.Walk(context);
+        Handler(context);
         ifStats(s => s.IncrementResponse());
       }
       catch (Exception ex) {
@@ -174,6 +174,12 @@ namespace Fu
         try { context.Response.Close(); }
         catch { }
       }
+    }
+
+
+    private IFuContext wrapContext(HttpListenerContext c)
+    {
+      return new FuContext(Settings, 
     }
 
 
