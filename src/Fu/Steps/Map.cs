@@ -12,6 +12,38 @@ namespace Fu.Steps
 {
   public static partial class Map
   {
+    public static Continuation Url(this IMapSteps _, string pattern)
+    { return _.Url(pattern, null); }
+
+    public static Continuation Url(this IMapSteps _, string pattern,
+      Continuation on404)
+    {
+      on404 = on404 ?? fu.Http.NotFound();
+
+      return step => ctx =>
+      {
+        var match = Regex.Match(ctx.Request.Url.AbsolutePath, pattern);
+
+        (match.Success ? step : on404(step))
+          (new UrlMappedContext(ctx, match));
+      };
+    }
+
+    public static Continuation Url(this IMapSteps _, string pattern,
+      Continuation urlStep, Continuation on404)
+    {
+      on404 = on404 ?? fu.Http.NotFound();
+
+      return step => ctx =>
+      {
+        var match = Regex.Match(ctx.Request.Url.AbsolutePath, pattern);
+
+        (match.Success ? urlStep : on404)(step)
+          (new UrlMappedContext(ctx, match));
+      };
+    }
+
+
     public static Continuation Urls(this IMapSteps _,
       ContDict mappings)
     {

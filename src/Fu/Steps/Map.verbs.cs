@@ -10,7 +10,8 @@ namespace Fu.Steps
 
     // TODO: What happens with lowercase HTTP methods?
     //       What would be the proper behavior in such cases?
-    public static Continuation Method(this IMapSteps _, string method, Continuation on405)
+    public static Continuation Method(this IMapSteps _, string method,
+      Continuation on405)
     {
       on405 = on405 ?? fu.Http.MethodNotAllowed();
       method = method.ToUpper();

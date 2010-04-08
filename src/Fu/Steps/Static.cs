@@ -56,7 +56,7 @@ namespace Fu.Steps
     public static Continuation Folder(this IStaticSteps _,
       string urlPrefix, string folder)
     {
-      return _.Folder(folder, urlPrefix, null);
+      return _.Folder(urlPrefix, folder, null);
     }
 
     public static Continuation Folder(this IStaticSteps _,
