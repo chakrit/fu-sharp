@@ -9,23 +9,26 @@ namespace WildcardSubdomains
   {
     static void Main(string[] args)
     {
-      var app = new App(null, null, new Step[] { EchoSubdomain });
+      var app = new App(null, null, echoSubDomain());
 
       // accept all port 80 connection, regardless of domain
       app.Settings.Host = "*";
       app.Start();
     }
 
-    static IFuContext EchoSubdomain(IFuContext c)
+    private static Continuation echoSubDomain()
     {
-      var msg = c.Request.Headers["host"];
-      msg = "You are browsing from: " + msg;
+      return step => ctx =>
+      {
+        var msg = ctx.Request.Headers["host"];
+        msg = "You are browsing from: " + msg;
 
-      var sw = new StreamWriter(c.Response.OutputStream);
-      sw.Write(msg);
-      sw.Flush();
+        var sw = new StreamWriter(ctx.Response.OutputStream);
+        sw.Write(msg);
+        sw.Flush();
 
-      return c;
+        step(ctx);
+      };
     }
   }
 }
