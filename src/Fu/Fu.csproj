@@ -55,6 +55,7 @@
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>fu.stepsextensions.cs</LastGenOutput>
     </None>
+    <Compile Include="ContMap.cs" />
     <Compile Include="Delegates.cs" />
     <Compile Include="Properties\ExtraAsmInfo.cs" />
     <Compile Include="fu.stepsextensions.cs">

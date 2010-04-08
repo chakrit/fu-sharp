@@ -46,6 +46,21 @@ namespace Fu.Services.Web
 
     public MultipartParser(Stream input, Encoding encoding, byte[] boundary)
     {
+
+#if DEBUG
+      var dump = new FileStream(@"C:\temp\req.txt", FileMode.Create);
+      var buffer = new byte[4096];
+      var bytesRead = 0;
+
+      while ((bytesRead = input.Read(buffer, 0, 4096)) > 0)
+        dump.Write(buffer, 0, bytesRead);
+
+      dump.Flush();
+      dump.Close();
+
+      input = new MemoryStream(File.ReadAllBytes(@"C:\temp\req.txt"));
+#endif
+
       _input = input;
       _encoding = encoding;
       _boundary = boundary;
