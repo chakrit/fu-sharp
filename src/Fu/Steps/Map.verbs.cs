@@ -19,6 +19,16 @@ namespace Fu.Steps
         (ctx.Request.HttpMethod == method ? step : on405(step))(ctx);
     }
 
+    public static Continuation Method(this IMapSteps _, string method,
+      Continuation onMethod, Continuation on405)
+    {
+      on405 = on405 ?? fu.Http.MethodNotAllowed();
+      method = method.ToUpper();
+
+      return step => ctx =>
+        (ctx.Request.HttpMethod == method ? onMethod : on405)(step)(ctx);
+    }
+
 
     // TOOD: Move this to another file
     #region GET POST PUT DELETE overloads
@@ -31,7 +41,7 @@ namespace Fu.Steps
 
     public static Continuation Get(this IMapSteps _,
       Continuation get, Continuation on405)
-    { return _.Get(on405).Then(get); }
+    { return _.Method("GET", get, on405); }
 
     public static Continuation Post(this IMapSteps _)
     { return _.Post(null); }
@@ -41,7 +51,7 @@ namespace Fu.Steps
 
     public static Continuation Post(this IMapSteps _,
       Continuation post, Continuation on405)
-    { return _.Post(on405).Then(post); }
+    { return _.Method("POST", post, on405); }
 
     public static Continuation Put(this IMapSteps _)
     { return _.Put(null); }
@@ -51,7 +61,7 @@ namespace Fu.Steps
 
     public static Continuation Put(this IMapSteps _,
       Continuation put, Continuation on405)
-    { return _.Put(on405).Then(put); }
+    { return _.Method("PUT", put, on405); }
 
     public static Continuation Delete(this IMapSteps _)
     { return _.Delete(null); }
@@ -61,7 +71,7 @@ namespace Fu.Steps
 
     public static Continuation Delete(this IMapSteps _,
       Continuation delete, Continuation on405)
-    { return _.Delete(on405).Then(delete); }
+    { return _.Method("DELETE", delete, on405); }
 
     #endregion
 
@@ -73,8 +83,8 @@ namespace Fu.Steps
     public static Continuation GetPost(this IMapSteps _,
       Continuation get, Continuation post, Continuation on405)
     {
-      var orPost = _.Post(on405).Then(post);
-      return _.Get(orPost).Then(get);
+      var orPost = _.Post(post, on405);
+      return _.Get(get, orPost);
     }
 
 
@@ -86,10 +96,10 @@ namespace Fu.Steps
       Continuation get, Continuation put, Continuation post, Continuation delete,
       Continuation on405)
     {
-      var orDelete = _.Delete(on405).Then(delete);
-      var orPut = _.Put(orDelete).Then(put);
-      var orPost = _.Post(orPut).Then(put);
-      return _.Get(orPost).Then(get);
+      var orDelete = _.Delete(delete, on405);
+      var orPut = _.Put(put, orDelete);
+      var orPost = _.Post(post, orPut);
+      return _.Get(get, orPost);
     }
   }
 }
