@@ -37,7 +37,7 @@
     url: "/notes",
     dataType: "json",
     success: function(data) {
-      for (var idx in data) createNoteItem(data[idx]);
+      $.map(data, createNoteItem);
     }
   });
 
