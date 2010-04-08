@@ -65,6 +65,9 @@ namespace Fu.Steps
 
         var bytes = result.RenderBytes(ctx);
 
+        if (!string.IsNullOrEmpty(result.ContentType.MediaType))
+          resp.ContentType = result.ContentType.MediaType;
+
         if (filter == null)
           resp.ContentLength64 = bytes.LongLength;
         else
