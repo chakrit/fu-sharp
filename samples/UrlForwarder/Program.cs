@@ -22,45 +22,50 @@ namespace UrlForwarder
 
     public static void Main(string[] args)
     {
-      var app = new App(null, null, new Step[] { forwardRequest });
+      var app = new App(null, null, forwardRequest());
       app.Start();
     }
 
 
-    private static IFuContext forwardRequest(IFuContext c)
+    private static Continuation forwardRequest()
     {
-      _client = _client ?? new WebClient();
-      _mappings = _mappings ?? buildMappings(c);
+      var on404 = fu.Http.NotFound();
 
-      var path = c.Request.Url.AbsolutePath;
+      return step => ctx =>
+      {
+        _client = _client ?? new WebClient();
+        _mappings = _mappings ?? buildMappings(ctx);
 
-      if (_mappings.ContainsKey(path)) {
-        // real-world use will, of course, be more complicated than this
-        var result = _client.DownloadString(_mappings[path]);
+        var path = ctx.Request.Url.AbsolutePath;
 
-        c.Response.ContentType = "text/html";
+        if (_mappings.ContainsKey(path)) {
+          // real-world use will, of course, be more complicated than this
+          var result = _client.DownloadString(_mappings[path]);
 
-        // could be replaced with Fu's mini results framework for better simplicity
-        var sw = new StreamWriter(c.Response.OutputStream);
-        sw.Write(result);
-        sw.Flush();
-        sw.Close();
+          ctx.Response.ContentType = "text/html";
 
-        c.Response.Close();
-      }
-      else
-        // sets the status to 404 NotFound and stop processing
-        c.WalkPath.InsertNext(fu.Http.NotFound());
+          // could be replaced with Fu's mini results framework for better simplicity
+          var sw = new StreamWriter(ctx.Response.OutputStream);
+          sw.Write(result);
+          sw.Flush();
+          sw.Close();
 
-      return c;
+          ctx.Response.Close();
+          step(ctx);
+        }
+        else
+          // sets the status to 404 NotFound and stop processing
+          on404(step)(ctx);
+      };
     }
 
-    static IDictionary<string, string> buildMappings(IFuContext c)
+
+    private static IDictionary<string, string> buildMappings(IFuContext c)
     {
       return File
         .ReadAllLines(c.ResolvePath("~/UrlMap.txt"))
         .Select(line => line.Trim())
-        .Where(line => !line.StartsWith("#"))
+        .Where(line => !line.StartsWith("#")) // ignore comments
         .Select(line => line.Split(' '))
         .ToDictionary(arr => arr[0], arr => arr[1]);
     }
