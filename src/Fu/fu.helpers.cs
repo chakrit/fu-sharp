@@ -34,5 +34,10 @@ namespace Fu
           falseCont(step)(ctx);
       };
     }
+
+    public static Continuation Then(this Continuation cont, Continuation then)
+    {
+      return step => ctx => cont(then(step))(ctx);
+    }
   }
 }

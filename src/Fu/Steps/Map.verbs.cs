@@ -29,11 +29,19 @@ namespace Fu.Steps
     public static Continuation Get(this IMapSteps _, Continuation on405)
     { return _.Method("GET", null); }
 
+    public static Continuation Get(this IMapSteps _,
+      Continuation get, Continuation on405)
+    { return _.Get(on405).Then(get); }
+
     public static Continuation Post(this IMapSteps _)
     { return _.Post(null); }
 
     public static Continuation Post(this IMapSteps _, Continuation on405)
     { return _.Method("POST", on405); }
+
+    public static Continuation Post(this IMapSteps _,
+      Continuation post, Continuation on405)
+    { return _.Post(on405).Then(post); }
 
     public static Continuation Put(this IMapSteps _)
     { return _.Put(null); }
@@ -41,11 +49,19 @@ namespace Fu.Steps
     public static Continuation Put(this IMapSteps _, Continuation on405)
     { return _.Method("PUT", on405); }
 
+    public static Continuation Put(this IMapSteps _,
+      Continuation put, Continuation on405)
+    { return _.Put(on405).Then(put); }
+
     public static Continuation Delete(this IMapSteps _)
     { return _.Delete(null); }
 
     public static Continuation Delete(this IMapSteps _, Continuation on405)
     { return _.Method("DELETE", on405); }
+
+    public static Continuation Delete(this IMapSteps _,
+      Continuation delete, Continuation on405)
+    { return _.Delete(on405).Then(delete); }
 
     #endregion
 
@@ -57,7 +73,8 @@ namespace Fu.Steps
     public static Continuation GetPost(this IMapSteps _,
       Continuation get, Continuation post, Continuation on405)
     {
-      return _.Get(_.Put(on405));
+      var orPost = _.Post(on405).Then(post);
+      return _.Get(orPost).Then(get);
     }
 
 
@@ -69,7 +86,10 @@ namespace Fu.Steps
       Continuation get, Continuation put, Continuation post, Continuation delete,
       Continuation on405)
     {
-      return _.Get(_.Post(_.Put(_.Delete(on405))));
+      var orDelete = _.Delete(on405).Then(delete);
+      var orPut = _.Put(orDelete).Then(put);
+      var orPost = _.Post(orPut).Then(put);
+      return _.Get(orPost).Then(get);
     }
   }
 }
