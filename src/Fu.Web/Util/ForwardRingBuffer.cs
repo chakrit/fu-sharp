@@ -111,7 +111,7 @@ namespace Fu.Util
         Buffer.BlockCopy(
             _backBuffer, _backBuffer.Length - backCount,
             buffer, targetOffset,
-            count);
+            backCount);
 
         ringOffset = _offset;
         targetOffset += backCount;
