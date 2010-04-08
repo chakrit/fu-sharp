@@ -11,22 +11,27 @@ namespace ModelBinder
   {
     static void Main(string[] args)
     {
-      var app = new SimpleApp(fu.Map.Urls(
-        new UrlMap("^/$", fu.Static.File("index.html")),
-        new UrlMap("^/greet$", fu.Http.Post(c =>
-        {
-          var model = c.Get<MyModel>();
-          var greets = string.Format(
-            "Hello, {0}! You're {1} years old!",
-            model.Name, model.Age);
-
-          c.WalkPath.InsertNext(fu.Static.Text(greets));
-          return c;
-        }))));
+      var app = new SimpleApp(fu.Map.Urls(new ContMap() {
+        { "^/$", fu.Static.File("index.html") },
+        { "^/greet$", fu.Map.Post().Then(showGreet()) },
+      }));
 
       app.Services.Add(new ModelBinder<MyModel>());
       app.Services.Add(new FormDataParser());
       app.Start();
+    }
+
+    private static Continuation showGreet()
+    {
+      return step => ctx =>
+      {
+        var model = ctx.Get<MyModel>();
+        var greets = string.Format(
+          "Hello, {0}! You're {1} years old!",
+          model.Name, model.Age);
+
+        fu.Static.Text(greets)(step)(ctx);
+      };
     }
   }
 }
