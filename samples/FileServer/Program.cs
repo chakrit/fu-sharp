@@ -13,33 +13,55 @@ namespace FileServer
   {
     static void Main(string[] args)
     {
-      var step = fu.Map.DefaultDoc(listFiles, fu.Static.Folder("/", "Content"));
+      var pipeline = fu.If(isFolder, listFiles(),
+        fu.Static.Folder("/", "Content"));
 
-      var app = new SimpleApp(step);
+      var app = new SimpleApp(pipeline);
       app.Start();
     }
 
-    static IFuContext listFiles(IFuContext c)
-    {
-      var folder = c.ResolvePath("Content");
-      var files = Directory
-        .GetFiles(folder, "*.*", SearchOption.AllDirectories)
-        .Select(f => f.Substring(folder.Length))
-        .Select(f => string.Format("<li><a href=\"{0}\">{0}</a></li>", f))
-        .ToArray();
 
-      var template = @"
+    private static bool isFolder(IFuContext c)
+    {
+      return c.Request.Url.AbsolutePath.EndsWith("/");
+    }
+
+
+    private static Continuation listFiles()
+    {
+      var on404 = fu.Http.NotFound();
+
+      return step => ctx =>
+      {
+        var relPath = ctx.Request.Url.AbsolutePath.Substring(1);
+        var folder = ctx.ResolvePath(Path.Combine("Content", relPath));
+
+        if (!Directory.Exists(folder)) {
+          on404(step)(ctx);
+          return;
+        }
+
+        var files = Directory
+          .GetFiles(folder, "*.*", SearchOption.AllDirectories)
+          .Select(f => f.Substring(folder.Length))
+          .Select(f => string.Format("<li><a href=\"{0}\">{0}</a></li>", f))
+          .ToArray();
+
+        var template = @"
         <html>
           <head><title>Files on this server</title></head>
-          <body><h1>Files</h1><ul>{0}</ul></body>
+          <body><h1>Files - /{0}</h1><ul>{1}</ul></body>
         </html>";
 
-      var html = string.Format(template, string.Join("", files));
+        var html = string.Format(template,
+          relPath,
+          string.Join("", files));
 
-      var result = StringResult.From(c, html);
-      result.Result.ContentType.MediaType = Mime.TextHtml;
+        var result = StringResult.From(ctx, html);
+        result.Result.ContentType.MediaType = Mime.TextHtml;
 
-      return result;
+        step(result);
+      };
     }
   }
 }
