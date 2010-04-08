@@ -37,7 +37,7 @@ namespace Fu.Steps
     public static Continuation File(this IStaticSteps _,
       Reduce<string> filenameReducer, string contentType)
     {
-      return _.File(filenameReducer, (c, filename) => Mime.FromFilename(filename));
+      return _.File(filenameReducer, (c, filename) => contentType);
     }
 
     public static Continuation File(this IStaticSteps _,
