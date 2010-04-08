@@ -30,6 +30,8 @@ namespace Fu
 
       this.Services = services.ToList();
       this.Settings = settings;
+
+      this.Pipeline = pipeline;
     }
 
 

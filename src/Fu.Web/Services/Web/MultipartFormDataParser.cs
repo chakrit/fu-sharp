@@ -45,7 +45,7 @@ namespace Fu.Services.Web
 
       if (string.IsNullOrEmpty(boundary) ||
         boundary.Length > 70)
-        _badRequest;
+        BadRequest(input, null);
 
       // parse the data
       var parser = new MultipartParser(
@@ -68,7 +68,9 @@ namespace Fu.Services.Web
 
     private void BadRequest(IFuContext input, Exception ex)
     {
-      FuTrace.Exception(ex);
+      if (ex != null)
+        FuTrace.Exception(ex);
+
       _badRequest(input);
 
       throw new BadRequestDataException("Bad request", ex);
