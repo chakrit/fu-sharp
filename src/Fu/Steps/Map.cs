@@ -78,9 +78,10 @@ namespace Fu.Steps
           .Select(kv => new { Match = kv.Key.Match(path), Cont = kv.Value })
           .FirstOrDefault(m => m.Match.Success);
 
-        (result == null ? on404 : result.Cont)
-          (step)
-          (new UrlMappedContext(ctx, result.Match));
+        if (result == null)
+          on404(step)(ctx);
+        else
+          result.Cont(step)(new UrlMappedContext(ctx, result.Match));
       };
     }
   }
