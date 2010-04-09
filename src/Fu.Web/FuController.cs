@@ -13,7 +13,7 @@ namespace Fu
     }
 
 
-    protected void Handle(string urlRegex, params Continuation[] steps)
+    protected virtual void Handle(string urlRegex, params Continuation[] steps)
     {
       Handle(urlRegex, fu.Compose(steps));
     }
