@@ -15,7 +15,7 @@ namespace Fu
 
     protected virtual void Handle(string urlRegex, params Continuation[] steps)
     {
-      Handle(urlRegex, fu.Compose(steps));
+      Mappings.Add(urlRegex, fu.Compose(steps));
     }
 
 
