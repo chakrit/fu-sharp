@@ -3,11 +3,9 @@ using System;
 using System.IO;
 using System.Runtime.Serialization.Formatters.Binary;
 
-using Fu.Services.Sessions;
-
 using ServiceStack.Redis;
 
-namespace zNotes
+namespace Fu.Services.Sessions
 {
   public class RedisSession : ISession
   {

@@ -3,9 +3,7 @@ using System;
 
 using ServiceStack.Redis;
 
-using Fu.Services.Sessions;
-
-namespace zNotes
+namespace Fu.Services.Sessions
 {
   public class RedisSessionStore : ISessionStore
   {
