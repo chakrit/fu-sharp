@@ -1,7 +1,8 @@
 ﻿
-using System;
-using System.Collections.Generic;
 using System.Linq;
+
+using Fu.Contexts;
+using Fu.Results;
 
 namespace Fu
 {
@@ -35,9 +36,27 @@ namespace Fu
       };
     }
 
+
     public static Continuation Then(this Continuation cont, Continuation then)
     {
       return step => ctx => cont(then(step))(ctx);
+    }
+
+
+    public static Continuation Action(FuAction act)
+    {
+      return step => ctx => { act(ctx); step(ctx); };
+    }
+
+    public static Continuation Results(Reduce<IResult> resultReducer)
+    {
+      return step => ctx =>
+      {
+        var result = resultReducer(ctx);
+        var newCtx = new ResultContext(ctx, result);
+
+        step(newCtx);
+      };
     }
   }
 }
