@@ -42,10 +42,21 @@ namespace Fu
       return step => ctx => cont(then(step))(ctx);
     }
 
+    public static Continuation Then(this Continuation cont, params Continuation[] conts)
+    {
+      return cont.Then(fu.Compose(conts));
+    }
+
 
     public static Continuation Action(FuAction act)
     {
       return step => ctx => { act(ctx); step(ctx); };
+    }
+
+
+    public static Continuation Results(IResult result)
+    {
+      return Results(c => result);
     }
 
     public static Continuation Results(Reduce<IResult> resultReducer)
