@@ -34,11 +34,11 @@ namespace Fu.Steps
         header(ctx =>
         {
           var targetUrl = urlFilter(ctx, ctx.Request.Url.AbsolutePath);
-
           ctx.Response.Redirect(targetUrl);
-        });
+        })(outerCtx);
 
-        // no more steps
+        // step is discarded
+        // (we're redirecting, so no more processing should take place)
       };
     }
   }

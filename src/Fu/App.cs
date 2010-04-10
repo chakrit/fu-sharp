@@ -22,7 +22,10 @@ namespace Fu
       return c =>
       {
         var context = new FuContext(Settings, broker, c);
+
+        FuTrace.Request(context);
         Pipeline(context);
+        FuTrace.Response(context);
       };
     }
 
