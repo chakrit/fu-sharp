@@ -1,4 +1,4 @@
-﻿<#@ template language="C#v3.5" #>
+﻿<#@ template language="C#" #>
 <#@ Import Namespace="System.Collections.Generic" #>
 <#
 

@@ -9,7 +9,7 @@ namespace Fu
   // TODO:
   public class AspNetHost : MarshalByRefObject
   {
-    private IApp _app;
+    //private IApp _app;
 
 
     public static AspNetHost Create(IApp app)
