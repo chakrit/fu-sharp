@@ -7,7 +7,7 @@ namespace Fu
   public static class PathResolution
   {
     public static string ResolvePath(this IFuContext c, string appPath)
-    { return ResolvePath(c.Settings.BasePath, appPath); }
+    { return ResolvePath(c.Settings.BasePath, appPath, false); }
 
     public static string ResolvePath(this IFuContext c, string appPath, bool allowUnsafePath)
     { return ResolvePath(c.Settings.BasePath, appPath, allowUnsafePath); }

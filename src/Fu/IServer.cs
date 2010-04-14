@@ -9,7 +9,6 @@ namespace Fu
   {
     FuSettings Settings { get; }
     Stats Stats { get; }
-    string Url { get; }
 
     RequestHandler Handler { get; }
     bool IsServing { get; }

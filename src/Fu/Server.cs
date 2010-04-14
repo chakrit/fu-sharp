@@ -22,7 +22,6 @@ namespace Fu
 
     public FuSettings Settings { get; private set; }
     public Stats Stats { get; private set; }
-    public string Url { get; private set; }
 
     public RequestHandler Handler { get; private set; }
     public bool IsServing { get; private set; }
@@ -31,9 +30,6 @@ namespace Fu
     {
       this.Settings = settings;
       this.Handler = handler;
-
-      Url = "http://" + Settings.Host +
-        ":" + Settings.Port.ToString() + "/";
 
       ifStats(s => Stats = new Stats());
     }
@@ -45,13 +41,10 @@ namespace Fu
 
       // configure the ThreadPool
       // TODO: Numbers may need serious adjustment
-      var maxThreads = Settings.ThreadPoolMaxThreads;
-      var maxIo = Settings.ThreadPoolMaxIOThreads;
-      var minThreads = Settings.ThreadPoolMinThreads;
-      var minIo = Settings.ThreadPoolMinIOThreads;
+      var tps = Settings.ThreadPool;
 
-      ThreadPool.SetMaxThreads(maxThreads, maxIo);
-      ThreadPool.SetMinThreads(minThreads, minIo);
+      ThreadPool.SetMaxThreads(tps.MaxThreads, tps.MaxIOThreads);
+      ThreadPool.SetMinThreads(tps.MinThreads, tps.MinIOThreads);
 
       // setup the request processing loop
       _stopEvent = new ManualResetEvent(false);
@@ -69,7 +62,18 @@ namespace Fu
       };
 
       _listener = new HttpListener();
-      _listener.Prefixes.Add(Url);
+
+      foreach (var rawHost in Settings.Hosts) {
+        var host = rawHost;
+
+        if (!rawHost.StartsWith("http"))
+          host = "http://" + host;
+
+        if (!rawHost.EndsWith("/"))
+          host = host + "/";
+
+        _listener.Prefixes.Add(host);
+      }
 
       // fire up the server
       _spawnThread.Start();

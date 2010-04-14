@@ -13,7 +13,8 @@ namespace FileServer
   {
     static void Main(string[] args)
     {
-      var pipeline = fu.If(isFolder, listFiles(),
+      var pipeline = fu.If(isFolder,
+        listFiles(),
         fu.Static.Folder("/", "Content"));
 
       var app = new SimpleApp(pipeline);
@@ -44,6 +45,7 @@ namespace FileServer
         var files = Directory
           .GetFiles(folder, "*.*", SearchOption.AllDirectories)
           .Select(f => f.Substring(folder.Length))
+          .Select(f => f.Replace('\\', '/'))
           .Select(f => string.Format("<li><a href=\"{0}\">{0}</a></li>", f))
           .ToArray();
 

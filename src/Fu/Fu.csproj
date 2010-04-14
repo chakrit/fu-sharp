@@ -55,12 +55,14 @@
     <Compile Include="Contexts\IResultContext.cs" />
     <Compile Include="Contexts\IUrlMappedContext.cs" />
     <Compile Include="Contexts\ResultContext.cs" />
+    <None Include="app.config" />
     <None Include="fu.stepsextensions.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>fu.stepsextensions.cs</LastGenOutput>
     </None>
     <Compile Include="ContMap.cs" />
     <Compile Include="Delegates.cs" />
+    <Compile Include="FuSettings.cs" />
     <Compile Include="Properties\ExtraAsmInfo.cs" />
     <Compile Include="fu.stepsextensions.cs">
       <AutoGen>True</AutoGen>
@@ -84,11 +86,6 @@
     <Compile Include="fu.helpers.cs" />
     <Compile Include="Mime.cs" />
     <Compile Include="FuContext.cs" />
-    <Compile Include="FuSettings.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTimeSharedInput>True</DesignTimeSharedInput>
-      <DependentUpon>FuSettings.settings</DependentUpon>
-    </Compile>
     <Compile Include="IApp.cs" />
     <Compile Include="IServer.cs" />
     <Compile Include="Server.cs" />
@@ -124,10 +121,6 @@
     <None Include="Exceptions.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>Exceptions.cs</LastGenOutput>
-    </None>
-    <None Include="FuSettings.settings">
-      <Generator>PublicSettingsSingleFileGenerator</Generator>
-      <LastGenOutput>FuSettings.Designer.cs</LastGenOutput>
     </None>
     <None Include="Steps\Http.errors.tt">
       <Generator>TextTemplatingFileGenerator</Generator>

@@ -36,11 +36,12 @@ namespace Fu.Services.Sessions
     {
       // create a new session key
       var sessionId = CreateKeyCore(c);
+      var settings = c.Settings.Session;
 
       // save the session into the response cookie
       var cookie = new Cookie(CookieName, sessionId,
-        c.Settings.CookiePath,
-        c.Settings.CookieDomain);
+        settings.CookiePath,
+        settings.CookieDomain);
 
       cookie.HttpOnly = true;
       cookie.Expires = DateTime.Now.AddMonths(1);

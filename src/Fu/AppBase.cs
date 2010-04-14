@@ -24,7 +24,7 @@ namespace Fu
     public AppBase(FuSettings settings, IEnumerable<IService> services, FuAction pipeline)
     {
       services = services ?? new IService[] { };
-      settings = settings ?? FuSettings.Default;
+      settings = settings ?? new FuSettings();
 
       pipeline = pipeline ?? fu.EndAct;
 

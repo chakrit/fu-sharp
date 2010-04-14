@@ -12,7 +12,7 @@ namespace WildcardSubdomains
       var app = new App(null, null, echoSubDomain());
 
       // accept all port 80 connection, regardless of domain
-      app.Settings.Host = "*";
+      app.Settings.Hosts = new[] { "*:80" };
       app.Start();
     }
 

@@ -1,4 +1,4 @@
-<#@ template language="C#v3.5" hostSpecific="true" #>
+<#@ template language="C#" hostSpecific="true" #>
 <#
 	string[] extensionPoints = new string[]
 	{

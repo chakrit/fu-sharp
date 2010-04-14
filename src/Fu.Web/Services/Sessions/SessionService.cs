@@ -43,7 +43,7 @@ namespace Fu.Services.Sessions
       }
 
       // enforce session expiration
-      if ((DateTime.Now - session.Timestamp) > c.Settings.SessionTimeout) {
+      if ((DateTime.Now - session.Timestamp) > c.Settings.Session.Timeout) {
         FuTrace.Session("EXPIRED", id);
         _store.DeleteSession(session);
         _idMgr.DeleteId(c);
