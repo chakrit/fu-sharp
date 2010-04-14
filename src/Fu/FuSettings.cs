@@ -1,11 +1,13 @@
 ﻿
 using System;
 using System.Collections.Generic;
+using System.Xml.Serialization;
+using System.IO;
 
 namespace Fu
 {
   [Serializable]
-  public class FuSettings
+  public partial class FuSettings
   {
     public string[] Hosts = new[] { "localhost:80" };
     public string BasePath = "";
@@ -37,5 +39,36 @@ namespace Fu
 
     public int MaxIOThreads = 1000;
     public int MinIOThreads = 25;
+  }
+
+
+  public partial class FuSettings
+  {
+    private static XmlSerializerFactory _factory =
+      new XmlSerializerFactory();
+
+
+    public void SaveTo(string filename)
+    {
+      var serializer = _factory.CreateSerializer(typeof(FuSettings));
+      var fs = File.OpenWrite(filename);
+
+      serializer.Serialize(fs, this);
+      fs.Flush();
+      fs.Close();
+      fs.Dispose();
+    }
+
+    public static FuSettings LoadFrom(string filename)
+    {
+      var serializer = _factory.CreateSerializer(typeof(FuSettings));
+      var fs = File.OpenRead(filename);
+
+      var result = serializer.Deserialize(fs);
+      fs.Close();
+      fs.Dispose();
+
+      return (FuSettings)result;
+    }
   }
 }
