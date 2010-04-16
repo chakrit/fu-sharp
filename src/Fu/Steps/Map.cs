@@ -69,7 +69,7 @@ namespace Fu.Steps
     public static Continuation Urls(this IMapSteps _,
       ContRegexDict mappings, Continuation on404)
     {
-      return mapCore(mappings, ctx => ctx.Request.Url.AbsolutePath, on404);
+      return Custom(mappings, ctx => ctx.Request.Url.AbsolutePath, on404);
     }
 
 
@@ -98,11 +98,11 @@ namespace Fu.Steps
     public static Continuation Hosts(this IMapSteps _,
       ContRegexDict mappings, Continuation on404)
     {
-      return mapCore(mappings, ctx => ctx.Request.Headers["Host"], on404);
+      return Custom(mappings, ctx => ctx.Request.Headers["Host"], on404);
     }
 
 
-    private static Continuation mapCore(ContRegexDict mappings,
+    public static Continuation Custom(ContRegexDict mappings,
       Reduce<string> pathReducer, Continuation on404)
     {
       on404 = on404 ?? fu.Http.NotFound();
