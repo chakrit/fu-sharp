@@ -103,6 +103,28 @@ namespace Fu.Steps
 
 
     public static Continuation Custom(this IMapSteps _,
+      ContDict mappings, Reduce<string> pathReducer)
+    {
+      return _.Custom(mappings, pathReducer, null);
+    }
+
+    public static Continuation Custom(this IMapSteps _,
+      ContDict mappings, Reduce<string> pathReducer, Continuation on404)
+    {
+      var dict = mappings.ToDictionary(
+        kv => new Regex(kv.Key),
+        kv => kv.Value);
+
+      return _.Custom(dict, pathReducer, on404);
+    }
+
+    public static Continuation Custom(this IMapSteps _,
+      ContRegexDict mappings, Reduce<string> pathReducer)
+    {
+      return _.Custom(mappings, pathReducer, null);
+    }
+
+    public static Continuation Custom(this IMapSteps _,
       ContRegexDict mappings,
       Reduce<string> pathReducer, Continuation on404)
     {
