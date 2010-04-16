@@ -69,11 +69,47 @@ namespace Fu.Steps
     public static Continuation Urls(this IMapSteps _,
       ContRegexDict mappings, Continuation on404)
     {
+      return mapCore(mappings, ctx => ctx.Request.Url.AbsolutePath, on404);
+    }
+
+
+    public static Continuation Hosts(this IMapSteps _,
+      ContDict mappings)
+    {
+      return _.Hosts(mappings, null);
+    }
+
+    public static Continuation Hosts(this IMapSteps _,
+      ContDict mappings, Continuation on404)
+    {
+      var dict = mappings.ToDictionary(
+        kv => new Regex(kv.Key),
+        kv => kv.Value);
+
+      return _.Hosts(dict, on404);
+    }
+
+    public static Continuation Hosts(this IMapSteps _,
+      ContRegexDict mappings)
+    {
+      return _.Hosts(mappings);
+    }
+
+    public static Continuation Hosts(this IMapSteps _,
+      ContRegexDict mappings, Continuation on404)
+    {
+      return mapCore(mappings, ctx => ctx.Request.Headers["Host"], on404);
+    }
+
+
+    private static Continuation mapCore(ContRegexDict mappings,
+      Reduce<string> pathReducer, Continuation on404)
+    {
       on404 = on404 ?? fu.Http.NotFound();
 
       return step => ctx =>
       {
-        var path = ctx.Request.Url.AbsolutePath;
+        var path = pathReducer(ctx);
         var result = mappings
           .Select(kv => new { Match = kv.Key.Match(path), Cont = kv.Value })
           .FirstOrDefault(m => m.Match.Success);
@@ -83,6 +119,7 @@ namespace Fu.Steps
         else
           result.Cont(step)(new UrlMappedContext(ctx, result.Match));
       };
+
     }
   }
 }

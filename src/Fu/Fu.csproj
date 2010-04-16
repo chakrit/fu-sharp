@@ -55,7 +55,6 @@
     <Compile Include="Contexts\IResultContext.cs" />
     <Compile Include="Contexts\IUrlMappedContext.cs" />
     <Compile Include="Contexts\ResultContext.cs" />
-    <None Include="app.config" />
     <None Include="fu.stepsextensions.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>fu.stepsextensions.cs</LastGenOutput>
