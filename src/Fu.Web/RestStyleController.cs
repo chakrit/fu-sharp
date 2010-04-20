@@ -1,8 +1,8 @@
 ﻿
 using System;
 
-using Fu.Steps;
 using Fu.Contexts;
+using Fu.Steps;
 
 using ResultStep = System.Func<Fu.Contexts.IUrlMappedContext, Fu.Results.IResult>;
 
@@ -22,6 +22,12 @@ namespace Fu
       Map(url, fu.Map.Get, handler);
     }
 
+    public void Get(string url, params Continuation[] conts)
+    {
+      mapMultiple(url, fu.Map.Get, conts);
+    }
+
+
     public void Post(string url, ResultStep handler)
     {
       mapResult(url, fu.Map.Post, handler);
@@ -31,6 +37,12 @@ namespace Fu
     {
       Map(url, fu.Map.Post, handler);
     }
+
+    public void Post(string url, params Continuation[] conts)
+    {
+      mapMultiple(url, fu.Map.Post, conts);
+    }
+
 
     public void Put(string url, ResultStep handler)
     {
@@ -42,6 +54,12 @@ namespace Fu
       Map(url, fu.Map.Put, handler);
     }
 
+    public void Put(string url, params Continuation[] conts)
+    {
+      mapMultiple(url, fu.Map.Put, conts);
+    }
+
+
     public void Delete(string url, ResultStep handler)
     {
       mapResult(url, fu.Map.Delete, handler);
@@ -51,6 +69,12 @@ namespace Fu
     {
       Map(url, fu.Map.Delete, handler);
     }
+
+    public void Delete(string url, params Continuation[] conts)
+    {
+      mapMultiple(url, fu.Map.Delete, conts);
+    }
+
 
 
     private void mapResult(string url,
@@ -66,6 +90,14 @@ namespace Fu
         step(new ResultContext(ctx, result));
       });
     }
+
+    private void mapMultiple(string url,
+      Func<Continuation, Continuation, Continuation> wrapper,
+      params Continuation[] conts)
+    {
+      Map(url, wrapper, fu.Compose(conts));
+    }
+
 
     protected virtual void Map(string url,
       Func<Continuation, Continuation, Continuation> wrapper,
