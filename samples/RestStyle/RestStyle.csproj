@@ -47,7 +47,6 @@
     </Compile>
     <Compile Include="NotesController.cs" />
     <Compile Include="Program.cs" />
-    <Compile Include="RestController.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\src\Fu.Web\Fu.Web.csproj">

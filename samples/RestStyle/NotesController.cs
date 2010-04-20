@@ -8,7 +8,7 @@ using Fu.Steps;
 
 namespace RestStyle
 {
-  public class NotesController : RestController
+  public class NotesController : RestStyleController
   {
     private IList<string> _notes;
     private object _lock;

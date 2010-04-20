@@ -85,6 +85,7 @@
     <Compile Include="Services\Web\UploadedFile.cs" />
     <Compile Include="Services\Web\UploadedFilesCollection.cs" />
     <Compile Include="Presets\WebApp.cs" />
+    <Compile Include="RestStyleController.cs" />
     <Compile Include="Steps\MapEx.cs" />
     <Compile Include="Util\ForwardRingBuffer.cs" />
   </ItemGroup>
