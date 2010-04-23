@@ -87,6 +87,7 @@
     <Compile Include="Presets\WebApp.cs" />
     <Compile Include="RestStyleController.cs" />
     <Compile Include="Steps\MapEx.cs" />
+    <Compile Include="Steps\StaticEx.cs" />
     <Compile Include="Util\ForwardRingBuffer.cs" />
   </ItemGroup>
   <ItemGroup>
