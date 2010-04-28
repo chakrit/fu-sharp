@@ -19,6 +19,13 @@ namespace Fu
     }
 
 
+    public static Continuation Branch(Reduce<Continuation> nextCont)
+    {
+      // nextCont supplies the continuation to execute here by reducing from the context
+      return step => ctx => nextCont(ctx)(step)(ctx);
+    }
+
+
     public static Continuation If(Reduce<bool> predicate, Continuation trueStep)
     {
       return fu.If(predicate, trueStep, fu.Identity);
