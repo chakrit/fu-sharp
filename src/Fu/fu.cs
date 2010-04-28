@@ -15,5 +15,12 @@ namespace Fu
 
     // TODO: rename this to Plug
     public static readonly FuAction EndAct = ctx => { /* no-op */ };
+
+
+    // Continuation utilities
+    public static void Execute(this Continuation cont, IFuContext context)
+    {
+      cont(fu.EndAct)(context);
+    }
   }
 }
