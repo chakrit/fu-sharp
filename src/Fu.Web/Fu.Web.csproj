@@ -62,6 +62,7 @@
     <Compile Include="IFuController.cs" />
     <Compile Include="FuController.cs" />
     <Compile Include="Results\JsonResult.cs" />
+    <Compile Include="Services\Models\ModelBinder.bindings.cs" />
     <Compile Include="Services\Models\ModelBinder.cs" />
     <Compile Include="Services\Sessions\CookieSessionIdProvider.cs" />
     <Compile Include="Services\Sessions\DictionarySession.cs" />

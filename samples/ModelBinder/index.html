@@ -7,8 +7,24 @@
   <p>
     A model-binded hello world:</p>
   <form action="/greet" method="post">
+  <h1>
+    Family history</h1>
+  <h2>
+    You:</h2>
   <input type="text" name="name" value="Your name here, please" />
   <input type="text" name="age" value="Your age here, please" />
+  <h2>
+    Your mom:</h2>
+  <input type="text" name="mom.name" value="Your mother's name here, please" />
+  <input type="text" name="mom.age" value="Your mother's age here, please" />
+  <h2>
+    Your dad:</h2>
+  <input type="text" name="dad.name" value="Your father's name here, please" />
+  <input type="text" name="dad.age" value="Your father's age here, please" />
+  <h2>
+    Your grandfather:</h2>
+  <input type="text" name="dad.dad.name" value="Your grandfather's name here, please" />
+  <input type="text" name="dad.dad.age" value="Your grandfather's age here, please" />
   <input type="submit" name="submit" value="submit" />
   </form>
 </body>
