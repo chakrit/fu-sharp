@@ -27,6 +27,11 @@ namespace Fu
       mapMultiple(url, fu.Map.Get, conts);
     }
 
+    public void Get(string url, Reduce<Continuation> contReducer)
+    {
+      mapBranch(url, fu.Map.Get, contReducer);
+    }
+
 
     public void Post(string url, ResultStep handler)
     {
@@ -41,6 +46,11 @@ namespace Fu
     public void Post(string url, params Continuation[] conts)
     {
       mapMultiple(url, fu.Map.Post, conts);
+    }
+
+    public void Post(string url, Reduce<Continuation> contReducer)
+    {
+      mapBranch(url, fu.Map.Post, contReducer);
     }
 
 
@@ -59,6 +69,11 @@ namespace Fu
       mapMultiple(url, fu.Map.Put, conts);
     }
 
+    public void Put(string url, Reduce<Continuation> contReducer)
+    {
+      mapBranch(url, fu.Map.Put, contReducer);
+    }
+
 
     public void Delete(string url, ResultStep handler)
     {
@@ -75,6 +90,10 @@ namespace Fu
       mapMultiple(url, fu.Map.Delete, conts);
     }
 
+    public void Delete(string url, Reduce<Continuation> contReducer)
+    {
+      mapBranch(url, fu.Map.Delete, contReducer);
+    }
 
 
     private void mapResult(string url,
@@ -96,6 +115,13 @@ namespace Fu
       params Continuation[] conts)
     {
       Map(url, wrapper, fu.Compose(conts));
+    }
+
+    private void mapBranch(string url,
+      Func<Continuation, Continuation, Continuation> wrapper,
+      Reduce<Continuation> branchReducer)
+    {
+      Map(url, wrapper, fu.Branch(branchReducer));
     }
 
 
