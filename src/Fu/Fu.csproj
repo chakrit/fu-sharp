@@ -39,6 +39,7 @@
     <PlatformTarget>AnyCPU</PlatformTarget>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="FSharp.Core, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL" />
     <Reference Include="System" />
     <Reference Include="System.Core">
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
@@ -61,6 +62,7 @@
     </None>
     <Compile Include="ContMap.cs" />
     <Compile Include="Delegates.cs" />
+    <Compile Include="fu.fsharp.cs" />
     <Compile Include="FuSettings.cs" />
     <Compile Include="Properties\ExtraAsmInfo.cs" />
     <Compile Include="fu.stepsextensions.cs">

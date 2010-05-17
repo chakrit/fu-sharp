@@ -2,6 +2,7 @@
 using Fu.Contexts;
 using Fu.Exceptions;
 using Fu.Results;
+using Microsoft.FSharp.Core;
 
 namespace Fu
 {
