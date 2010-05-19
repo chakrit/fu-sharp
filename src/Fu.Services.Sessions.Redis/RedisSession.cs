@@ -4,6 +4,7 @@ using System.IO;
 using System.Runtime.Serialization.Formatters.Binary;
 
 using ServiceStack.Redis;
+using System.Diagnostics;
 
 namespace Fu.Services.Sessions
 {
@@ -54,7 +55,8 @@ namespace Fu.Services.Sessions
     {
       var result = Get(key);
 
-      return (result == null) ? default(TValue) : (TValue)result;
+      try { return (result == null) ? default(TValue) : (TValue)result; }
+      catch (InvalidCastException) { return default(TValue); }
     }
 
 
