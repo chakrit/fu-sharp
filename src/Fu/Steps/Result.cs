@@ -65,22 +65,40 @@ namespace Fu.Steps
 
         var bytes = result.RenderBytes(ctx);
 
+        // skip rendering of empty stream
+        if (bytes.LongLength == 0L) {
+          outStream.Close();
+          return;
+        }
+
+        // write to a temporary stream so we can have Content-Length
+        // even when we need to run it through a filter
+        if (filter != null) {
+          var ms = new MemoryStream();
+          var temp = filter(ctx, ms);
+          var bw = new BinaryWriter(temp);
+
+          bw.Write(bytes);
+          bw.Close();
+
+          bytes = ms.ToArray();
+          temp.Dispose();
+          ms.Dispose();
+          bw.Dispose();
+        }
+
+        // write out the response
         if (!string.IsNullOrEmpty(result.ContentType.MediaType))
           resp.ContentType = result.ContentType.MediaType;
 
-        if (filter == null)
-          resp.ContentLength64 = bytes.LongLength;
-        else
-          outStream = filter(ctx, outStream);
+        resp.ContentLength64 = bytes.LongLength;
 
-        var bw = new BinaryWriter(outStream);
-        bw.Write(bytes);
-        bw.Close();
+        using (var bw = new BinaryWriter(outStream)) {
+          bw.Write(bytes);
+          bw.Close();
+        }
 
-        if (filter != null)
-          outStream.Close();
-
-        ctx.Response.OutputStream.Close();
+        outStream.Close();
 
         step(ctx);
       };
