@@ -41,11 +41,15 @@ namespace Fu.Services.Web
     public FileStream OpenRead()
     { return new FileStream(_tempFilename, FileMode.Open); }
 
+    public byte[] ReadAllBytes()
+    { return File.ReadAllBytes(_tempFilename); }
+
 
     public void Dispose()
     {
       if (File.Exists(_tempFilename))
         File.Delete(_tempFilename);
     }
+
   }
 }
