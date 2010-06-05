@@ -90,6 +90,7 @@
     <Compile Include="IApp.cs" />
     <Compile Include="IServer.cs" />
     <Compile Include="Server.cs" />
+    <Compile Include="Services\CachingServiceWrapper.cs" />
     <Compile Include="Services\IService.cs" />
     <Compile Include="Services\IServiceBroker.cs" />
     <Compile Include="Services\ObjectProvider.cs" />
