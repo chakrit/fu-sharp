@@ -12,6 +12,7 @@ namespace Fu
     HttpListenerResponse Response { get; }
 
     IServiceBroker Services { get; }
+    IItemsStore Items { get; }
     FuSettings Settings { get; }
 
 
