@@ -14,20 +14,24 @@ namespace Fu.Services
 
     public bool CanGetServiceObject(IFuContext input)
     {
-      var lazyCanGet = input.Items.ContainsKey(this, CanGetKey) ?
-        input.Items.Get<Lazy<bool>>(this, CanGetKey) :
-        new Lazy<bool>(() => CanGetServiceObjectCore(input));
+      if (input.Items.ContainsKey(this, CanGetKey))
+        return input.Items.Get<bool>(this, CanGetKey);
 
-      return lazyCanGet.Value;
+      var result = CanGetServiceObjectCore(input);
+      input.Items.Set(this, CanGetKey, result);
+
+      return result;
     }
 
     public T GetServiceObject(IFuContext input)
     {
-      var lazyServObj = input.Items.ContainsKey(this, ServiceObjectKey) ?
-        input.Items.Get<Lazy<T>>(this, ServiceObjectKey) :
-        new Lazy<T>(() => GetServiceObjectCore(input));
+      if (input.Items.ContainsKey(this, ServiceObjectKey))
+        return input.Items.Get<T>(this, ServiceObjectKey);
 
-      return lazyServObj.Value;
+      var result = GetServiceObjectCore(input);
+      input.Items.Set(this, ServiceObjectKey, result);
+
+      return result;
     }
 
 

@@ -14,5 +14,6 @@ namespace Fu
     bool ContainsKey(object scope, string key);
 
     void Clear(object scope);
+    void Clear();
   }
 }

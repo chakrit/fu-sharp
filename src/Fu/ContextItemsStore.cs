@@ -34,7 +34,7 @@ namespace Fu
     { _dict[Tuple.Create(scope, key)] = value; }
 
     public void Set<T>(object scope, string key, T value)
-    { Set(scope, key, value); }
+    { Set(scope, key, (object)value); }
 
 
     public bool ContainsKey(object scope, string key)
@@ -50,6 +50,11 @@ namespace Fu
         .ToArray();
 
       Array.ForEach(itemsInScope, s => _dict.Remove(s));
+    }
+
+    public void Clear()
+    {
+      _dict.Clear();
     }
   }
 }
