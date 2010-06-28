@@ -19,6 +19,7 @@ namespace Fu
     public HttpListenerResponse Response { get; private set; }
 
     public IServiceBroker Services { get; private set; }
+    public IItemsStore Items { get; private set; }
     public FuSettings Settings { get; private set; }
 
 
@@ -47,6 +48,9 @@ namespace Fu
 
       this.Services = broker;
       this.Settings = settings;
+
+      // TODO: Make this injectable and clean up the ctor parameters list as well.
+      this.Items = new ContextItemsStore();
 
       _previous = previous;
     }
@@ -85,6 +89,9 @@ namespace Fu
 
 
     public void Dispose()
-    { Response.Close(); }
+    {
+      Items.Clear();
+      Response.Close();
+    }
   }
 }

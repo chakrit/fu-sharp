@@ -1,14 +1,13 @@
 ﻿
-using System;
 using System.IO;
 using System.Text;
 using System.Web;
 
 namespace Fu.Services.Web
 {
-  public class FormDataParser : IService<IFormData>
+  public class FormDataParser : CachingServiceBase<IFormData>, IService<IFormData>
   {
-    public bool CanGetServiceObject(IFuContext input)
+    protected override bool CanGetServiceObjectCore(IFuContext input)
     {
       // only support PUT/POST/DELETE
       var method = input.Request.HttpMethod.ToUpper();
@@ -31,7 +30,7 @@ namespace Fu.Services.Web
       return true;
     }
 
-    public IFormData GetServiceObject(IFuContext c)
+    protected override IFormData GetServiceObjectCore(IFuContext c)
     {
       // force ANSI encoding (whatever the current system is set to)
       var encoding = Encoding.GetEncoding(c.Settings.Encoding);

@@ -54,7 +54,8 @@ namespace Fu.Services.Sessions
     {
       var result = Get(key);
 
-      return (result == null) ? default(TValue) : (TValue)result;
+      try { return (result == null) ? default(TValue) : (TValue)result; }
+      catch (InvalidCastException) { return default(TValue); }
     }
 
 

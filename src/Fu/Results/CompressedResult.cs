@@ -4,6 +4,7 @@ using System.Net.Mime;
 using System.Text;
 
 using Fu.Contexts;
+using System.IO;
 
 namespace Fu.Results
 {
@@ -25,12 +26,15 @@ namespace Fu.Results
       InnerResult = input;
       _compressor = (c, bytes) =>
       {
-        // TODO: Is UTF8 the right one? Do we need to make this configurable?
-        var str = Encoding.UTF8.GetString(bytes);
+        // Encoding-safe way to get a string from arbitary bytes
+        var ms = new MemoryStream(bytes);
+        var sr = new StreamReader(ms);
+        var str = sr.ReadToEnd();
 
-        // HACK: Fixes many unicode/ansi wonderbugs
-        str = str.Trim();
+        sr.Dispose();
+        ms.Dispose();
 
+        // run the compression function on the string
         var result = compressFilter(c, str);
         return Encoding.UTF8.GetBytes(result);
       };

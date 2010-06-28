@@ -9,11 +9,11 @@ using Fu.Steps;
 
 namespace Fu.Services.Web
 {
-  public class MultipartFormDataParser : IService<IFormData>
+  public class MultipartFormDataParser : CachingServiceBase<IFormData>, IService<IFormData>
   {
     private readonly FuAction _badRequest = fu.Http.BadRequest()(fu.EndAct);
 
-    public bool CanGetServiceObject(IFuContext input)
+    protected override bool CanGetServiceObjectCore(IFuContext input)
     {
       // only support PUT/POST/DELETE
       var method = input.Request.HttpMethod;
@@ -37,7 +37,7 @@ namespace Fu.Services.Web
       return true;
     }
 
-    public IFormData GetServiceObject(IFuContext input)
+    protected override IFormData GetServiceObjectCore(IFuContext input)
     {
       var ctHeader = input.Request.Headers["Content-Type"];
       var contentType = new ContentType(ctHeader);
