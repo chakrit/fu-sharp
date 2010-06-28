@@ -1,0 +1,3 @@
+[submodule "lib/sider"]
+	path = lib/sider
+	url = git://github.com/chakrit/sider.git
