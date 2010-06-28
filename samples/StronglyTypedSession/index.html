@@ -1,0 +1,39 @@
+﻿<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html>
+<head>
+  <title>Fu - StronglyTypedSession sample</title>
+</head>
+<body>
+  <h1>
+    Fu# - StronglyTypedSession sample</h1>
+  <p>
+    Make sure your browser support cookies.</p>
+  <hr />
+  <table>
+    <tr>
+      <td>
+        USER ID:
+      </td>
+      <td>
+        {%USER_ID%}
+      </td>
+    </tr>
+    <tr>
+      <td>
+        USERNAME:
+      </td>
+      <td>
+        {%USERNAME%}
+      </td>
+    </tr>
+  </table>
+  <hr />
+  <h2>
+    Login:</h2>
+  <form action="/" method="post">
+  <input type="text" name="UserID" value="{%USER_ID%}" />
+  <input type="text" name="Username" value="{%USERNAME%}" />
+  <input type="submit" value="LogIn" />
+  </form>
+</body>
+</html>

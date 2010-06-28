@@ -36,10 +36,6 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="ServiceStack.Redis, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\lib\ServiceStack.Redis.dll</HintPath>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core">
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
@@ -50,9 +46,14 @@
       <Link>Properties\FuAssemblyInfo.cs</Link>
     </Compile>
     <Compile Include="RedisSession.cs" />
+    <Compile Include="RedisSessionService.cs" />
     <Compile Include="RedisSessionStore.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\lib\sider\src\Sider\Sider.csproj">
+      <Project>{F0E53E17-3112-4B16-8717-3D5D220C4FD9}</Project>
+      <Name>Sider</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Fu.Web\Fu.Web.csproj">
       <Project>{23EF40C1-1B6C-424F-BBEA-CBDE3434AD8C}</Project>
       <Name>Fu.Web</Name>

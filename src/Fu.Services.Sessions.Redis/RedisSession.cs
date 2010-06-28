@@ -3,7 +3,7 @@ using System;
 using System.IO;
 using System.Runtime.Serialization.Formatters.Binary;
 
-using ServiceStack.Redis;
+using Sider;
 
 namespace Fu.Services.Sessions
 {
@@ -39,7 +39,7 @@ namespace Fu.Services.Sessions
     {
       key = getItemKey(key);
 
-      var bytes = _client.Get<byte[]>(key);
+      var bytes = _client.Get(key);
       if (bytes == null || bytes.Length == 0)
         return null;
 
@@ -72,8 +72,7 @@ namespace Fu.Services.Sessions
 
       }
       else {
-        _client.Remove(key);
-
+        _client.Del(key);
       }
     }
 

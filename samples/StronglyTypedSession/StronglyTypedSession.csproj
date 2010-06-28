@@ -3,26 +3,21 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProductVersion>9.0.30729</ProductVersion>
+    <ProductVersion>8.0.30703</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{188DD43D-DB98-46A6-919A-1CECEBA5210F}</ProjectGuid>
-    <OutputType>Library</OutputType>
+    <ProjectGuid>{7A36245E-8DC5-4DE7-B58B-DFC921B035C4}</ProjectGuid>
+    <OutputType>Exe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Fu</RootNamespace>
-    <AssemblyName>fu.templates.nhaml</AssemblyName>
+    <RootNamespace>StronglyTypedSession.cs</RootNamespace>
+    <AssemblyName>StronglyTypedSession.cs</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
-    <FileUpgradeFlags>
-    </FileUpgradeFlags>
-    <OldToolsVersion>3.5</OldToolsVersion>
-    <UpgradeBackupLocation />
-    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
-    <OutputPath>..\..\bin\</OutputPath>
+    <OutputPath>bin\Debug\</OutputPath>
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
@@ -30,48 +25,47 @@
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
-    <OutputPath>..\..\bin\</OutputPath>
+    <OutputPath>bin\Release\</OutputPath>
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
+  <PropertyGroup>
+    <StartupObject />
+  </PropertyGroup>
   <ItemGroup>
-    <Reference Include="NHaml, Version=1.5.0.2, Culture=neutral, PublicKeyToken=d603208bac452365, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\lib\NHaml\NHaml.dll</HintPath>
-    </Reference>
     <Reference Include="System" />
-    <Reference Include="System.Core">
-      <RequiredTargetFramework>3.5</RequiredTargetFramework>
-    </Reference>
-    <Reference Include="System.Xml.Linq">
-      <RequiredTargetFramework>3.5</RequiredTargetFramework>
-    </Reference>
-    <Reference Include="System.Data.DataSetExtensions">
-      <RequiredTargetFramework>3.5</RequiredTargetFramework>
-    </Reference>
-    <Reference Include="System.Data" />
-    <Reference Include="System.Xml" />
+    <Reference Include="System.Core" />
+    <Reference Include="Microsoft.CSharp" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="..\..\FuAssemblyInfo.cs">
       <Link>Properties\FuAssemblyInfo.cs</Link>
     </Compile>
-    <Compile Include="Results\HamlResult.cs" />
-    <Compile Include="Results\HamlResultBase.cs" />
-    <Compile Include="Services\Templating\HamlTemplateBase.cs" />
-    <Compile Include="Services\Templating\HamlTemplateService.cs" />
+    <Compile Include="IMySession.cs" />
+    <Compile Include="MyController.cs" />
+    <Compile Include="Program.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Fu.Web\Fu.Web.csproj">
+    <ProjectReference Include="..\..\src\Fu.Services.Sessions.Redis\Fu.Services.Sessions.Redis.csproj">
+      <Project>{59B63611-66D7-4929-94DF-FE943D0CD017}</Project>
+      <Name>Fu.Services.Sessions.Redis</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\src\Fu.Web\Fu.Web.csproj">
       <Project>{23EF40C1-1B6C-424F-BBEA-CBDE3434AD8C}</Project>
       <Name>Fu.Web</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Fu\Fu.csproj">
+    <ProjectReference Include="..\..\src\Fu\Fu.csproj">
       <Project>{1583A6C9-45DA-46B4-9DBD-B86461DB893B}</Project>
       <Name>Fu</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup>
+    <Content Include="index.html">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
