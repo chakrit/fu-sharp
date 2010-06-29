@@ -39,15 +39,15 @@ namespace Fu.Services.Sessions
     {
       key = getItemKey(key);
 
-      var bytes = _client.Get(key);
-      if (bytes == null || bytes.Length == 0)
-        return null;
+      using (var ms = new MemoryStream()) {
+        var length = _client.GetTo(key, ms);
 
-      var ms = new MemoryStream(bytes);
-      var result = _formatter.Deserialize(ms);
+        if (length < 0 || ms.Length < 0)
+          return null;
 
-      ms.Dispose();
-      return result;
+        ms.Seek(0, SeekOrigin.Begin);
+        return _formatter.Deserialize(ms);
+      }
     }
 
     public TValue Get<TValue>(string key)
@@ -65,12 +65,12 @@ namespace Fu.Services.Sessions
       key = getItemKey(key);
 
       if (value != null) {
-        var ms = new MemoryStream();
-        _formatter.Serialize(ms, value);
+        using (var ms = new MemoryStream()) {
+          _formatter.Serialize(ms, value);
 
-        _client.Set(key, ms.ToArray());
-        ms.Dispose();
-
+          ms.Seek(0, SeekOrigin.Begin);
+          _client.SetFrom(key, ms, (int)ms.Length);
+        }
       }
       else {
         _client.Del(key);
