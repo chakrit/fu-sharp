@@ -7,22 +7,16 @@ namespace Fu.Services.Sessions
 {
   public class RedisSessionStore : ISessionStore
   {
-    private Func<IRedisClient> _factory;
-
-    // Redis implementation is not thread-safe
-    // but it's not a good idea to re-build the client each time because of
-    // socket connection so we reuse the client thread-wise using ThreadStatic
-    [ThreadStatic]
-    private IRedisClient _client;
+    private IClientsPool _pool;
 
     protected IRedisClient Client
     {
-      get { return _client = (_client ?? _factory()); }
+      get { return _pool.GetClient(); }
     }
 
 
-    public RedisSessionStore(Func<IRedisClient> clientFactory)
-    { _factory = clientFactory; }
+    public RedisSessionStore(IClientsPool clientsPool)
+    { _pool = clientsPool; }
 
 
     public ISession CreateSession(string sessionId)

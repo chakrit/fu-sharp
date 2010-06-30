@@ -21,7 +21,7 @@ namespace Fu.Services.Sessions
       this(idProvider, new ThreadwisePool()) { }
 
     public RedisSessionService(ISessionIdProvider idProvider, IClientsPool clientsPool) :
-      base(idProvider, new RedisSessionStore(clientsPool.GetClient))
+      base(idProvider, new RedisSessionStore(clientsPool))
     {
       if (idProvider == null) throw new ArgumentNullException("idProvider");
       if (clientsPool == null) throw new ArgumentNullException("pool");
