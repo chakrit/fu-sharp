@@ -9,10 +9,11 @@ namespace Fu.Results
   {
     public RenderDelegate _render;
 
-    public CustomResult(RenderDelegate renderAction)
+    public CustomResult(string contentType, RenderDelegate renderAction)
     {
       // TODO: Null-check
       _render = renderAction;
+      MediaType = contentType;
     }
 
 
