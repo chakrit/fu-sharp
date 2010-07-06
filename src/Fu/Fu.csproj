@@ -73,6 +73,7 @@
       <DependentUpon>fu.stepsextensions.tt</DependentUpon>
     </Compile>
     <Compile Include="IFuContext.cs" />
+    <Compile Include="Results\CustomResult.cs" />
     <Compile Include="Results\BytesResult.cs" />
     <Compile Include="Results\FilteredResult.cs" />
     <Compile Include="Results\FileResult.cs" />
