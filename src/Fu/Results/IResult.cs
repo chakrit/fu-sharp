@@ -1,4 +1,5 @@
 ﻿
+using System.IO;
 using System.Net.Mime;
 
 namespace Fu.Results
@@ -6,7 +7,8 @@ namespace Fu.Results
   public interface IResult
   {
     ContentType ContentType { get; }
+    long ContentLength64 { get; }
 
-    byte[] RenderBytes(IFuContext c);
+    long Render(IFuContext c, Stream output);
   }
 }

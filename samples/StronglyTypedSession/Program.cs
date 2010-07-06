@@ -1,11 +1,11 @@
 ﻿
 using Fu;
-using Fu.Steps;
-using Fu.Services.Sessions;
 using Fu.Presets;
+using Fu.Services.Sessions;
 using Fu.Services.Web;
+using Fu.Steps;
 
-namespace StronglyTypedSession.cs
+namespace StronglyTypedSession
 {
   class Program
   {

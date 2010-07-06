@@ -6,15 +6,17 @@ using Fu.Contexts;
 
 namespace Fu.Results
 {
-  public class FileResult : BytesResult
+  public class FileResult : ResultBase
   {
     public string Filename { get; protected set; }
+
 
     // TODO: Null-check
     public FileResult(string filename) :
       this(filename, Mime.FromFilename(filename)) { }
 
-    public FileResult(string filename, string contentType)
+    public FileResult(string filename, string contentType) :
+      base()
     {
       if (string.IsNullOrEmpty(filename))
         throw new ArgumentNullException("filename");
@@ -22,7 +24,7 @@ namespace Fu.Results
       if (string.IsNullOrEmpty(filename))
         throw new ArgumentNullException("contentType");
 
-      ContentType.MediaType = contentType;
+      MediaType = contentType;
       Filename = filename;
     }
 
@@ -37,12 +39,18 @@ namespace Fu.Results
     }
 
 
-    public override byte[] RenderBytes(IFuContext c)
+    public override long Render(IFuContext c, Stream output)
     {
-      var filePath = c.ResolvePath(Filename, true);
-      return File.ReadAllBytes(filePath);
+      var filePath = c.ResolvePath(Filename, allowUnsafePath: true);
+
+      var fs = File.OpenRead(filePath);
+      var length = fs.Length;
+
+      fs.CopyTo(output);
+      fs.Close();
+      fs.Dispose();
+
+      return length;
     }
-
-
   }
 }

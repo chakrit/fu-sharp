@@ -9,16 +9,16 @@ namespace Fu.Steps
 {
   public static partial class Result
   {
-    public static Continuation Compress(this IResultSteps _,
-      Filter<string> compressFilter)
+    public static Continuation Filter(this IResultSteps _,
+      Filter<string> filter)
     {
-      return step => ctx => step(CompressedResult.From(ctx, compressFilter));
+      return step => ctx => step(FilteredResult.From(ctx, filter));
     }
 
-    public static Continuation Compress(this IResultSteps _,
-      Filter<byte[]> compressFilter)
+    public static Continuation Filter(this IResultSteps _,
+      Filter<byte[]> filter)
     {
-      return step => ctx => step(CompressedResult.From(ctx, compressFilter));
+      return step => ctx => step(FilteredResult.From(ctx, filter));
     }
 
 
@@ -63,41 +63,25 @@ namespace Fu.Steps
         var result = ctx.As<IResultContext>().Result;
         var outStream = ctx.Response.OutputStream;
 
-        var bytes = result.RenderBytes(ctx);
+        // we can have Content-Length when the result knows its own length
+        // and no filter has to be run
+        var length = result.ContentLength64;
+        if (length > -1 && filter == null)
+          resp.ContentLength64 = length;
+
+        if (!string.IsNullOrEmpty(result.ContentType.MediaType))
+          resp.ContentType = result.ContentType.MediaType;
 
         // skip rendering of empty stream
-        if (bytes.LongLength == 0L) {
+        if (length == 0L) {
           outStream.Close();
           return;
         }
 
-        // write to a temporary stream so we can have Content-Length
-        // even when we need to run it through a filter
-        if (filter != null) {
-          var ms = new MemoryStream();
-          var temp = filter(ctx, ms);
-          var bw = new BinaryWriter(temp);
+        if (filter != null)
+          outStream = filter(ctx, outStream);
 
-          bw.Write(bytes);
-          bw.Close();
-
-          bytes = ms.ToArray();
-          temp.Dispose();
-          ms.Dispose();
-          bw.Dispose();
-        }
-
-        // write out the response
-        if (!string.IsNullOrEmpty(result.ContentType.MediaType))
-          resp.ContentType = result.ContentType.MediaType;
-
-        resp.ContentLength64 = bytes.LongLength;
-
-        using (var bw = new BinaryWriter(outStream)) {
-          bw.Write(bytes);
-          bw.Close();
-        }
-
+        result.Render(ctx, outStream);
         outStream.Close();
 
         step(ctx);

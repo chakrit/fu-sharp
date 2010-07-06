@@ -1,37 +1,34 @@
 ﻿
+using System.IO;
 using System;
 using System.Net.Mime;
 
 namespace Fu.Results
 {
-  public class BytesResult : IResult
+  public class BytesResult : ResultBase
   {
     private byte[] _data;
+    private int _offset;
 
 
-    public virtual ContentType ContentType { get; protected set; }
-    public virtual string MediaType
-    {
-      get { return ContentType.MediaType; }
-      set { ContentType.MediaType = value; }
-    }
-
-    protected BytesResult()
-    {
-      ContentType = ContentType = new ContentType(Mime.AppOctetStream);
-    }
-
-    public BytesResult(byte[] data) :
-      this()
+    public BytesResult(byte[] data, int offset, int count) :
+      base()
     {
       if (data == null)
         throw new ArgumentNullException("data");
 
       _data = data;
+      _offset = offset;
+      ContentLength64 = count;
     }
 
 
-    public virtual byte[] RenderBytes(IFuContext c)
-    { return _data; }
+    public override long Render(IFuContext c, Stream output)
+    {
+      var count = (int)ContentLength64;
+      output.Write(_data, _offset, count);
+
+      return count;
+    }
   }
 }

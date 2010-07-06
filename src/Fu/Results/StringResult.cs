@@ -1,4 +1,5 @@
 ﻿
+using System.IO;
 using System.Net.Mime;
 using System.Text;
 
@@ -6,9 +7,10 @@ using Fu.Contexts;
 
 namespace Fu.Results
 {
-  public class StringResult : BytesResult
+  public class StringResult : ResultBase
   {
     public string Text { get; protected set; }
+
 
     // TODO: Should we hard-code UTF8 here?
     //       Should we provide a configurable option for that?
@@ -21,12 +23,15 @@ namespace Fu.Results
     }
 
 
-    public override byte[] RenderBytes(IFuContext c)
+    public override long Render(IFuContext c, Stream output)
     {
       var charSet = Encoding.GetEncoding(this.ContentType.CharSet);
       var bytes = Encoding.UTF8.GetBytes(Text);
 
-      return Encoding.Convert(Encoding.UTF8, charSet, bytes);
+      var buffer = Encoding.Convert(Encoding.UTF8, charSet, bytes);
+      output.Write(buffer, 0, buffer.Length);
+
+      return buffer.Length;
     }
 
 

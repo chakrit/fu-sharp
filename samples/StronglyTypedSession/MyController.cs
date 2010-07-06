@@ -3,7 +3,7 @@ using Fu;
 using Fu.Services.Web;
 using Fu.Steps;
 
-namespace StronglyTypedSession.cs
+namespace StronglyTypedSession
 {
   public class MyController : RestStyleController
   {
@@ -11,7 +11,7 @@ namespace StronglyTypedSession.cs
     {
       Get("/",
         fu.Static.File("index.html"),
-        fu.Result.Compress(replaceSessionVariables));
+        fu.Result.Filter(replaceSessionVariables));
 
       Post("/",
         fu.Action(c =>

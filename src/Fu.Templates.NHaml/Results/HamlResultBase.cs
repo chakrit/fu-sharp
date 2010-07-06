@@ -12,16 +12,14 @@ using Fu.Services.Templating;
 
 namespace Fu.Results
 {
-  // TODO: Make this usable without subclassing
-  public abstract class HamlResultBase : IResult
+  public abstract class HamlResultBase : ResultBase
   {
-    private ContentType _contentType;
-
-
     public HamlResultBase()
     {
-      _contentType = new ContentType { MediaType = Mime.TextHtml };
+      MediaType = Mime.TextHtml;
+      ContentLength64 = -1;
     }
+
 
     // should return filenames relative to template base paths specified in HamlTemplateService
     protected abstract IEnumerable<string> GetTemplateNames(IFuContext context);
@@ -34,12 +32,11 @@ namespace Fu.Results
     { /* no-op */ }
 
 
-    // implement IResult interface explicitly so they're not
-    // directly accessible from Haml page
-    ContentType IResult.ContentType { get { return _contentType; } }
-
-    byte[] IResult.RenderBytes(IFuContext c)
+    public override long Render(IFuContext c, Stream output)
     {
+      // TODO: Check first wether TemplateEngine is supported
+      //       throw an exception, if it's not
+      // TODO: Implement a proper exception system that make senses
       var engine = c.Get<TemplateEngine>();
 
       var templateNames = GetTemplateNames(c).Reverse();
@@ -48,31 +45,27 @@ namespace Fu.Results
 
       OnBeforeRender(c, template);
 
-      // render the template
-      var encoding = Encoding.GetEncoding(c.Settings.Encoding);
 
-      var ms = new MemoryStream();
-      var sw = new StreamWriter(ms, encoding);
+      var encoding = Encoding.GetEncoding(c.Settings.Encoding);
+      var sw = new StreamWriter(output, encoding);
       template.Render(sw);
 
+      sw.Flush();
       sw.Close();
-      sw.Dispose();
 
-      var result = ms.ToArray();
-      ms.Close();
-      ms.Dispose();
-
-      return result;
+      // TODO: Support content-length, if possible
+      return -1;
     }
 
 
-    protected Template GetTemplate(IFuContext context, IEnumerable<string> templateNames, Type templateType)
+    protected Template GetTemplate(IFuContext context,
+      IEnumerable<string> templateNames, Type templateType)
     {
       if (!typeof(HamlTemplateBase).IsAssignableFrom(templateType))
         throw new InvalidOperationException(
           "Template types must derive from HamlTemplateBase");
 
-      // NOTE: TemplateEngine already has caching mechanism
+      // NOTE: TemplateEngine already maintains a caching system
       var engine = context.Get<TemplateEngine>();
       var compiled = engine.Compile(templateNames.ToList(), templateType);
 

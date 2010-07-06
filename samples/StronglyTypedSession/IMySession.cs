@@ -1,5 +1,5 @@
 ﻿
-namespace StronglyTypedSession.cs
+namespace StronglyTypedSession
 {
   public interface IMySession
   {
