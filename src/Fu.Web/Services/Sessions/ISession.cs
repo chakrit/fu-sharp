@@ -14,6 +14,6 @@ namespace Fu.Services.Sessions
     TValue Get<TValue>(string key);
     void Set(string key, object value);
 
-    void Clear();
+    void Destroy();
   }
 }

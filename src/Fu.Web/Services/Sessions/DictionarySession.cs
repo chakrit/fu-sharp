@@ -59,7 +59,7 @@ namespace Fu.Services.Sessions
     }
 
 
-    public void Clear()
+    public void Destroy()
     {
       try {
         _lock.EnterWriteLock();

@@ -27,9 +27,9 @@ namespace Fu.Services.Sessions
 
 
     public void DeleteSession(string sessionId)
-    { GetSession(sessionId).Clear(); }
+    { GetSession(sessionId).Destroy(); }
 
     public void DeleteSession(ISession session)
-    { session.Clear(); }
+    { session.Destroy(); }
   }
 }

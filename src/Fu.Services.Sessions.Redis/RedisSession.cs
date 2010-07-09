@@ -9,7 +9,7 @@ namespace Fu.Services.Sessions
 {
   public class RedisSession : ISession
   {
-    public const string RedisKeyFormat = "{0}-{1}";
+    public const string RedisKeyFormat = "fu:s:{0}";
 
     private BinaryFormatter _formatter;
     private IRedisClient _client;
@@ -37,10 +37,10 @@ namespace Fu.Services.Sessions
 
     public object Get(string key)
     {
-      key = getItemKey(key);
+      var sessionKey = getSessionKey();
 
       using (var ms = new MemoryStream()) {
-        var length = _client.GetTo(key, ms);
+        var length = _client.HGetTo(sessionKey, key, ms);
 
         if (length < 0 || ms.Length < 0)
           return null;
@@ -62,33 +62,36 @@ namespace Fu.Services.Sessions
     public void Set(string key, object value)
     {
       // update the set to indicate we have new value
-      key = getItemKey(key);
+      var sessionKey = getSessionKey();
 
       if (value != null) {
         using (var ms = new MemoryStream()) {
           _formatter.Serialize(ms, value);
 
           ms.Seek(0, SeekOrigin.Begin);
-          _client.SetFrom(key, ms, (int)ms.Length);
+          _client.HSetFrom(sessionKey, key, ms, (int)ms.Length);
         }
       }
       else {
-        _client.Del(key);
+        _client.HDel(sessionKey, key);
       }
     }
 
 
-    public void Clear()
+    public void Destroy()
     {
       // TODO: Remove dependence on TPL code
       throw new NotImplementedException(
         "I don't think this feature is needed... yet.");
+
+      var sessionKey = getSessionKey();
+      _client.Del(sessionKey);
     }
 
 
-    private string getItemKey(string keyName)
+    private string getSessionKey()
     {
-      return string.Format(RedisKeyFormat, SessionId, keyName);
+      return string.Format(RedisKeyFormat, SessionId);
     }
   }
 }
