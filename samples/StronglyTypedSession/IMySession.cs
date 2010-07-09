@@ -5,5 +5,8 @@ namespace StronglyTypedSession
   {
     string Username { get; set; }
     int UserID { get; set; }
+
+    // Optional Destroy() methd for destroying the session
+    void Destroy();
   }
 }

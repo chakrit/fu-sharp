@@ -135,6 +135,25 @@ namespace Fu.Services.Sessions
       ctor.Statements.Add(assignment);
       wrapper.Members.Add(ctor);
 
+      // add support for a "Destroy" method, if the interface has it.
+      var destroyMethod = userType.GetMethod("Destroy");
+      if (destroyMethod != null) {
+
+        var wDestroy = new CodeMemberMethod {
+          Attributes = MemberAttributes.Public,
+          ReturnType = new CodeTypeReference(destroyMethod.ReturnType),
+          Name = destroyMethod.Name,
+        };
+
+        // this._session.Destroy();
+        var destroyMethodRef = new CodeMethodReferenceExpression(
+          backingFieldRef, "Destroy");
+        var destroyInvocation = new CodeMethodInvokeExpression(destroyMethodRef);
+
+        wDestroy.Statements.Add(destroyInvocation);
+        wrapper.Members.Add(wDestroy);
+      }
+
       // add getter/setters
       var interfaceProperties = userType.GetProperties();
       foreach (var prop in interfaceProperties) {

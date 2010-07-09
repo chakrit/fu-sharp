@@ -23,6 +23,10 @@ namespace StronglyTypedSession
           session.UserID = int.Parse(form["UserID"]);
         }),
         fu.Redirect.To("/"));
+
+      Post("/clear",
+        fu.Action(c => c.Get<IMySession>().Destroy()),
+        fu.Redirect.To("/"));
     }
 
 

@@ -80,10 +80,6 @@ namespace Fu.Services.Sessions
 
     public void Destroy()
     {
-      // TODO: Remove dependence on TPL code
-      throw new NotImplementedException(
-        "I don't think this feature is needed... yet.");
-
       var sessionKey = getSessionKey();
       _client.Del(sessionKey);
     }
