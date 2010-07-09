@@ -1,17 +1,15 @@
 ﻿
 using System;
-using System.Threading;
 
 using IStringDict = System.Collections.Generic.IDictionary<string, object>;
-using StringDict = System.Collections.Generic.Dictionary<string, object>;
+using StringDict = System.Collections.Concurrent.ConcurrentDictionary<string, object>;
 
 namespace Fu.Services.Sessions
 {
   public class DictionarySession : ISession
   {
-    // TODO: Eliminate locks
-    private ReaderWriterLockSlim _lock;
     private IStringDict _dict;
+
 
     public DateTime Timestamp { get; private set; }
     public string SessionId { get; private set; }
@@ -25,19 +23,14 @@ namespace Fu.Services.Sessions
       Timestamp = DateTime.Now;
 
       _dict = new StringDict();
-      _lock = new ReaderWriterLockSlim();
     }
 
 
     public object Get(string key)
     {
-      try {
-        _lock.EnterReadLock();
-        object result;
+      object result;
 
-        return _dict.TryGetValue(key, out result) ? result : null;
-      }
-      finally { _lock.ExitReadLock(); }
+      return _dict.TryGetValue(key, out result) ? result : null;
     }
 
     public TValue Get<TValue>(string key)
@@ -51,21 +44,13 @@ namespace Fu.Services.Sessions
 
     public void Set(string key, object value)
     {
-      try {
-        _lock.EnterWriteLock();
-        _dict[key] = value;
-      }
-      finally { _lock.ExitWriteLock(); }
+      _dict[key] = value;
     }
 
 
     public void Destroy()
     {
-      try {
-        _lock.EnterWriteLock();
-        _dict.Clear();
-      }
-      finally { _lock.ExitWriteLock(); }
+      _dict.Clear();
     }
   }
 }

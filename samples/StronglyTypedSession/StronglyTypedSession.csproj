@@ -47,10 +47,6 @@
     <Compile Include="Program.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\src\Fu.Services.Sessions.Redis\Fu.Services.Sessions.Redis.csproj">
-      <Project>{59B63611-66D7-4929-94DF-FE943D0CD017}</Project>
-      <Name>Fu.Services.Sessions.Redis</Name>
-    </ProjectReference>
     <ProjectReference Include="..\..\src\Fu.Web\Fu.Web.csproj">
       <Project>{23EF40C1-1B6C-424F-BBEA-CBDE3434AD8C}</Project>
       <Name>Fu.Web</Name>
