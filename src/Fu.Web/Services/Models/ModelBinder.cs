@@ -11,8 +11,8 @@ namespace Fu.Services.Models
   public partial class ModelBinder<T> : IService<T>
       where T : class
   {
-    public Filter<T> Binder { get; private set; }
-    public Func<T> Factory { get; private set; }
+    public Filter<T> Binder { get; protected set; }
+    public Func<T> Factory { get; protected set; }
 
 
     public ModelBinder() : this(null, null) { }
