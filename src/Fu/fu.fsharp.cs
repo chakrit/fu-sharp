@@ -2,13 +2,11 @@
 using Microsoft.FSharp.Core;
 
 // damn the Units !
-using FSAction =
-  Microsoft.FSharp.Core.FSharpFunc<Fu.IFuContext, Microsoft.FSharp.Core.Unit>;
+// FSAction = void()
+using FSAction = Microsoft.FSharp.Core.FSharpFunc<Fu.IFuContext, Microsoft.FSharp.Core.Unit>;
 
-using FSContinuation = // == FSharpFunc<FSAction, FSAction>
-  Microsoft.FSharp.Core.FSharpFunc<
-    Microsoft.FSharp.Core.FSharpFunc<Fu.IFuContext, Microsoft.FSharp.Core.Unit>,
-    Microsoft.FSharp.Core.FSharpFunc<Fu.IFuContext, Microsoft.FSharp.Core.Unit>>;
+// FSContinuation == FSharpFunc<FSAction, FSAction>
+using FSContinuation = Microsoft.FSharp.Core.FSharpFunc<Microsoft.FSharp.Core.FSharpFunc<Fu.IFuContext, Microsoft.FSharp.Core.Unit>, Microsoft.FSharp.Core.FSharpFunc<Fu.IFuContext, Microsoft.FSharp.Core.Unit>>;
 
 namespace Fu
 {

@@ -1,21 +1,17 @@
 ﻿
 using System;
-using System.Threading;
 
 using ISessionDict = System.Collections.Generic.IDictionary<string, Fu.Services.Sessions.ISession>;
-using SessionDict = System.Collections.Generic.Dictionary<string, Fu.Services.Sessions.ISession>;
+using SessionDict = System.Collections.Concurrent.ConcurrentDictionary<string, Fu.Services.Sessions.ISession>;
 
 namespace Fu.Services.Sessions
 {
   public class DictionarySessionStore : ISessionStore
   {
-    // TODO: Eliminate locks
-    ReaderWriterLockSlim _lock;
-    ISessionDict _sessions;
+    private ISessionDict _sessions;
 
     public DictionarySessionStore()
     {
-      _lock = new ReaderWriterLockSlim();
       _sessions = new SessionDict();
     }
 
@@ -23,43 +19,32 @@ namespace Fu.Services.Sessions
     public ISession CreateSession(string sessionId)
     {
       try {
-        _lock.EnterWriteLock();
-        if (_sessions.ContainsKey(sessionId))
-          throw new InvalidOperationException(string.Format(
-            @"DictionarySessionStore.CreateNew: Session Id #{0} already exists",
-            sessionId));
-
-        var session = new DictionarySession(sessionId);
-        _sessions.Add(sessionId, session);
-
-        return session;
+        // reserve a session id
+        // this line will throw an exception if the id already exists
+        _sessions.Add(sessionId, null);
+        return _sessions[sessionId] = new DictionarySession(sessionId);
       }
-      finally { _lock.ExitWriteLock(); }
+      catch (ArgumentException e) {
+        throw new InvalidOperationException(string.Format(
+          @"DictionarySessionStore.CreateNew: Session Id #{0} already exists",
+          sessionId), e);
+      }
     }
 
     public ISession GetSession(string sessionId)
     {
-      try {
-        _lock.EnterReadLock();
-        ISession result;
-        if (_sessions.TryGetValue(sessionId, out result))
-          return result;
+      ISession result;
+      if (_sessions.TryGetValue(sessionId, out result))
+        return result;
 
-        return null;
-      }
-      finally { _lock.ExitReadLock(); }
+      return null;
     }
 
 
     public void DeleteSession(string sessionId)
     {
-      try {
-        _lock.EnterWriteLock();
-        if (_sessions.ContainsKey(sessionId))
-          _sessions.Remove(sessionId);
-
-      }
-      finally { _lock.ExitWriteLock(); }
+      if (_sessions.ContainsKey(sessionId))
+        _sessions.Remove(sessionId);
     }
 
     public void DeleteSession(ISession session)

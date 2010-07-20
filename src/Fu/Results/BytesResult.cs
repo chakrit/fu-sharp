@@ -1,7 +1,6 @@
 ﻿
-using System.IO;
 using System;
-using System.Net.Mime;
+using System.IO;
 
 namespace Fu.Results
 {

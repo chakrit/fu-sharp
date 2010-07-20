@@ -2,8 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 
-using NHaml;
-
 using Fu.Services.Templating;
 
 namespace Fu.Results
@@ -26,7 +24,7 @@ namespace Fu.Results
 
 
     protected override IEnumerable<string> GetTemplateNames(IFuContext context)
-    { return new[] { HamlFilename }.Concat(LayoutFilenames); }
+    { return (new[] { HamlFilename }).Concat(LayoutFilenames); }
 
     protected override System.Type GetTemplateType(IFuContext context)
     { return typeof(HamlTemplateBase); }

@@ -5,8 +5,7 @@ using System.Text.RegularExpressions;
 using Fu.Contexts;
 
 using ContDict = System.Collections.Generic.IDictionary<string, Fu.Continuation>;
-using ContRegexDict = System.Collections.Generic.IDictionary<
-  System.Text.RegularExpressions.Regex, Fu.Continuation>;
+using ContRegexDict = System.Collections.Generic.IDictionary<System.Text.RegularExpressions.Regex, Fu.Continuation>;
 
 namespace Fu.Steps
 {

@@ -1,14 +1,17 @@
 ﻿
 using System;
-using System.Collections.Generic;
-using System.Xml.Serialization;
 using System.IO;
+using System.Xml.Serialization;
 
 namespace Fu
 {
   [Serializable]
   public partial class FuSettings
   {
+    public readonly SessionSettings Session = new SessionSettings();
+    public readonly ThreadPoolSettings ThreadPool = new ThreadPoolSettings();
+
+
     public string[] Hosts = new[] { "localhost:80" };
     public string BasePath = "";
 
@@ -16,9 +19,6 @@ namespace Fu
 
     public bool EnableStats = false;
     public int ListenerThreads = 25;
-
-    public readonly SessionSettings Session = new SessionSettings();
-    public readonly ThreadPoolSettings ThreadPool = new ThreadPoolSettings();
   }
 
   [Serializable]

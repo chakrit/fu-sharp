@@ -3,12 +3,11 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Net.Mime;
 using System.Text;
 
-using NHaml;
-
 using Fu.Services.Templating;
+
+using NHaml;
 
 namespace Fu.Results
 {

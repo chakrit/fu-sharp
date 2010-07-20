@@ -7,7 +7,7 @@ namespace Fu.Results
 
   public class CustomResult : ResultBase
   {
-    public RenderDelegate _render;
+    private RenderDelegate _render;
 
     public CustomResult(string contentType, RenderDelegate renderAction)
     {

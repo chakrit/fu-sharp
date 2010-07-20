@@ -9,6 +9,9 @@ namespace Fu.Steps
   // TODO: Still needs tests in the wild to make sure these work properly
   public static class Cache
   {
+    protected const long OneSecond = 10000 * 1000 /* 10,000 ticks = 1 ms */;
+
+
     public static Continuation Expires(this ICacheSteps _, TimeSpan time)
     { return _.Expires(c => DateTime.Now.Add(time)); }
 
@@ -102,11 +105,9 @@ namespace Fu.Steps
 
     private static long roughCompare(DateTime d1, DateTime d2)
     {
-      const long oneSecond = 10000 * 1000 /* 10,000 ticks = 1 ms */;
-
       // eliminate differences smaller than 1 second interval
       var result = (d1 - d2).Ticks;
-      result -= result % oneSecond;
+      result -= result % OneSecond;
 
       return result;
     }

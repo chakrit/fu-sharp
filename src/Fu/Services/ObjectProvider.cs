@@ -3,6 +3,14 @@ namespace Fu.Services
 {
   // simple service to provide a static singleton object
   // such as settings throughout the app
+  public static class ObjectProvider
+  {
+    public static ObjectProvider<T> For<T>(T obj)
+    {
+      return new ObjectProvider<T>(obj);
+    }
+  }
+
   public class ObjectProvider<T> : IService<T>
   {
     private T _obj;
@@ -12,13 +20,5 @@ namespace Fu.Services
 
     public bool CanGetServiceObject(IFuContext input) { return _obj != null; }
     public T GetServiceObject(IFuContext input) { return _obj; }
-  }
-
-  public static class ObjectProvider
-  {
-    public static ObjectProvider<T> For<T>(T obj)
-    {
-      return new ObjectProvider<T>(obj);
-    }
   }
 }

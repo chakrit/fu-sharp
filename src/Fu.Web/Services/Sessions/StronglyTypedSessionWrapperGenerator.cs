@@ -36,10 +36,10 @@ namespace Fu.Services.Sessions
       unit.ReferencedAssemblies.Add(targetAsmFilename);
 
       CompilerResults result;
-      //TempFileCollection tfc = new TempFileCollection(
-      //  Environment.CurrentDirectory, true);
+      // TempFileCollection tfc = new TempFileCollection(
+      //   Environment.CurrentDirectory, true);
 
-      //result = new CompilerResults(tfc);
+      // result = new CompilerResults(tfc);
       result = provider.CompileAssemblyFromDom(new CompilerParameters {
         GenerateExecutable = false,
         GenerateInMemory = false,

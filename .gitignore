@@ -5,3 +5,4 @@ test_bin
 TestResults
 *.suo
 *.user
+*.Cache
