@@ -9,7 +9,7 @@ namespace Fu.Steps
   // TODO: Still needs tests in the wild to make sure these work properly
   public static class Cache
   {
-    protected const long OneSecond = 10000 * 1000 /* 10,000 ticks = 1 ms */;
+    private const long OneSecond = 10000 * 1000 /* 10,000 ticks = 1 ms */;
 
 
     public static Continuation Expires(this ICacheSteps _, TimeSpan time)

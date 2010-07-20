@@ -1,15 +1,16 @@
 ﻿
+using System.Collections.Generic;
+
 using Fu;
 using Fu.Presets;
 using Fu.Services.Web;
 using Fu.Steps;
-using System.Collections.Generic;
 
 namespace FormData
 {
-  class Program
+  public class Program
   {
-    static void Main(string[] args)
+    public static void Main(string[] args)
     {
       var app = new SimpleApp(fu.Map.Urls(new Dictionary<string, Continuation>
       {

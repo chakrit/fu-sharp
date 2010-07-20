@@ -7,9 +7,9 @@ using Fu.Steps;
 
 namespace ModelBinder
 {
-  class Program
+  public class Program
   {
-    static void Main(string[] args)
+    public static void Main(string[] args)
     {
       var app = new SimpleApp(fu.Map.Urls(new ContMap() {
         { "^/$", fu.Static.File("index.html") },

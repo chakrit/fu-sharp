@@ -9,9 +9,11 @@ using Fu.Steps;
 
 namespace FileServer
 {
-  class Program
+  public class Program
   {
-    static void Main(string[] args)
+    internal static void Main() { (new Program()).Run(); }
+
+    public void Run()
     {
       var pipeline = fu.If(isFolder,
         listFiles(),

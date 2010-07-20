@@ -10,6 +10,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "misc", "misc", "{7F3B5420-4
 		ci.build.xml = ci.build.xml
 		FuAssemblyInfo.cs = FuAssemblyInfo.cs
 		README.markdown = README.markdown
+		Settings.StyleCop = Settings.StyleCop
 	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Fu", "src\Fu\Fu.csproj", "{1583A6C9-45DA-46B4-9DBD-B86461DB893B}"

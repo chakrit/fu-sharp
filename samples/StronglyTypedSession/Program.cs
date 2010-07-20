@@ -7,9 +7,11 @@ using Fu.Steps;
 
 namespace StronglyTypedSession
 {
-  class Program
+  public class Program
   {
-    static void Main(string[] args)
+    internal static void Main() { (new Program()).Run(); }
+
+    public void Run()
     {
       var app = new SimpleApp(fu.Map.Controller(new MyController()));
 

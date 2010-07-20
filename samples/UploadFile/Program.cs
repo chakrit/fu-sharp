@@ -9,9 +9,12 @@ using Fu.Steps;
 
 namespace UploadFile
 {
-  class Program
+  public class Program
   {
-    private static void Main(string[] args)
+    internal static void Main() { (new Program()).Run(); }
+
+
+    public void Run()
     {
       var services = new[] { new MultipartFormDataParser() };
       var steps = new[] {
@@ -43,10 +46,9 @@ namespace UploadFile
           for (var j = 0; j < bmp.Height; j++) {
             var pixel = bmp.GetPixel(i, j);
             pixel = Color.FromArgb(
-              (int)Math.Min(255, pixel.R * .393 + pixel.G * .769 + pixel.B * .189),
-              (int)Math.Min(255, pixel.R * .349 + pixel.G * .686 + pixel.B * .168),
-              (int)Math.Min(255, pixel.R * .272 + pixel.G * .534 + pixel.B * .131)
-            );
+              (int)Math.Min(255, (pixel.R * .393) + (pixel.G * .769) + (pixel.B * .189)),
+              (int)Math.Min(255, (pixel.R * .349) + (pixel.G * .686) + (pixel.B * .168)),
+              (int)Math.Min(255, (pixel.R * .272) + (pixel.G * .534) + (pixel.B * .131)));
 
             bmp.SetPixel(i, j, pixel);
           }

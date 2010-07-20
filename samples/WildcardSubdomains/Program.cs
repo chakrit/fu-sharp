@@ -5,9 +5,9 @@ using Fu;
 
 namespace WildcardSubdomains
 {
-  class Program
+  public class Program
   {
-    static void Main(string[] args)
+    public static void Main(string[] args)
     {
       var app = new App(null, null, echoSubDomain());
 
