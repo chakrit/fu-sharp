@@ -12,24 +12,30 @@ namespace Fu
   // but not everyone meddle in the Ruby world...
   public abstract class RestStyleController : FuController
   {
+    // TODO: Make HEAD support explicit or detect when we can return
+    //       response headers without executing the handler/continuation
     public void Get(string url, ResultStep handler)
     {
       mapResult(url, fu.Map.Get, handler);
+      mapResult(url, fu.Map.Head, handler);
     }
 
     public void Get(string url, Continuation handler)
     {
       Map(url, fu.Map.Get, handler);
+      Map(url, fu.Map.Head, handler);
     }
 
     public void Get(string url, params Continuation[] conts)
     {
       mapMultiple(url, fu.Map.Get, conts);
+      mapMultiple(url, fu.Map.Head, conts);
     }
 
     public void Get(string url, Reduce<Continuation> contReducer)
     {
       mapBranch(url, fu.Map.Get, contReducer);
+      mapBranch(url, fu.Map.Head, contReducer);
     }
 
 
