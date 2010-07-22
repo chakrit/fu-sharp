@@ -32,7 +32,18 @@ namespace Fu.Steps
 
 
     // TOOD: Move this to another file
-    #region GET POST PUT DELETE overloads
+    // TODO: Does automatic 405 make sense from a typical point of view?
+    #region HEAD GET POST PUT DELETE overloads
+
+    public static Continuation Head(this IMapSteps _)
+    { return _.Head(null); }
+
+    public static Continuation Head(this IMapSteps _, Continuation on405)
+    { return _.Method("HEAD", null); }
+
+    public static Continuation Head(this IMapSteps _,
+      Continuation head, Continuation on405)
+    { return _.Method("HEAD", head, on405); }
 
     public static Continuation Get(this IMapSteps _)
     { return _.Get(null); }
@@ -75,6 +86,18 @@ namespace Fu.Steps
     { return _.Method("DELETE", delete, on405); }
 
     #endregion
+
+
+    public static Continuation GetHead(this IMapSteps _,
+      Continuation getAndHead)
+    { return _.GetHead(getAndHead, null); }
+
+    public static Continuation GetHead(this IMapSteps _,
+      Continuation getAndHead, Continuation on405)
+    {
+      var orHead = _.Head(getAndHead, on405);
+      return _.Get(getAndHead, orHead);
+    }
 
 
     public static Continuation GetPost(this IMapSteps _,

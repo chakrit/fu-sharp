@@ -72,8 +72,8 @@ namespace Fu.Steps
         if (!string.IsNullOrEmpty(result.ContentType.MediaType))
           resp.ContentType = result.ContentType.MediaType;
 
-        // skip rendering of empty stream
-        if (length == 0L) {
+        // skip rendering for HEAD requests or if content length is 0
+        if (length == 0L || ctx.Request.HttpMethod == "HEAD") {
           outStream.Close();
           return;
         }
