@@ -12,11 +12,12 @@ namespace Fu.Services.Templating
   {
     private IDictionary<string, Stack<Action>> _blocks;
 
+
     public HamlResultBase Result { get; set; }
     public IFuContext Context { get; set; }
 
 
-    public void Block(string name, Action yield)
+    protected void Block(string name, Action yield)
     {
       _blocks = _blocks ?? new Dictionary<string, Stack<Action>>(5);
 
@@ -24,19 +25,21 @@ namespace Fu.Services.Templating
 
       if (!_blocks.TryGetValue(name, out stack))
         _blocks[name] = stack = new Stack<Action>(5);
+
+      stack.Push(yield);
     }
 
-    public void RenderBlock(string name)
+    protected void RenderBlock(string name)
     {
       if (_blocks == null) return;
 
       Stack<Action> stack;
 
-      if (!_blocks.TryGetValue(name, out stack))
+      if (!_blocks.TryGetValue(name, out stack) ||
+        stack.Count == 0)
         return;
 
-      if (stack.Count > 0)
-        stack.Pop()();
+      stack.Pop()();
     }
   }
 }
