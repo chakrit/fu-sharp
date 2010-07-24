@@ -35,8 +35,7 @@ namespace Fu.Services.Templating
 
       Stack<Action> stack;
 
-      if (!_blocks.TryGetValue(name, out stack) ||
-        stack.Count == 0)
+      if (!_blocks.TryGetValue(name, out stack) || stack.Count == 0)
         return;
 
       stack.Pop()();
